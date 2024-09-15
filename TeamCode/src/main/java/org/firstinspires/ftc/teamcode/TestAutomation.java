@@ -14,11 +14,11 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+//import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+//import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class TestAutomation extends LinearOpMode {
     private AprilTagProcessor aprilTag;
 
     private int AprilTagID = 0;
-    private TfodProcessor tfod;
+  //  private TfodProcessor tfod;
 
     private static final String TFOD_MODEL_FILE = "model_20231028_130313.tflite";
 //    private static final String TFOD_MODEL_FILE = "RoboEagles_TeamProp_320.tflite";
@@ -157,7 +157,7 @@ public class TestAutomation extends LinearOpMode {
         robotPosition = imu.getAngularOrientation();
 
         // 1. Initialize Camera and TensorFlow
-        initTfod();
+       // initTfod();
         /*
         // we disabling AprilTag for now as we are not using it
 
@@ -170,7 +170,7 @@ public class TestAutomation extends LinearOpMode {
          * The INIT-loop:
          * This REPLACES waitForStart!
          */
-
+/*
         // Enable the TFOD processor for our TeamProp Detection.
         visionPortal.setProcessorEnabled(tfod, true);
         while (!isStarted() && !isStopRequested()) {
@@ -193,6 +193,8 @@ public class TestAutomation extends LinearOpMode {
         // from now on we need AprilTag, so lets enable AprilTag
         visionPortal.setProcessorEnabled(tfod, false);
         visionPortal.setProcessorEnabled(aprilTag, true);
+        */
+
         turnPID(90);
 
         sleep(1000);
@@ -354,6 +356,7 @@ public class TestAutomation extends LinearOpMode {
 
 
     //more functions
+    /*
     private void initTfod() {
         // Create the AprilTag processor.
         aprilTag = new AprilTagProcessor.Builder()
@@ -384,7 +387,7 @@ public class TestAutomation extends LinearOpMode {
         aprilTag.setDecimation(3);
 
         // Create the TensorFlow processor by using a builder.
-        tfod = new TfodProcessor.Builder()
+        /*tfod = new TfodProcessor.Builder()
 
                 // Use setModelAssetName() if the TF Model is built in as an asset.
                 // Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
@@ -426,7 +429,7 @@ public class TestAutomation extends LinearOpMode {
         builder.setAutoStopLiveView(true);
 
         // Set and enable the processor.
-        builder.addProcessor(tfod);
+      //  builder.addProcessor(tfod);
 
         // Set and enable the processor.
         builder.addProcessor(aprilTag);
@@ -435,7 +438,8 @@ public class TestAutomation extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.75f);
+       //
+        // tfod.setMinResultConfidence(0.75f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
@@ -444,6 +448,7 @@ public class TestAutomation extends LinearOpMode {
         visionPortal.setProcessorEnabled(aprilTag, false);
     }   // end method initTfod()
 
+*/
 
     /**
      * Function to add telemetry about AprilTag detections.
@@ -473,7 +478,7 @@ public class TestAutomation extends LinearOpMode {
         return count;
 
     }   // end method telemetryAprilTag()
-
+/*
     int detectTeamProp() {
         // Set initially variable to left. Then we will check if something detected in our designated MIDDLE area
         // or RIGHT area and assign variable respectfully. If loop will not be executed (means nothing was detected)
@@ -515,6 +520,8 @@ public class TestAutomation extends LinearOpMode {
         }   // end for() loop
         return retVal;
     }
+    */
+
 
     /**
      * Method to move to the position indicated by spike mark or team prop

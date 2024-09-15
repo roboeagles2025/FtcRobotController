@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+//import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+//import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public abstract class RoboEaglesAutonomousBaseNew extends RoboEaglesBaseNew {
     private final boolean USE_WEBCAM = true;
 
     // Global variables
-    private TfodProcessor tfod;
+    //private TfodProcessor tfod;
     private VisionPortal visionPortal;
     private AprilTagProcessor aprilTag;
     private int aprilTagID = 0;
@@ -76,7 +76,7 @@ public abstract class RoboEaglesAutonomousBaseNew extends RoboEaglesBaseNew {
         mapDevices();
 
         if (ENABLE_TFOD) {
-            initTfod();
+            //initTfod();
             // 1. Initialize Camera and TensorFlow
             // we disabling AprilTag for now as we are not using it
             // aprilTagProcessor = AprilTagProcessor.easyCreateWithDefaults();
@@ -87,7 +87,7 @@ public abstract class RoboEaglesAutonomousBaseNew extends RoboEaglesBaseNew {
 
             // Enable the TFOD processor for our TeamProp Detection.
             while (!isStarted() && !isStopRequested()) {
-                detectTeamProp();
+                //detectTeamProp();
                 // Do all the other stuff
                 telemetry.update();
                 sleep(10);
@@ -119,6 +119,7 @@ public abstract class RoboEaglesAutonomousBaseNew extends RoboEaglesBaseNew {
     /**
      * Initializes TFOD and the vision portal
      */
+    /*
     public void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
@@ -176,7 +177,7 @@ public abstract class RoboEaglesAutonomousBaseNew extends RoboEaglesBaseNew {
         //visionPortal.setProcessorEnabled(tfod, true);
 
     }
-
+*/
     /**
      * Function to add telemetry about AprilTag detections.
      */
@@ -205,10 +206,12 @@ public abstract class RoboEaglesAutonomousBaseNew extends RoboEaglesBaseNew {
 
     }
 
+
     /**
      * Uses TFOD to detect team props and returns the side in {@link #detectionVar}
      * If no object is detected, it defaults to left side
      */
+   /*
     public void detectTeamProp() {
         // Set initially variable to left. Then we will check if something detected in our designated MIDDLE area
         // or RIGHT area and assign variable respectfully. If loop will not be executed (means nothing was detected)
@@ -247,7 +250,7 @@ public abstract class RoboEaglesAutonomousBaseNew extends RoboEaglesBaseNew {
         }
     }
 
-
+*/
     public void driveStraightPID(double distance) {
         /*
         I don't think that we need the correction PID because as we are tracking the distance traveled by both the left set of wheels

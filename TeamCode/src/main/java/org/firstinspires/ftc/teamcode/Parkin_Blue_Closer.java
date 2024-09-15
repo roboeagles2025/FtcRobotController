@@ -14,11 +14,11 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+//import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+//import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class Parkin_Blue_Closer extends LinearOpMode {
     private AprilTagProcessor aprilTag;
 
     private int AprilTagID = 0;
-    private TfodProcessor tfod;
+    //private TfodProcessor tfod;
 
     //    private static final String TFOD_MODEL_FILE = "model_20231028_130313.tflite";
     private static final String TFOD_MODEL_FILE = "RoboEagles_Pyramid_640.tflite";
@@ -315,6 +315,7 @@ public class Parkin_Blue_Closer extends LinearOpMode {
 
 
     //more functions
+    /*
     private void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
@@ -413,7 +414,7 @@ public class Parkin_Blue_Closer extends LinearOpMode {
         }   // end for() loop
         return retVal;
     }
-
+*/
     /**
      * Method to move to the position indicated by spike mark or team prop
      * @param targetAprilTag Position indicated by spike mark or team prop (1 for left, 2 for middle, 3 for right)

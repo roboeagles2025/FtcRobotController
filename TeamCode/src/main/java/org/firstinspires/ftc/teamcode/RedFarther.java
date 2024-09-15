@@ -14,16 +14,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+//import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+//import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
 @Autonomous(name = "Red Farther", group = "Autonomous")
 @Disabled
 public class RedFarther extends LinearOpMode {
-    private TfodProcessor tfod;
+    //private TfodProcessor tfod;
     private VisionPortal visionPortal;
     //Variable that will be used to identify where TeamProp is located:
     //    0 = detected something elsewhere
@@ -347,6 +347,7 @@ public class RedFarther extends LinearOpMode {
     /**
      * Initializes TFOD and the vision portal
      */
+    /*
     public void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
@@ -404,11 +405,13 @@ public class RedFarther extends LinearOpMode {
         //visionPortal.setProcessorEnabled(tfod, true);
 
     }
+*/
 
     /**
      * Uses TFOD to detect team props and returns the side in {@link #detectionVar}
      * If no object is detected, it defaults to left side
      */
+  /*
     void detectTeamProp() {
         // Set initially variable to left. Then we will check if something detected in our designated MIDDLE area
         // or RIGHT area and assign variable respectfully. If loop will not be executed (means nothing was detected)
@@ -420,8 +423,8 @@ public class RedFarther extends LinearOpMode {
 
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+            double y = (recognition.getTop() + recognition.getBottom()) / 2;
             // Check if Spike box is detected/located in the middle
             if (y > IGNORE_Y_MAX) {
                 if ((x > MIDDLE_X_MIN) && (x < MIDDLE_X_MAX)) {
@@ -446,6 +449,7 @@ public class RedFarther extends LinearOpMode {
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
         }
     }
+    */
 
 }
 

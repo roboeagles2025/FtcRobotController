@@ -26,15 +26,16 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+//import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+//import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 @TeleOp(name="Robo09/04", group="OpMode")
 public class TeleopGamepadTesting extends RoboEaglesBase {
 
 
     private double MOTOR_SPEED_MULT = 0.7;
+
     void MapDevicesTesting() {
         brDrive = hardwareMap.dcMotor.get("br_motor");
         blDrive = hardwareMap.dcMotor.get("bl_motor");
@@ -43,6 +44,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
         brClaw = hardwareMap.servo.get("br_claw");
         blClaw = hardwareMap.servo.get("bl_claw");
     }
+
     private final double CLAW_INCREMENT = 0.02;
     private final double BOTTOM_RIGHT_CLAW_MAX = 0.5;
     private final double BOTTOM_RIGHT_CLAW_MIN = 0;
@@ -53,7 +55,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
     private double bottomLeftClawPosition = BOTTOM_LEFT_CLAW_INIT;
     private double bottomRightClawPosition = BOTTOM_RIGHT_CLAW_INIT;
     private double ARM_SPEED_MULT = 0.5;
-    private double MOTOR_SPEED_MULT = 0.7;
+    //private double MOTOR_SPEED_MULT = 0.7;
 
     public void runOpMode() {
         MapDevicesTesting();
@@ -66,7 +68,6 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
             sleep(10);
         }
     }
-
 
 
     void checkDriving() {
@@ -88,8 +89,8 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
         double drive = gamepad1.left_stick_y;
         double turn = -gamepad1.left_stick_x;
         //double turn = 0;
-       double leftPower = Range.clip(drive + turn, -1, 1);
-       double rightPower = Range.clip(drive - turn, -1, 1);
+        double leftPower = Range.clip(drive + turn, -1, 1);
+        double rightPower = Range.clip(drive - turn, -1, 1);
 
         //double leftPower = Range.clip(drive + turn, -1, 1);
         //double rightPower = -leftPower;
@@ -101,7 +102,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
         telemetry.addData("2026 DrivingNormal", "Joystick Drive: %f, Turn: %f", drive, turn);
         telemetry.addData("DrivingNormal", "Left Power: %f, Right Power: %f", leftPower, rightPower);
 
-        moveSidesSame(0, leftPower, -1*(rightPower));
+        moveSidesSame(0, leftPower, -1 * (rightPower));
 
         //flDrive.setPower(leftPower);
         //blDrive.setPower(leftPower);
@@ -163,30 +164,23 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
         blClaw.setPosition(bottomLeftClawPosition);
         brClaw.setPosition(bottomRightClawPosition);
         //private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-        void checkArm() {
-            double power = gamepad2.left_stick_y;
+    }
+
+    void checkArm() {
+        double power = gamepad2.left_stick_y;
 //        armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power  * 10));
 //        telemetry.addData("Arm", "Target Position: %d", armMotor.getTargetPosition());
-            power *= ARM_SPEED_MULT;
-            armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
-            armMotor.setPower(power);
-        }
+        power *= ARM_SPEED_MULT;
+        armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
+        armMotor.setPower(power);
+    }
 
 
+    // Step through the list of detections and display info for each one.
 
 
+}  // end class
 
-
-
-
-
-
-            // Step through the list of detections and display info for each one.
-
-
-
-    }   // end class
-}
 
 
 

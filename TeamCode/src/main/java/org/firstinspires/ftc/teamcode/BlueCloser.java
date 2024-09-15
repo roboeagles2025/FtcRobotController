@@ -15,16 +15,16 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+//import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+//import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
 @Autonomous(name = "Blue Closer", group = "Autonomous")
 @Disabled
 public class BlueCloser extends LinearOpMode {
-    private TfodProcessor tfod;
+    //private TfodProcessor tfod;
     private VisionPortal visionPortal;
     //Variable that will be used to identify where TeamProp is located:
     //    0 = detected something elsewhere
@@ -334,6 +334,7 @@ public class BlueCloser extends LinearOpMode {
     /**
      * Initializes TFOD and the vision portal
      */
+    /*
     public void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
@@ -391,11 +392,12 @@ public class BlueCloser extends LinearOpMode {
         //visionPortal.setProcessorEnabled(tfod, true);
 
     }
-
+*/
     /**
      * Uses TFOD to detect team props and returns the side in {@link #detectionVar}
      * If no object is detected, it defaults to left side
      */
+    /*
     void detectTeamProp() {
         // Set initially variable to left. Then we will check if something detected in our designated MIDDLE area
         // or RIGHT area and assign variable respectfully. If loop will not be executed (means nothing was detected)
@@ -433,7 +435,7 @@ public class BlueCloser extends LinearOpMode {
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
         }
     }
-
+*/
 }
 
 
