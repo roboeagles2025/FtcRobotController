@@ -30,7 +30,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@TeleOp(name="Robo09/04", group="OpMode")
+@TeleOp(name="Robo09/04ON", group="OpMode")
 public class TeleopGamepadTesting extends RoboEaglesBase {
 
 
@@ -55,6 +55,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
     private double bottomLeftClawPosition = BOTTOM_LEFT_CLAW_INIT;
     private double bottomRightClawPosition = BOTTOM_RIGHT_CLAW_INIT;
     private double ARM_SPEED_MULT = 0.5;
+    public final double ELBOW_SPEED_MULT = 0.75;
     //private double MOTOR_SPEED_MULT = 0.7;
 
     public void runOpMode() {
@@ -174,7 +175,14 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
         armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
         armMotor.setPower(power);
     }
+    void checkElbow() {
+        double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
 
+        power *= ELBOW_SPEED_MULT;
+        telemetry.addData("Elbow", "Power: %f", power);
+
+        elbowMotor.setPower(power); // Set power to the front left motor
+    }
 
     // Step through the list of detections and display info for each one.
 

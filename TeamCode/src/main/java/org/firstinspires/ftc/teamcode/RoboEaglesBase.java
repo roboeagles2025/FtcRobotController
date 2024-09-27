@@ -195,13 +195,15 @@ public abstract class RoboEaglesBase extends LinearOpMode {
     }
 
     public double getRobotPosition() {
-        robotPosition = imu.getAngularOrientation();
-        return robotPosition.firstAngle;
+        //robotPosition = imu.getAngularOrientation();
+        //return robotPosition.firstAngle;
+        return 0;
+
     }
 
 
     public void resetIMU() {
-        imu.initialize(imuParameters);
+        //imu.initialize(imuParameters);
         sleep(500);
     }
 

@@ -47,7 +47,7 @@ public abstract class RoboEaglesBaseNew extends LinearOpMode {
         MotorEx brDrive = new MotorEx(hardwareMap, "br_motor");
         blClaw = hardwareMap.servo.get("bottom_left_claw");
         brClaw = hardwareMap.servo.get("bottom_right_claw");
-//        armMotor = new Motor(hardwareMap, "arm_motor");
+        //armMotor = new Motor(hardwareMap, "arm_motor");
         armMotor = new MotorEx(hardwareMap, "arm_motor");
         elbowMotor = new Motor(hardwareMap, "elbow_motor");
         gyro = new RevIMU(hardwareMap);

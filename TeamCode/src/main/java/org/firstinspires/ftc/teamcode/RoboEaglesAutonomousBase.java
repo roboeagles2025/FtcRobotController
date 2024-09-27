@@ -53,8 +53,8 @@ public abstract class RoboEaglesAutonomousBase extends RoboEaglesBase {
     private final double TURN_MAX_POWER = 0.5;
     private final double DRIVE_MAX_POWER = 0.75;
     private final int ZERO_POWER = 0;
-    private double leftPower, rightPower;
-    private double leftPowerD, rightPowerD;
+    public double leftPower, rightPower;
+    public double leftPowerD, rightPowerD;
     private final String LEFT_DIRECTION = "Left";
     private final double     SMOOTH_RATIO            = 0.125 ;   // how much time (%) use for smooth start/stop
     private final int        ITERATION_MIN           = 5 ;
@@ -618,7 +618,8 @@ public abstract class RoboEaglesAutonomousBase extends RoboEaglesBase {
         speedRatioRight = altDriveSpeedRight;
         countDown = smoothPhaseTime;
         while (countDown > 0) {
-            moveSidesSame(timeIteration, (speedRatioLeft * speedDirection), (speedRatioRight * speedDirection));
+            //moveSidesSame(timeIteration, (speedRatioLeft * speedDirection), (speedRatioRight * speedDirection));
+            moveSidesSame(timeIteration, (speedRatioLeft * speedDirection), -1*(speedRatioRight * speedDirection));
             distanceCovered2 = distanceCovered2 + ((speedRatioLeft * timeIteration * INCHES_PER_SECOND) / ONE_SECOND);
             speedRatioLeft = speedRatioLeft - speedIterationLeft;
             speedRatioRight = speedRatioRight - speedIterationRight;
