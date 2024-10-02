@@ -23,7 +23,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "TestingBlue25Farther", group = "Autonomous")
+@Autonomous(name = "TestingBlue25Closer", group = "Autonomous")
 public class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
 
     //public DcMotorEx armMotor;
@@ -203,7 +203,15 @@ public class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
          brClaw.setPosition(0);
          sleep(2000);
          //brClaw.setPosition(0.2);*/
+
          blClaw.setPosition(0);
+         brClaw.setPosition(0.8);
+         sleep(2000);
+         brClaw.setPosition(0.8);
+         blClaw.setPosition(0);//-0.5
+         sleep(2000);
+         blClaw.setPosition(0.8);
+         brClaw.setPosition(0);
          sleep(2000);
          /*blClaw.setPosition(0.8);
          sleep(2000);

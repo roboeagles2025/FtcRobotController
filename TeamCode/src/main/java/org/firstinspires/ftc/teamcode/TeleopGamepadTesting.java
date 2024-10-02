@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -34,17 +35,31 @@ import org.firstinspires.ftc.vision.VisionPortal;
 public class TeleopGamepadTesting extends RoboEaglesBase {
 
 
-    private double MOTOR_SPEED_MULT = 0.7;
+
 
     void MapDevicesTesting() {
-        brDrive = hardwareMap.dcMotor.get("br_motor");
-        blDrive = hardwareMap.dcMotor.get("bl_motor");
-        flDrive = hardwareMap.dcMotor.get("fl_motor");
-        frDrive = hardwareMap.dcMotor.get("fr_motor");
-        brClaw = hardwareMap.servo.get("br_claw");
-        blClaw = hardwareMap.servo.get("bl_claw");
+        //brDrive = hardwareMap.dcMotor.get("br_motor");
+        //blDrive = hardwareMap.dcMotor.get("bl_motor");
+        //flDrive = hardwareMap.dcMotor.get("fl_motor");
+        //frDrive = hardwareMap.dcMotor.get("fr_motor");
+        //brClaw = hardwareMap.servo.get("br_claw");
+        //blClaw = hardwareMap.servo.get("bl_claw");
+       // leftElbow = hardwareMap.get(DcMotorEx.class, "left_elbow");
+       // rightElbow = hardwareMap.get(DcMotorEx.class, "right_elbow");
+        leftElbow = hardwareMap.dcMotor.get("left_elbow");
+        rightElbow = hardwareMap.dcMotor.get("right_elbow");
+        //leftArm = hardwareMap.dcMotor.get("left_arm");
+        //rightArm = hardwareMap.dcMotor.get("right_arm");
+        leftArm = hardwareMap.get(DcMotorEx.class, "left_arm");
+        rightArm = hardwareMap.get(DcMotorEx.class, "right_arm");
+
+        rightElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
+    private double MOTOR_SPEED_MULT = 0.7;
+    public DcMotor leftElbow, rightElbow;
+    public DcMotorEx leftArm, rightArm;
     private final double CLAW_INCREMENT = 0.02;
     private final double BOTTOM_RIGHT_CLAW_MAX = 0.5;
     private final double BOTTOM_RIGHT_CLAW_MIN = 0;
@@ -62,12 +77,30 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
         MapDevicesTesting();
 
         waitForStart();
-        while (opModeIsActive()) {
-            checkDriving();
-            checkBottomClaw();
+          //checkElbow();
+          //checkArm();
+
+       while (opModeIsActive()) {
+            //checkArm();
+            //checkDriving();
+            //checkBottomClaw();
+            //checkElbow();
+            checkElbowNEW();
             telemetry.update();
             sleep(10);
         }
+
+
+    }
+     void checkElbowNEW() {
+        double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
+        double ELBOW_SPEED_MULT_NEW = 5;
+        power *= ELBOW_SPEED_MULT_NEW;
+        telemetry.addData("Elbow", "Power: %f", power);
+
+        //rightElbow.setPower(power);
+         leftElbow.setPower(power);
+         rightElbow.setPower(-power);
     }
 
 
@@ -168,20 +201,40 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
     }
 
     void checkArm() {
-        double power = gamepad2.left_stick_y;
-//        armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power  * 10));
-//        telemetry.addData("Arm", "Target Position: %d", armMotor.getTargetPosition());
-        power *= ARM_SPEED_MULT;
-        armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
-        armMotor.setPower(power);
+        double power = -gamepad2.left_stick_x;
+        //rightArm.setTargetPosition(armMotor.getTargetPosition() + (int) (power  * 10));
+        //telemetry.addData("RightArm", "Target Position: %d", armMotor.getTargetPosition());
+        //power *= ARM_SPEED_MULT;
+        //double power = 0.5;
+        rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power * 5));
+        //armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
+        //leftArm.setPower(power);
+        rightArm.setPower(power);
+        //sleep(2000);
+        //leftArm.setPower(0);
+        //rightArm.setPower(-power);
+        //sleep(2000);
     }
-    void checkElbow() {
-        double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
+    void checkElbowOLD() {
+       // double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
 
-        power *= ELBOW_SPEED_MULT;
+        //power *= ELBOW_SPEED_MULT; //THIS IS ORIGINAL VERSION
+        double power = 3;
         telemetry.addData("Elbow", "Power: %f", power);
 
-        elbowMotor.setPower(power); // Set power to the front left motor
+        //leftElbow.setPower(-power);
+        rightElbow.setPower(power);
+        sleep(400);
+        //while (opModeIsActive()) {
+        for(int cnt = 0; cnt <2; cnt++){
+            rightElbow.setPower(-power);
+            sleep(100);
+            rightElbow.setPower(power);
+            //rightElbow.setPower(-power);
+            sleep(100);
+        }
+        rightElbow.setPower(0);
+
     }
 
     // Step through the list of detections and display info for each one.
