@@ -204,15 +204,16 @@ public class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
          sleep(2000);
          //brClaw.setPosition(0.2);*/
 
-         blClaw.setPosition(0);
-         brClaw.setPosition(0.8);
+         blClaw.setPosition(0.2);
+         brClaw.setPosition(0.2);
          sleep(2000);
-         brClaw.setPosition(0.8);
-         blClaw.setPosition(0);//-0.5
+         brClaw.setPosition(0.7);
+         blClaw.setPosition(0.7);//-0.5
          sleep(2000);
-         blClaw.setPosition(0.8);
-         brClaw.setPosition(0);
-         sleep(2000);
+         //sleep(2000);
+         //blClaw.setPosition(0.8);
+         //brClaw.setPosition(0);
+         //sleep(2000);
          /*blClaw.setPosition(0.8);
          sleep(2000);
          blClaw.setPosition(0);
