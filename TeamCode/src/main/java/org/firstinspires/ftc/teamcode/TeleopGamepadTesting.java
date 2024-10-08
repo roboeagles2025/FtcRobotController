@@ -65,7 +65,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
     private double bottomRightClawPosition = BOTTOM_RIGHT_CLAW_INIT;
     private double ARM_SPEED_MULT = 0.5;
     public final double ELBOW_SPEED_MULT = 0.75;
-    public double power_arm;
+    public double power_arm, current_arm_pos;
     //private double MOTOR_SPEED_MULT = 0.7;
 
     public void runOpMode() {
@@ -79,7 +79,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
             checkArm();
             checkDriving();
             checkBaseClaw();
-            checkElbowNEW();
+            checkElbow();
             telemetry.update();
             sleep(10);
         }
@@ -88,46 +88,31 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
 
     }
 
-     void checkElbowNEW() {
+     void checkElbow() {
         double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
          double prev_power = 0;
         double ELBOW_SPEED_MULT_NEW;
-         if (power_arm >0 ) {
+        // if (power_arm >0 ) {
+         if(current_arm_pos > 0)
+         {
              ELBOW_SPEED_MULT_NEW = 1;
          }
          else
          {
              ELBOW_SPEED_MULT_NEW = 0.5;
          }
+         ELBOW_SPEED_MULT_NEW = 25;
         power *= ELBOW_SPEED_MULT_NEW;
         telemetry.addData("Elbow", "Power: %f", power);
 
         //rightElbow.setPower(power);
-         if(power <= 0)
-         {
+       //  if(power <= 0)
+        // {
              leftElbow.setPower(power);
              rightElbow.setPower(-power);
-         }
+       //  }
 
 
-         /*
-         else if(power == 0)
-         {
-             power = 1;
-             leftElbow.setPower(power);
-             rightElbow.setPower(-power);
-         }else if(prev_power < 0)
-         {
-
-             power = 1;
-             leftElbow.setPower(power);
-             rightElbow.setPower(-power);
-
-         }
-
-         prev_power = power;
-
-          */
     }
 
 
@@ -174,33 +159,12 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
 
         moveSidesSame(0, leftPower, -1 * (rightPower));
 
-        //flDrive.setPower(leftPower);
-        //blDrive.setPower(leftPower);
-        //frDrive.setPower(rightPower*(-1));
-        //brDrive.setPower(rightPower*(-1));
+
     }
 
-
-    void checkDrivingStrafing() {
-        double drive = gamepad1.right_stick_y;
-        double turn = gamepad1.right_stick_x;
-        if (drive == 0 && turn == 0) return;
-
-        double flBrPower = Range.clip(drive + turn, -1, 1);
-        double frBlPower = Range.clip(drive - turn, -1, 1);
-
-
-        flBrPower *= MOTOR_SPEED_MULT;
-        frBlPower *= MOTOR_SPEED_MULT;
-
-        telemetry.addData("DrivingStrafing", "Joystick Drive: %f, Turn: %f", drive, turn);
-        telemetry.addData("DrivingStrafing", "FlBr Power: %f, FrBl Power: %f", flBrPower, frBlPower);
-
-        moveSidesDiagonal(0, flBrPower, frBlPower);
-    }
     void checkBaseClaw() {
-        boolean close_servo = gamepad2.x;    // Close fingers
-        boolean open_servo = gamepad2.y;     // open fingers
+        boolean close_servo = gamepad1.x;    // Close fingers
+        boolean open_servo = gamepad1.y;     // open fingers
         telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
         if (close_servo) {
             blClaw.setPosition(0.2);
@@ -214,46 +178,16 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
             sleep(500);
         }
     }
-    void checkBaseClawOld() {
-        boolean close_servo = gamepad2.x;    // Close fingers
-        boolean open_servo = gamepad2.y;     // open fingers
-        telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
-        // slew the servo
-        if (open_servo) {
-            // Left finger will go to maximum value and then stay at that position
-            bottomLeftClawPosition += CLAW_INCREMENT;
-            if (bottomLeftClawPosition >= BOTTOM_LEFT_CLAW_MAX) {
-                bottomLeftClawPosition = BOTTOM_LEFT_CLAW_MAX;
-            }
-            // Right finger will go to minimum value and then stay at that position
-            bottomRightClawPosition -= CLAW_INCREMENT;
-            if (bottomRightClawPosition <= BOTTOM_RIGHT_CLAW_MIN) {
-                bottomRightClawPosition = BOTTOM_RIGHT_CLAW_MIN;
-            }
-        }
-
-        if (close_servo) {
-            // Left finger will go to minimum value and then stay at that position
-            bottomLeftClawPosition -= CLAW_INCREMENT;
-            if (bottomLeftClawPosition <= BOTTOM_LEFT_CLAW_MIN) {
-                bottomLeftClawPosition = BOTTOM_LEFT_CLAW_MIN;
-            }
-            // Right finger will go to maximum value and then stay at that position
-            bottomRightClawPosition += CLAW_INCREMENT;
-            if (bottomRightClawPosition >= BOTTOM_RIGHT_CLAW_MAX) {
-                bottomRightClawPosition = BOTTOM_RIGHT_CLAW_MAX;
-            }
-        }
-        telemetry.addData("BottomClaw", "Left Claw: %f, Right Claw: %f", bottomLeftClawPosition, bottomRightClawPosition);
-        // Move both servos to new position.  Assume servos are mirror image of each other.
-        blClaw.setPosition(bottomLeftClawPosition);
-        brClaw.setPosition(bottomRightClawPosition);
-        //private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-    }
 
     void checkArm() {
         //double
         power_arm = -gamepad2.left_stick_x;
+        if(power_arm < 0) {
+            current_arm_pos+= 1;
+        }
+        else {
+            current_arm_pos-= 1;
+        }
         //rightArm.setTargetPosition(armMotor.getTargetPosition() + (int) (power  * 10));
         //telemetry.addData("RightArm", "Target Position: %d", armMotor.getTargetPosition());
         //power *= ARM_SPEED_MULT;
@@ -262,35 +196,8 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
         //armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
         //leftArm.setPower(power);
         rightArm.setPower(power_arm);
-        //sleep(2000);
-        //leftArm.setPower(0);
-        //rightArm.setPower(-power);
-        //sleep(2000);
-    }
-    void checkElbowOLD() {
-       // double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
-
-        //power *= ELBOW_SPEED_MULT; //THIS IS ORIGINAL VERSION
-        double power = 3;
-        telemetry.addData("Elbow", "Power: %f", power);
-
-        //leftElbow.setPower(-power);
-        rightElbow.setPower(power);
-        sleep(400);
-        //while (opModeIsActive()) {
-        for(int cnt = 0; cnt <2; cnt++){
-            rightElbow.setPower(-power);
-            sleep(100);
-            rightElbow.setPower(power);
-            //rightElbow.setPower(-power);
-            sleep(100);
-        }
-        rightElbow.setPower(0);
 
     }
-
-    // Step through the list of detections and display info for each one.
-
 
 }  // end class
 

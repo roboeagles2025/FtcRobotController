@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 @SuppressWarnings("FieldCanBeLocal") // To get rid of the annoying "variable can be made local" warnings
-public abstract class RoboEaglesAutonomousBase extends RoboEaglesBase {
+public  abstract class RoboEaglesAutonomousBase extends RoboEaglesBase {
     // Settings for robot on the field
     // MAKE SURE TO CHECK THESE SETTINGS IN COMPETITION
     // BACKSTAGE_PARKING defines whether to park in backstage
