@@ -51,7 +51,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
         leftElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
     }
 
-    private double MOTOR_SPEED_MULT = 0.7;
+    private double MOTOR_SPEED_MULT = 0.3;//used to be 0.7
     public DcMotor leftElbow, rightElbow;
     public DcMotorEx leftArm, rightArm;
     private final double CLAW_INCREMENT = 0.02;
@@ -89,19 +89,19 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
     }
 
      void checkElbow() {
-        double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
+        double power = -gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
          double prev_power = 0;
         double ELBOW_SPEED_MULT_NEW;
         // if (power_arm >0 ) {
-         if(current_arm_pos > 0)
+         /*if(current_arm_pos < 0)
          {
-             ELBOW_SPEED_MULT_NEW = 1;
+             ELBOW_SPEED_MULT_NEW = 60;
          }
          else
          {
-             ELBOW_SPEED_MULT_NEW = 0.5;
-         }
-         ELBOW_SPEED_MULT_NEW = 25;
+             ELBOW_SPEED_MULT_NEW = 5;
+         }*/
+         ELBOW_SPEED_MULT_NEW = 60;
         power *= ELBOW_SPEED_MULT_NEW;
         telemetry.addData("Elbow", "Power: %f", power);
 
@@ -141,7 +141,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
     }
 
     void checkDrivingNormal() {
-        double drive = -gamepad1.left_stick_y;
+        double drive = gamepad1.left_stick_y;
         double turn = gamepad1.left_stick_x;
         //double turn = 0;
         double leftPower = Range.clip(drive + turn, -1, 1);
@@ -181,21 +181,21 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
 
     void checkArm() {
         //double
-        power_arm = -gamepad2.left_stick_x;
-        if(power_arm < 0) {
+        power_arm = -gamepad2.left_stick_y;
+        /*if(power_arm < 0) {
             current_arm_pos+= 1;
         }
         else {
             current_arm_pos-= 1;
-        }
+        }*/
         //rightArm.setTargetPosition(armMotor.getTargetPosition() + (int) (power  * 10));
         //telemetry.addData("RightArm", "Target Position: %d", armMotor.getTargetPosition());
         //power *= ARM_SPEED_MULT;
         //double power = 0.5;
-        rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm * 5));
+        rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
         //armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
         //leftArm.setPower(power);
-        rightArm.setPower(power_arm);
+        rightArm.setPower(power_arm/(50));
 
     }
 
