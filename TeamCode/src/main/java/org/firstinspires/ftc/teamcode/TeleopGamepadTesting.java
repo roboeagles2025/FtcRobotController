@@ -76,7 +76,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
           //checkArm();
 
        while (opModeIsActive()) {
-            checkArm();
+            checkArm ();
             checkDriving();
             checkBaseClaw();
             checkElbow();
@@ -101,8 +101,8 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
          {
              ELBOW_SPEED_MULT_NEW = 5;
          }*/
-         ELBOW_SPEED_MULT_NEW = 60;
-        power *= ELBOW_SPEED_MULT_NEW;
+         ELBOW_SPEED_MULT_NEW = 2;
+        power /= ELBOW_SPEED_MULT_NEW;
         telemetry.addData("Elbow", "Power: %f", power);
 
         //rightElbow.setPower(power);
@@ -195,7 +195,7 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
         rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
         //armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
         //leftArm.setPower(power);
-        rightArm.setPower(power_arm/(50));
+        rightArm.setPower(power_arm);
 
     }
 
