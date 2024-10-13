@@ -50,6 +50,7 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
     private final long go_straight_time_const = 25000;
     private final double DEGREE_PER_SEC_NEW = 44;
     public double power_arm, current_arm_pos;
+    double elbow_power = 5;
 
 
     @Override
@@ -82,9 +83,9 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
         blClaw = hardwareMap.servo.get("bl_claw");
         leftPower = 10;
         rightPower = 10;
-        //leftElbow = hardwareMap.dcMotor.get("left_elbow");//OFFICIAL
-        //rightElbow = hardwareMap.dcMotor.get("right_elbow");//OFFICIAL
-        //rightArm = hardwareMap.get(DcMotorEx.class, "right_arm");//OFFICIAL
+        leftElbow = hardwareMap.dcMotor.get("left_elbow");//OFFICIAL
+        rightElbow = hardwareMap.dcMotor.get("right_elbow");//OFFICIAL
+        rightArm = hardwareMap.get(DcMotorEx.class, "right_arm");//OFFICIAL
         //rightElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         //leftElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         MapDevicesPIDs();
@@ -139,9 +140,49 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
     void autonomousStartBlue() {
 
         //VERY IMPORTANT!!!!! OPEN=-0.5 and CLOSE=0.8!!!!!!!!!
-        driveStraightPID(24);
+
+        driveStraightPID(12);
         sleep(500);
-        //turnPID(90, 10);
+
+        turnPID(90, 10);
+        driveStraightPID(12);
+
+        turnPID(-90, 10);
+        driveStraightPID(12);
+
+        elbow_power = 5;
+        moveElbow();
+        sleep(1000);
+
+        power_arm = -10;
+        moveArm();
+        sleep(1000);
+        driveStraightPID(1);
+
+        power_arm = 0;
+        moveArm();
+        sleep(500);
+
+        brClaw.setPosition(0.2);
+        blClaw.setPosition(0.7);//-0.5
+
+        power_arm = 3;
+        moveArm();
+
+        sleep(100);
+
+        power_arm = 0;
+        moveArm();
+        //elbow_power = 0;
+        //moveElbow();
+
+        sleep(1000);
+
+        driveStraightPID(-5);
+        sleep(500);
+
+
+        sleep(10000);
         //sleep(500);
         /*driveStraightPID(75); //if it is inches then it is 30
         turnPID(70, 10);
@@ -163,55 +204,21 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
 
 
     void moveElbow() {
-        double power = 1; // Read the Y-axis value of the left joystick and negate it
-        double prev_power = 0;
-        double ELBOW_SPEED_MULT_NEW;
-        // if (power_arm >0 ) {
-        if(current_arm_pos > 0)
-        {
-            ELBOW_SPEED_MULT_NEW = 1;
-        }
-        else
-        {
-            ELBOW_SPEED_MULT_NEW = 0.5;
-        }
-        power *= ELBOW_SPEED_MULT_NEW;
-        telemetry.addData("Elbow", "Power: %f", power);
+       // double elbow_power = 5; // Read the Y-axis value of the left joystick and negate it
 
-        //rightElbow.setPower(power);
-        if(power <= 0)
-        {
-            //leftElbow.setPower(power);
-            //rightElbow.setPower(-power);
-            sleep(500);
-        }
-        power = 0.1;
-        //leftElbow.setPower(power);
-        //rightElbow.setPower(-power);
-        sleep(100);
-
+        leftElbow.setPower(elbow_power);
+        rightElbow.setPower(-elbow_power);
 
     }
 
     void moveArm() {
-        //double
-        power_arm = 1;
-        if(power_arm < 0) {
-            current_arm_pos+= 1;
-        }
-        else {
-            current_arm_pos-= 1;
-        }
-        //rightArm.setTargetPosition(armMotor.getTargetPosition() + (int) (power  * 10));
-        //telemetry.addData("RightArm", "Target Position: %d", armMotor.getTargetPosition());
-        //power *= ARM_SPEED_MULT;
-        //double power = 0.5;
-        //rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm * 5));
+
+        rightArm.setTargetPosition(40);
         //armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
         //leftArm.setPower(power);
-        //rightArm.setPower(power_arm);
-        sleep(1000);
-        //rightArm.setPower(0);
+        rightArm.setPower(power_arm/2);
+
+
     }
 
 
