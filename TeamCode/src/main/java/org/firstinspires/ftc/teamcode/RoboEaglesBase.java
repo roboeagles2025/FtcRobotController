@@ -180,16 +180,15 @@ public abstract class RoboEaglesBase extends LinearOpMode {
     // left = 0 , right = 1
     void moveSidesSame_turn(long leftRight, long timeToMove, double speedLeft, double speedRight) {
         if(leftRight > 0) {
-            flDrive.setPower(speedLeft * 4);
-            blDrive.setPower(speedLeft * 2);
-            frDrive.setPower(speedRight);
+            flDrive.setPower(speedLeft );
+            blDrive.setPower(speedLeft /2);
+            frDrive.setPower(speedRight/2);
             brDrive.setPower(speedRight);
         } else {
-            flDrive.setPower(speedLeft);
+            flDrive.setPower(speedLeft/2);
             blDrive.setPower(speedLeft);
-            frDrive.setPower(speedRight * 4);
-            brDrive.setPower(speedRight * 2);
-
+            frDrive.setPower(speedRight);
+            brDrive.setPower(speedRight/2 );
         }
         sleep(timeToMove);
     }

@@ -138,35 +138,29 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
     }
 
     void autonomousStartBlue() {
-
-        //VERY IMPORTANT!!!!! OPEN=-0.5 and CLOSE=0.8!!!!!!!!!
-
-        driveStraightPID(12);
-        sleep(500);
-
-        turnPID(90, 10);
-        driveStraightPID(12);
-
-        turnPID(-90, 10);
-        driveStraightPID(12);
-
+        turnPID(90,10);
+        driveStraightPID(65);
+        sleep(1000);
+        turnPID(45, 10);
+        driveStraightPID(4);
         elbow_power = 5;
         moveElbow();
         sleep(1000);
-
         power_arm = -10;
         moveArm();
-        sleep(1000);
+        sleep(1500);
         driveStraightPID(1);
-
+        brClaw.setPosition(0.2);
+        blClaw.setPosition(0.7);//-0.5
         power_arm = 0;
         moveArm();
         sleep(500);
+        turnPID(135, 10);
+        driveStraightPID(82);
+        sleep(1000);
 
-        brClaw.setPosition(0.2);
-        blClaw.setPosition(0.7);//-0.5
 
-        power_arm = 3;
+        /*power_arm = 3;
         moveArm();
 
         sleep(100);
@@ -182,7 +176,7 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
         sleep(500);
 
 
-        sleep(10000);
+        sleep(10000);*/
         //sleep(500);
         /*driveStraightPID(75); //if it is inches then it is 30
         turnPID(70, 10);

@@ -158,7 +158,7 @@ public class RoboEagleOpMode extends RoboEaglesBase {
     }
     void checkDrivingNormal_turn() {
         double drive = gamepad1.left_stick_y;
-        double turn = gamepad1.right_stick_x;
+        double turn = -gamepad1.right_stick_x;
 
         //double turn = 0;
 
