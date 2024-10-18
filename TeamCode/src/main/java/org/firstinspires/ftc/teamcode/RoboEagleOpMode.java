@@ -55,8 +55,8 @@ public class RoboEagleOpMode extends RoboEaglesBase {
 
        while (opModeIsActive()) {
             checkArm ();
-            checkDriving_turn();
-            //checkDriving();
+            //checkDriving_turn();
+            checkDriving();
             //DrivingTest();
             checkBaseClaw();
             checkElbow();
@@ -81,7 +81,7 @@ public class RoboEagleOpMode extends RoboEaglesBase {
          {
              ELBOW_SPEED_MULT_NEW = 5;
          }*/
-         ELBOW_SPEED_MULT_NEW = 1;
+         ELBOW_SPEED_MULT_NEW = 0.5;
         power *= ELBOW_SPEED_MULT_NEW;
         telemetry.addData("Elbow", "Power: %f", power);
 
@@ -123,6 +123,41 @@ public class RoboEagleOpMode extends RoboEaglesBase {
             brDrive.setPower(0);
         }
     }
+    void checkDrivingStrafing() {
+        double drive = gamepad1.left_stick_y;
+        double turn = gamepad1.left_stick_x;
+        if (drive == 0 && turn == 0) return;
+
+        double flBrPower = Range.clip(drive + turn, -1, 1); // Calculate left motor power considering both drive and turn
+        double frBlPower = Range.clip(drive - turn, -1, 1); // Calculate right motor power considering both drive and turn
+
+        // apply multiplier to the speed
+        flBrPower *= MOTOR_SPEED_MULT;
+        frBlPower *= MOTOR_SPEED_MULT;
+
+        telemetry.addData("DrivingStrafing", "Joystick Drive: %f, Turn: %f", drive, turn);
+        telemetry.addData("DrivingStrafing", "FlBr Power: %f, FrBl Power: %f", flBrPower, frBlPower);
+
+        moveSidesDiagonal(0, flBrPower, frBlPower);
+    }
+    /*public void ArcadeDrive() {
+        double left_stick_x = gamepad1.left_stick_x;
+        double left_stick_y = gamepad1.left_stick_y;
+        double right_stick_x = gamepad1.right_stick_x;
+
+        if ((Math.obs(left_stick_x) > 0.1) || (Math.obs(left_stick_y) > 0.1) || (Math.obs(right_stick_x) > 0.1)) {
+            flDrive.setPower((left_stick_y-left_stick_x)+right_stick_x);
+            frDrive.setPower(-1 * ((left_stick_y+left_stick_x)-right_stick_x));
+            blDrive.setPower((left_stick_y-left_stick_x)+right_stick_x);
+            brDrive.setPower(-1 * ((left_stick_y-left_stick_x)-right_stick_x));
+        } else {
+            flDrive.setPower(0);
+            frDrive.setPower(0);
+            blDrive.setPower(0);
+            brDrive.setPower(0);
+        }
+    }
+    */
     void DrivingTest() {
         double drive = gamepad1.left_stick_y;
         double turn = -gamepad1.left_stick_x;
@@ -136,7 +171,7 @@ public class RoboEagleOpMode extends RoboEaglesBase {
 
     void checkDrivingNormal() {
         double drive = gamepad1.left_stick_y;
-        double turn = -gamepad1.left_stick_x;
+        double turn = gamepad1.left_stick_x;
         //double turn = 0;
         double leftPower = Range.clip(drive - turn, -1, 1);//used to be positive
         double rightPower = Range.clip(drive + turn, -1, 1);//used to be negative
