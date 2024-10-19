@@ -222,8 +222,8 @@ public class RoboEagleOpMode extends RoboEaglesBase {
         boolean open_servo = gamepad1.y;     // open fingers
         telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
         if (close_servo) {
-            blClaw.setPosition(0.2);
             brClaw.setPosition(0.7);
+            blClaw.setPosition(0.2);
             sleep(500);
         }
 
@@ -250,7 +250,7 @@ public class RoboEagleOpMode extends RoboEaglesBase {
         rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
         //armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
         //leftArm.setPower(power);
-        rightArm.setPower(power_arm/2);
+        rightArm.setPower(power_arm/1.5);
 
     }
 
