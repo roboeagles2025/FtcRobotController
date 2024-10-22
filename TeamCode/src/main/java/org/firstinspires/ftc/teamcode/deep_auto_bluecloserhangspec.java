@@ -126,14 +126,38 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutonomousBase {
 
     }
     void autonomousStartBlueHangLower() {
-        driveStraightPID(25); //move the robot 16 inches
-        sleep(1000);//sleep
-
         brClaw.setPosition(0.2);//open right claw...also closing for this claw is 0.2
         blClaw.setPosition(0.7);//open left claw...also closing for this claw is 0.7
+        driveStraightPID(28); //move the robot 16 inches
         sleep(500);//sleep
-
+        elbow_power = -0.5;//put the elbow up
+        moveElbow();//add in elbow function
+        brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
+        blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
+        sleep(1000);//sleep
         driveStraightPID(-6);
+        sleep(500);//sleep
+        sleep(1500);
+    }
+    void autonomousStartBlueHangHigher() {
+        driveStraightPID(20); //move the robot 16 inches
+        //sleep(1000);//sleep
+        elbow_power = 0.5;//put the elbow up
+        moveElbow();//add in elbow function
+        power_arm = 10;//extend the arm up
+        moveArm();//add in arm function
+        sleep(700);//sleep
+        power_arm = 0;//extend the arm up
+        moveArm();//add in arm function
+
+        brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
+        blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
+        sleep(1000);//sleep
+        driveStraightPID(-6);
+        sleep(500);//sleep
+        power_arm = 0;//extend the arm up
+        moveArm();//add in arm function
+        sleep(1500);
         //elbow_power = 4;//put the elbow up
         //moveElbow();//add in elbow function
         //sleep(1000);//sleep

@@ -102,7 +102,10 @@ public class deep_auto_redcloser extends RoboEaglesAutonomousBase {
         // Move to the Middle
         //driveStraightSmoothly(0.5, 230);
          driveStraightSmoothlyNew(10,76); //if it is inches then it is 30
+         sleep(2000);
          Turning_Still(10, 90);
+         sleep(2000);
+         /*
          driveStraightSmoothlyNew(10, 79); //if it is inches then it is 31
          Turning_Still(10, -90);
          driveStraightSmoothlyNew(10, 20); //if it is inches then it is 8
@@ -135,6 +138,8 @@ public class deep_auto_redcloser extends RoboEaglesAutonomousBase {
         blClaw.setPosition(BOTTOM_LEFT_CLAW_OPEN);
         brClaw.setPosition(BOTTOM_RIGHT_CLAW_OPEN);
         sleep(1000);
+
+          */
     }
 
 

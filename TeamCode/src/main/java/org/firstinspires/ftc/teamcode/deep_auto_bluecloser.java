@@ -29,7 +29,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Blue25CloserBasket", group = "Autonomous")
+@Autonomous(name = "Blue25CloserBasket3", group = "Autonomous")
 public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
 
     //public DcMotorEx armMotor;
@@ -67,6 +67,7 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
         //waitForStart();
 
         autonomousStartBlueBasket();
+        //autonomousStartBlueBasketTemp();
         //telemetry.update();
 
         //waitForStart();
@@ -136,13 +137,34 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
         pidRotate = new PIDController(.006, .00008, 0);
 
     }
+    public void driveStraightSmoothlyNew2(long speed, long distance) {
+        leftPower = -10;
+        rightPower = -10;
+        flDrive.setPower(leftPower);
+        blDrive.setPower(leftPower);
+        frDrive.setPower(rightPower * (-1));
+        brDrive.setPower(rightPower * (-1));
+        TimeToRun = (distance * 10 / (84 * speed));
+        sleep(TimeToRun);
+        leftPower = 0;
+        rightPower = 0;
+        flDrive.setPower(leftPower);
+        blDrive.setPower(leftPower);
+        frDrive.setPower(rightPower * (-1));
+        brDrive.setPower(rightPower * (-1));
+    }
+    void autonomousStartBlueBasketTemp() {
+        driveStraightPID(12); //move the robot 12 inches
+        //driveStraightS(10, 12); //move the robot 12 inches
+       // Turning_Still(10, 90);//turn the robot to the left
+        sleep(5000);
 
-
-
+    }
         void autonomousStartBlueBasket() {
 
         driveStraightPID(12); //move the robot 12 inches
-        turnPID(90,10);//turn the robot to the left
+        turnPID(90,10);//turn the robot to the left also it used to be 10
+        sleep(1000);
         driveStraightPID(30);
         turnPID(45,10);
         elbow_power = 4;//put the elbow up
@@ -150,11 +172,11 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
         sleep(1000);//sleep
         power_arm = 15;//extend the arm up
         moveArm();//add in arm function
-        sleep(2100);//sleep
-        power_arm = 0;//keep the arm in one place with no power
+        sleep(2150);//sleep
+        power_arm = 0.05;//keep the arm in one place with no power
         moveArm();//add in arm function
         sleep(500);//sleep
-        driveStraightPID(12);//drive a feet
+        driveStraightPID(17);//drive a feet
         sleep(500);//sleep
         brClaw.setPosition(0.2);//open right claw...also closing for this claw is 0.2
         blClaw.setPosition(0.7);//open left claw...also closing for this claw is 0.7
@@ -166,6 +188,7 @@ public  class deep_auto_bluecloser extends RoboEaglesAutonomousBase {
         power_arm = 0;//set to 0 power for no movements
         moveArm();//add in arm function
         sleep(5000);//sleep for final
+
 
 
 
