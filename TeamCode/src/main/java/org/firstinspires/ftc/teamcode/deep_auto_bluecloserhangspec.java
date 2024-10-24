@@ -8,17 +8,20 @@ import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.Range;
 
-//import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-
-//import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Blue25FartherHangSpec", group = "Autonomous")
+//import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
+//import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+
+@Autonomous(name = "Blue25FartherHangSpec2", group = "Autonomous")
 public class deep_auto_bluecloserhangspec extends RoboEaglesAutonomousBase {
 
     //public DcMotorEx armMotor;
@@ -40,7 +43,7 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutonomousBase {
     private final double DEGREE_PER_SEC_NEW = 44;
     public double power_arm, current_arm_pos;
     double elbow_power = 5;
-
+    private DistanceSensor sensorRange;
 
     @Override
     public void runOpMode() {
@@ -55,7 +58,8 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutonomousBase {
         }
         //waitForStart();
 
-        autonomousStartBlueHangLower();
+        //autonomousStartBlueHangLower();
+        autonomousStartBlueHangHigher();
         //telemetry.update();
 
         //waitForStart();
@@ -78,6 +82,7 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutonomousBase {
         //rightElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         //leftElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         MapDevicesPIDs();
+        sensorRange = hardwareMap.get(DistanceSensor.class, "distance_sensor");
 
     }
     // mappng for all PID required hardware
@@ -125,11 +130,27 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutonomousBase {
         pidRotate = new PIDController(.006, .00008, 0);
 
     }
+    double distance;
     void autonomousStartBlueHangLower() {
         brClaw.setPosition(0.2);//open right claw...also closing for this claw is 0.2
         blClaw.setPosition(0.7);//open left claw...also closing for this claw is 0.7
-        driveStraightPID(28); //move the robot 16 inches
+        driveStraightPID(24); //move the robot 16 inches
+
+        distance = sensorRange.getDistance(DistanceUnit.INCH);
+        while(distance >= 4) {
+            distance = sensorRange.getDistance(DistanceUnit.INCH);
+            driveStraightPID(1);
+            telemetry.addData("range", String.format("%.01f in", distance));
+            telemetry.update();
+            sleep(1000);//sleep
+        }
+
+
+        brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
+        blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
         sleep(500);//sleep
+
+        /*
         elbow_power = -0.5;//put the elbow up
         moveElbow();//add in elbow function
         brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
@@ -138,25 +159,36 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutonomousBase {
         driveStraightPID(-6);
         sleep(500);//sleep
         sleep(1500);
+
+         */
     }
     void autonomousStartBlueHangHigher() {
-        driveStraightPID(20); //move the robot 16 inches
-        //sleep(1000);//sleep
         elbow_power = 0.5;//put the elbow up
         moveElbow();//add in elbow function
+        driveStraightPID(27); //move the robot 16 inches
+        //sleep(1000);//sleep
+
+        sleep(1000);//sleep
         power_arm = 10;//extend the arm up
         moveArm();//add in arm function
-        sleep(700);//sleep
+        sleep(625);//sleep
+
         power_arm = 0;//extend the arm up
         moveArm();//add in arm function
-
+        elbow_power = 0;//put the elbow up
+        moveElbow();//add in elbow function
+        sleep(500);//sleep
         brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
         blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
-        sleep(1000);//sleep
-        driveStraightPID(-6);
+        sleep(2000);//sleep
+        elbow_power = 0.5;//put the elbow up
+        moveElbow();//add in elbow function
         sleep(500);//sleep
-        power_arm = 0;//extend the arm up
+        driveStraightPID(-12);
+        sleep(500);//sleep
+        power_arm = -10;//extend the arm up
         moveArm();//add in arm function
+        sleep(600);//sleep
         sleep(1500);
         //elbow_power = 4;//put the elbow up
         //moveElbow();//add in elbow function
