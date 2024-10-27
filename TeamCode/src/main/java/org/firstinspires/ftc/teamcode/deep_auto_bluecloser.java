@@ -91,17 +91,18 @@ public  class deep_auto_bluecloser extends RoboEaglesAutoBase2425 {
         sleep(5000);//sleep
 
     }
-    public void final_park(boolean close){
-        if(close) {
+    public void final_park(boolean close) {
+        if (close) {
             turnPID(125, 25);
             driveStraightPID(80);
             turnPID(-90, 25);
             driveStraightPID(10);
-        }else
-           turnPID(125, 25);
-           driveStraightPID(90);
-           turnPID(-90, 30);
-           driveStraightPID(10);
+        } else {
+            turnPID(125, 25);
+            driveStraightPID(90);
+            turnPID(-90, 30);
+            driveStraightPID(10);
+        }
     }
 
 }
