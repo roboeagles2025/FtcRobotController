@@ -44,22 +44,23 @@ public class RoboEagleOpMode extends RoboEaglesBase {
     private double ARM_SPEED_MULT = 0.5;
     public final double ELBOW_SPEED_MULT = 0.75;
     public double power_arm, current_arm_pos;
+    boolean Hang = false;
     //private double MOTOR_SPEED_MULT = 0.7;
 
     public void runOpMode() {
         MapDevicesTesting();
 
         waitForStart();
-          //checkElbow();
-          //checkArm();
 
        while (opModeIsActive()) {
-            checkArm ();
-            //checkDriving_turn();
+           if (Hang == false) {
+               checkArm();
+           }
+
             checkDriving();
-            //DrivingTest();
             checkBaseClaw();
             checkElbow();
+            Hanging();
             telemetry.update();
             sleep(10);
         }
@@ -217,6 +218,20 @@ public class RoboEagleOpMode extends RoboEaglesBase {
 
     }
 
+    //boolean Hang;
+    void Hanging () {
+        if (!Hang) {
+            Hang = gamepad1.b;
+        }
+
+        telemetry.addData("Hanging", "Hang: %b, ArmPower: %f", Hang, power_arm);
+        if (Hang) {
+            rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
+            rightArm.setPower(power_arm/1.5);
+
+        }
+    }
+
     void checkBaseClaw() {
         boolean close_servo = gamepad1.x;    // Close fingers
         boolean open_servo = gamepad1.y;     // open fingers
@@ -235,21 +250,9 @@ public class RoboEagleOpMode extends RoboEaglesBase {
     }
 
     void checkArm() {
-        //double
         power_arm = gamepad2.left_stick_y;
-        /*if(power_arm < 0) {
-            current_arm_pos+= 1;
-        }
-        else {
-            current_arm_pos-= 1;
-        }*/
-        //rightArm.setTargetPosition(armMotor.getTargetPosition() + (int) (power  * 10));
-        //telemetry.addData("RightArm", "Target Position: %d", armMotor.getTargetPosition());
-        //power *= ARM_SPEED_MULT;
-        //double power = 0.5;
+
         rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
-        //armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
-        //leftArm.setPower(power);
         rightArm.setPower(power_arm/1.5);
 
     }
