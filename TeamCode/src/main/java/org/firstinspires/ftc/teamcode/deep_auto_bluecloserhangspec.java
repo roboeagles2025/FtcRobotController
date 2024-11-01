@@ -69,12 +69,24 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutoBase2425 {
         moveArm();//add in arm function
         elbow_power = 0;//put the elbow up
         moveElbow();//add in elbow function
-        sleep(500);//sleep
-        brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
-        blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
-        sleep(2000);//sleep
-        elbow_power = 0.4;//put the elbow up
-        moveElbow();//add in elbow function
+        //Manish this was 500ms, we changed it to give it time to retract
+        // this is working fine keep 1s.
+        sleep(1000);//sleep
+        // Manish changing the clow opening a bit more
+        //this is because servo wires were swapped.
+        brClaw.setPosition(0.2);//open right claw...also closing for this claw is 0.2
+        blClaw.setPosition(0.7);//open left claw...also closing for this claw is 0.7
+        //Original code
+        //brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
+        //blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
+        //Manish code starts
+        sleep(1000);//sleep
+        elbow_power = 0.8;
+        moveElbow();
+        //Manish code ends here
+        //sleep(2000);//sleep
+        //elbow_power = 0.4;//put the elbow up
+        //moveElbow();//add in elbow function
         sleep(500);//sleep
         driveStraightPID(-12);
         sleep(500);//sleep
@@ -94,7 +106,7 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutoBase2425 {
             driveStraightPID(12);
         } else {
             turnPID(-90, 20);
-            driveStraightPID(36);
+            driveStraightPID(46);
             turnPID(-90, 10);
             driveStraightPID(12);
         }
