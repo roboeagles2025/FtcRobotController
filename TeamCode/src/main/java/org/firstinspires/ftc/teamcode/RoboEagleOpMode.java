@@ -221,7 +221,8 @@ public class RoboEagleOpMode extends RoboEaglesBase {
     //boolean Hang;
     void Hanging () {
         if (!Hang) {
-            Hang = gamepad1.b;
+           // Hang = gamepad1.b;
+            Hang = gamepad1.left_bumper && gamepad1.right_bumper;
         }
 
         telemetry.addData("Hanging", "Hang: %b, ArmPower: %f", Hang, power_arm);

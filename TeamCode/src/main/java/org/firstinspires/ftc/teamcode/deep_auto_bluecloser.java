@@ -77,8 +77,8 @@ public  class deep_auto_bluecloser extends RoboEaglesAutoBase2425 {
         sleep(500);//sleep
         driveStraightPID(15);//drive a feet
         sleep(500);//sleep
-        brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
-        blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
+        brClaw.setPosition(0.2);//open right claw...also closing for this claw is 0.2
+        blClaw.setPosition(0.7);//open left claw...also closing for this claw is 0.7
         sleep(1500);//sleep
         driveStraightPID(-17);//drive backwards a feet
         power_arm = -10;//detract the arm down

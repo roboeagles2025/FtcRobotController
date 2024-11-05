@@ -59,7 +59,7 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutoBase2425 {
         }
         elbow_power = 0.5;//put the elbow up
         moveElbow();//add in elbow function
-        driveStraightPID(27); //move the robot 16 inches
+        driveStraightPID(26); //move the robot 16 inches
         //sleep(1000);//sleep
         sleep(1000);//sleep
         power_arm = 10;//extend the arm up
