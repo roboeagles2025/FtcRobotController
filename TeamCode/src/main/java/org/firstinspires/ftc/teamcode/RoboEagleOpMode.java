@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
-
+import com.qualcomm.robotcore.hardware.Servo;
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.Range;
 public class RoboEagleOpMode extends RoboEaglesBase {
 
 //LET ME KNOW IF YOU NEED COMMENTS FOR BETTER LEARNING
-
+public Servo left_hang, right_hang;
 
     void MapDevicesTesting() {
         brDrive = hardwareMap.dcMotor.get("br_motor");//OFFICIAL
@@ -22,6 +22,8 @@ public class RoboEagleOpMode extends RoboEaglesBase {
         frDrive = hardwareMap.dcMotor.get("fr_motor");//OFFICIAL
         brClaw = hardwareMap.servo.get("br_claw");//OFFICIAL
         blClaw = hardwareMap.servo.get("bl_claw");//OFFICIAL
+        left_hang = hardwareMap.servo.get("left_hang");
+        right_hang = hardwareMap.servo.get("right_hang");
         leftElbow = hardwareMap.dcMotor.get("left_elbow");//OFFICIAL
         rightElbow = hardwareMap.dcMotor.get("right_elbow");//OFFICIAL
         rightArm = hardwareMap.get(DcMotorEx.class, "right_arm");//OFFICIAL
@@ -56,8 +58,9 @@ public class RoboEagleOpMode extends RoboEaglesBase {
            if (Hang == false) {
                checkArm();
            }
-
+            HangServo();
             checkDriving();
+            ArcadeDrive();
             checkBaseClaw();
             checkElbow();
             Hanging();
@@ -82,7 +85,8 @@ public class RoboEagleOpMode extends RoboEaglesBase {
          {
              ELBOW_SPEED_MULT_NEW = 5;
          }*/
-         ELBOW_SPEED_MULT_NEW = 0.5;
+         //ELBOW_SPEED_MULT_NEW = 0.5;
+         ELBOW_SPEED_MULT_NEW = 0.8;
         power *= ELBOW_SPEED_MULT_NEW;
         telemetry.addData("Elbow", "Power: %f", power);
 
@@ -95,7 +99,21 @@ public class RoboEagleOpMode extends RoboEaglesBase {
 
 
     }
+    void HangServo() {
 
+
+        if (gamepad1.right_trigger>0) {
+            left_hang.setPosition(0.3);
+            right_hang.setPosition(0.6);
+            sleep(500);
+        }
+
+        if (gamepad1.left_trigger>0) {
+            left_hang.setPosition(0.6);
+            right_hang.setPosition(0.3);
+            sleep(500);
+        }
+    }
     void checkDriving_turn() {
         if ((gamepad1.left_stick_y != 0) &&
                 (gamepad1.right_stick_x ==0))
@@ -141,24 +159,23 @@ public class RoboEagleOpMode extends RoboEaglesBase {
 
         moveSidesDiagonal(0, flBrPower, frBlPower);
     }
-    /*public void ArcadeDrive() {
-        double left_stick_x = gamepad1.left_stick_x;
-        double left_stick_y = gamepad1.left_stick_y;
+    public void ArcadeDrive() {
         double right_stick_x = gamepad1.right_stick_x;
 
-        if ((Math.obs(left_stick_x) > 0.1) || (Math.obs(left_stick_y) > 0.1) || (Math.obs(right_stick_x) > 0.1)) {
-            flDrive.setPower((left_stick_y-left_stick_x)+right_stick_x);
-            frDrive.setPower(-1 * ((left_stick_y+left_stick_x)-right_stick_x));
+        if  (Math.abs(right_stick_x) > 0.1) {
+            flDrive.setPower(-right_stick_x);
+            frDrive.setPower(-1 * right_stick_x);
+            blDrive.setPower(right_stick_x);
+            brDrive.setPower(-1 * -right_stick_x);
+            //original code
+            /*flDrive.setPower((left_stick_y-left_stick_x)-right_stick_x);
+            frDrive.setPower(-1 * ((left_stick_y+left_stick_x)+right_stick_x));
             blDrive.setPower((left_stick_y-left_stick_x)+right_stick_x);
             brDrive.setPower(-1 * ((left_stick_y-left_stick_x)-right_stick_x));
-        } else {
-            flDrive.setPower(0);
-            frDrive.setPower(0);
-            blDrive.setPower(0);
-            brDrive.setPower(0);
-        }
+             */
+        } 
     }
-    */
+
     void DrivingTest() {
         double drive = gamepad1.left_stick_y;
         double turn = -gamepad1.left_stick_x;
@@ -229,6 +246,7 @@ public class RoboEagleOpMode extends RoboEaglesBase {
         if (Hang) {
             rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
             rightArm.setPower(power_arm/1.5);
+            //rightArm.setPower(power_arm);
 
         }
     }
@@ -244,8 +262,8 @@ public class RoboEagleOpMode extends RoboEaglesBase {
         }
 
         if (open_servo) {
-            brClaw.setPosition(0.2);
-            blClaw.setPosition(0.7);//-0.5
+            brClaw.setPosition(0.3);
+            blClaw.setPosition(0.6);//-0.5
             sleep(500);
         }
     }
@@ -253,8 +271,9 @@ public class RoboEagleOpMode extends RoboEaglesBase {
     void checkArm() {
         power_arm = gamepad2.left_stick_y;
 
-        rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
-        rightArm.setPower(power_arm/1.5);
+        rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm*3));
+        //rightArm.setPower(power_arm*1.2);
+        rightArm.setPower(power_arm*3);
 
     }
 

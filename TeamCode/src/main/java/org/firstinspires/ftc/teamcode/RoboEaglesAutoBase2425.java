@@ -124,7 +124,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         pidDriveRight.setTolerance(30, 20);
 
         // Initialize the PID controller for turning
-        pidRotate = new PIDController(.006, .00008, 0);
+        pidRotate = new PIDController(.006, .00008, 0.0000005);
 
     }
 
