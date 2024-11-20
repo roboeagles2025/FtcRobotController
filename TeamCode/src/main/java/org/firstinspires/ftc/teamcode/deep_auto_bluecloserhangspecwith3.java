@@ -1,17 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.arcrobotics.ftclib.controller.PIDController;
-import com.arcrobotics.ftclib.hardware.RevIMU;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
-import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
@@ -21,8 +10,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Blue25CloserHangSpec", group = "Autonomous")
-public class deep_auto_bluecloserhangspec extends RoboEaglesAutoBase2425 {
+@Autonomous(name = "Blue25CloserHangSpecWITH3SAMPLES", group = "Autonomous")
+public class deep_auto_bluecloserhangspecwith3 extends RoboEaglesAutoBase2425 {
 
     boolean close_farther = true;
 
@@ -93,8 +82,17 @@ public class deep_auto_bluecloserhangspec extends RoboEaglesAutoBase2425 {
         power_arm = -10;//extend the arm up
         moveArm();//add in arm function
         sleep(600);//sleep
-
-        final_park_hang(close_farther);
+        StrafingAUTO(34,true);
+        driveStraightPID(39);
+        StrafingAUTO(8,true);
+        driveStraightPID(-48);
+        driveStraightPID(50);
+        StrafingAUTO(8,true);
+        driveStraightPID(-40);
+        driveStraightPID(40);
+        StrafingAUTO(6,true);
+        driveStraightPID(-35);
+        //final_park_hang(close_farther);
         sleep(1500);
     }
 

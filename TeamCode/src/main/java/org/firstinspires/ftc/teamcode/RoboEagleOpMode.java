@@ -27,6 +27,7 @@ public Servo left_hang, right_hang;
         leftElbow = hardwareMap.dcMotor.get("left_elbow");//OFFICIAL
         rightElbow = hardwareMap.dcMotor.get("right_elbow");//OFFICIAL
         rightArm = hardwareMap.get(DcMotorEx.class, "right_arm");//OFFICIAL
+        hangWheel =  hardwareMap.get(DcMotorEx.class, "wheels");
         rightElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         leftElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
     }
@@ -34,6 +35,7 @@ public Servo left_hang, right_hang;
     private double MOTOR_SPEED_MULT = 0.3;//used to be 0.7
     public DcMotor leftElbow, rightElbow;
     public DcMotorEx leftArm, rightArm;
+    public DcMotorEx hangWheel;
     private final double CLAW_INCREMENT = 0.02;
     private final double BOTTOM_RIGHT_CLAW_MAX = 0.8;
     private final double BOTTOM_RIGHT_CLAW_MIN = 0;
@@ -47,6 +49,7 @@ public Servo left_hang, right_hang;
     public final double ELBOW_SPEED_MULT = 0.75;
     public double power_arm, current_arm_pos;
     boolean Hang = false;
+    boolean start_hang_wheel = false;
     //private double MOTOR_SPEED_MULT = 0.7;
 
     public void runOpMode() {
@@ -64,6 +67,7 @@ public Servo left_hang, right_hang;
             checkBaseClaw();
             checkElbow();
             Hanging();
+           checkHangWheels();
             telemetry.update();
             sleep(10);
         }
@@ -73,7 +77,7 @@ public Servo left_hang, right_hang;
     }
 
      void checkElbow() {
-        double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
+        double power = -gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
          double prev_power = 0;
         double ELBOW_SPEED_MULT_NEW;
         // if (power_arm >0 ) {
@@ -267,13 +271,26 @@ public Servo left_hang, right_hang;
             sleep(500);
         }
     }
-
+    int hang_mult = 1;
     void checkArm() {
-        power_arm = gamepad2.left_stick_y;
 
-        rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm*3));
-        //rightArm.setPower(power_arm*1.2);
-        rightArm.setPower(power_arm*3);
+        power_arm = gamepad2.left_stick_y * hang_mult;
+
+        rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
+        rightArm.setPower(power_arm*1.2);
+        //rightArm.setPower(power_arm/);
+
+    }
+    double power_hang_wheel;
+    void checkHangWheels() {
+        start_hang_wheel = gamepad2.left_bumper && gamepad2.right_bumper;
+        if(start_hang_wheel == true) {
+            power_hang_wheel = 10;
+            hang_mult = 5;
+        }
+        //rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
+        hangWheel.setPower(-power_hang_wheel);
+        //rightArm.setPower(power_arm/);
 
     }
 
