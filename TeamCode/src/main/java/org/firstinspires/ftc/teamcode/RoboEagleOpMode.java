@@ -260,14 +260,14 @@ public Servo left_hang, right_hang;
         boolean open_servo = gamepad1.y;     // open fingers
         telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
         if (close_servo) {
-            brClaw.setPosition(0.7);
-            blClaw.setPosition(0.2);
+            brClaw.setPosition(0.75);//NEVER CHANGE THIS CODE!!!!!!!
+            blClaw.setPosition(0.25);
             sleep(500);
         }
 
         if (open_servo) {
-            brClaw.setPosition(0.3);
-            blClaw.setPosition(0.6);//-0.5
+            brClaw.setPosition(0.2);//NEVER CHANGE THIS CODE!!!!!!!
+            blClaw.setPosition(0.7);
             sleep(500);
         }
     }
@@ -277,7 +277,7 @@ public Servo left_hang, right_hang;
         power_arm = gamepad2.left_stick_y * hang_mult;
 
         rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
-        rightArm.setPower(power_arm*1.2);
+        rightArm.setPower(power_arm*2);
         //rightArm.setPower(power_arm/);
 
     }

@@ -151,9 +151,9 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
     long power_factor = 2000/25;
     public void StrafingAUTO(long distance, boolean turn) {
-        double  strafe_power = 0.5;
+        double  strafe_power = 0.8;
         if (turn == false) {
-            strafe_power = -0.5;
+            strafe_power = -0.8;
         }
         long speed_multiplier = distance * power_factor;
         flDriveEx.set(-strafe_power);
