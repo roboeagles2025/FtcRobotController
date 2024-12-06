@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Blue25CloserBasketSample2", group = "Autonomous")
+@Autonomous(name = "Blue25CloserBasketS2P", group = "Autonomous")
 public  class deep_auto_bluecloserbasketand3 extends RoboEaglesAutoBase2425 {
     boolean close_farther = true;
     @Override
@@ -27,6 +27,7 @@ public  class deep_auto_bluecloserbasketand3 extends RoboEaglesAutoBase2425 {
         //waitForStart();
 
         //StrafingAUTO(24);
+
         autonomousStartBlueBasket(true);
         //bucketand2();
         //turntest();
@@ -40,25 +41,35 @@ public  class deep_auto_bluecloserbasketand3 extends RoboEaglesAutoBase2425 {
 
     void autonomousStartBlueBasket(boolean blue_auto) {
         // first routine
+
         StrafingAUTO(11, false);
         driveStraightPID(18);
         turnPID(45,20);
         //driveStraightPID(5);
         drop_basket();
+        DRIVE_SPEED_MULTIPLIER = 0.75;
         //driveStraightPID(-15);//drive backwards 20 inches
-        turnPID(45,20);//used to be 45
+        turnPID(45,10);//used to be 45
+
 
         //start of 3 samples in net zone
-        StrafingAUTO(12,true);//used to be 8
+        StrafingAUTO(13,true);
         driveStraightPID(-32);
-        StrafingAUTO(12,false);//used to be 8
-        driveStraightPID(47);
-        //StrafingAUTO(3,false);
-        driveStraightPID(-50);
+        StrafingAUTO(10,false);
+
+        driveStraightPID(42);
+
+        driveStraightPID(-42);
+        StrafingAUTO(6,false);
+        driveStraightPID(38);
+
+        driveStraightPID(-12);
+        StrafingAUTO(56,true);
+
+        /*driveStraightPID(-38);
         StrafingAUTO(8,false);
-        driveStraightPID(45);
-        driveStraightPID(-15);
-        // second routine
+        driveStraightPID(26);
+        // second routine*/
 
         /*power_arm = -10;//detract the arm down
         moveArm();//add in arm function
@@ -101,30 +112,36 @@ public  class deep_auto_bluecloserbasketand3 extends RoboEaglesAutoBase2425 {
         // drop sample
         elbow_power = -4;//put the elbow up
         moveElbow();
-        sleep(500);//sleep
-        power_arm = 15;//extend the arm up
+        sleep(200);//sleep
+        power_arm = 27;//extend the arm up //15
         moveArm();
-        sleep(1800);//sleep
+        sleep(2100);//sleep //1800, then changed it to 1900
         power_arm = 0.05;//keep the arm in one place with almost no power
         moveArm();
-        driveStraightPID(13);
-        elbow_power = 0;//put the elbow up
+        DRIVE_SPEED_MULTIPLIER = 0.65;
+        driveStraightPID(8);//13
+        elbow_power = 0;//put the elbow down
         moveElbow();//add in elbow function
-        sleep(500);//sleep
-        brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
-        blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
+        sleep(300);//sleep
+        blClaw.setPosition(0.7);//open left claw...also closing for this claw is 0.7
+        brClaw.setPosition(0.2);//open right claw...also closing for this claw is 0.2
         sleep(1000);//sleep
 
         elbow_power = -4;//put the elbow up
         moveElbow();//add in elbow function
-        sleep(500);//sleep
+        //sleep(200);//sleep
+
         driveStraightPID(-16);//drive backwards a feet
+        sleep(100);
         power_arm = -12;//detract the arm down it also used to be -10
         moveArm();//add in arm function
-        sleep(800);//sleep it used to be 1 second
+        sleep(500);//sleep it used to be 1 second
+
         power_arm = 0;//set to 0 power for no movements
         moveArm();//add in arm function
         sleep(500);
+
+
 
     }
     public void turntest()  {

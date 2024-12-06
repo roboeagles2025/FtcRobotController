@@ -2,13 +2,14 @@ package org.firstinspires.ftc.teamcode.threadTeleop;
 import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RoboEaglesAutoBase2425;
 import org.firstinspires.ftc.teamcode.threadTeleop.ThreadHandler;
-
+@Autonomous(name = "Blue25Thread", group = "Autonomous")
 public class ThreadBase extends RoboEaglesAutoBase2425 {
     MotorGroup lGroup, rGroup;
     public com.arcrobotics.ftclib.controller.PIDController pidDriveLeft, pidDriveRight, pidRotate;
@@ -30,6 +31,22 @@ public class ThreadBase extends RoboEaglesAutoBase2425 {
     double elbow_power = 5;
     int turn_value = 1;
 
+    @Override
+    public void runOpMode() {
+
+        MapDevicesTesting();
+        // Enable the TFOD processor for our TeamProp Detection.
+        while (!isStarted() && !isStopRequested()) {
+            //   detectTeamProp();
+            // Do all the other stuff
+            //telemetry.update();
+            sleep(10);
+        }
+        //waitForStart();
+
+        autonomousStartBlueBasket(true);
+       ;
+    }
     public void MapDevicesThread() {
         flDriveEx = new MotorEx(hardwareMap, "fl_motor");
         frDriveEx = new MotorEx(hardwareMap, "fr_motor");
@@ -55,10 +72,32 @@ public class ThreadBase extends RoboEaglesAutoBase2425 {
             time.reset();
             while(time.milliseconds()<300) {
         }
-            brClaw.setPosition(0.7);
-            blClaw.setPosition(0.2);
+
+
+            brClaw.setPosition(0.75);
+            blClaw.setPosition(0.25);
+
         }
 });
+
+    void autonomousStartBlueBasket(boolean blue_auto) {
+        if (blue_auto == true) {
+            turn_value = 1;
+
+        } else {
+            turn_value = -1;
+        }
+
+        Thread openClaw = new Thread(new Thread());
+        openClaw.run();
+        driveStraightPID(12); //move the robot 12 inches
+        sleep(500);
+        //brClaw.setPosition(0.75);
+        //blClaw.setPosition(0.25);
+
+
+
+    }
 }
 
 

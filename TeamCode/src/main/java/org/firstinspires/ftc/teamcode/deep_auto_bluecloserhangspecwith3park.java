@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Blue25CloserHangSpecWITH3SAMPLES", group = "Autonomous")
+@Autonomous(name = "Blue25HangSpec3SP", group = "Autonomous")
 public class deep_auto_bluecloserhangspecwith3park extends RoboEaglesAutoBase2425 {
 
     boolean close_farther = true;
@@ -53,18 +53,26 @@ public class deep_auto_bluecloserhangspecwith3park extends RoboEaglesAutoBase242
         sleep(1000);//sleep
         power_arm = 10;//extend the arm up
         moveArm();//add in arm function
-        sleep(600);//sleep
+        sleep(550);//sleep
+
         power_arm = 0;//extend the arm up
         moveArm();//add in arm function
-        elbow_power = 0;//put the elbow up
+
+
+        elbow_power = 0.05;//put the elbow up
         moveElbow();//add in elbow function
         //Manish this was 500ms, we changed it to give it time to retract
         // this is working fine keep 1s.
         sleep(1000);//sleep
-        // Manish changing the clow opening a bit more
+
+        power_arm = -0.5;//extend the arm up
+        moveArm();//add in arm function
+        sleep(100);//sleep
+
+        // Manish changing the claw opening a bit more
         //this is because servo wires were swapped.
-        brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
-        blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
+        brClaw.setPosition(0);//open right claw...also closing for this claw is 0.2
+        blClaw.setPosition(0.45);//open left claw...also closing for this claw is 0.7
         //Original code
         //brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
         //blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
@@ -82,19 +90,18 @@ public class deep_auto_bluecloserhangspecwith3park extends RoboEaglesAutoBase242
         power_arm = -10;//extend the arm up
         moveArm();//add in arm function
         sleep(600);//sleep
-        StrafingAUTO(34,true);
+        //first strafe to go to sample after specimen
+        StrafingAUTO(32,true);
         driveStraightPID(39);
         StrafingAUTO(8,true);
         driveStraightPID(-48);
-        driveStraightPID(50);
-        StrafingAUTO(8,true);
+        driveStraightPID(44);
+        StrafingAUTO(10,true);
         driveStraightPID(-40);
-        driveStraightPID(40);
-        StrafingAUTO(6,true);
-        driveStraightPID(-35);
-        driveStraightPID(12);
-        StrafingAUTO(80,false);
-        driveStraightPID(-15);
+        //parking time
+        driveStraightPID(18);
+        StrafingAUTO(56,false);
+        driveStraightPID(-16);
         //final_park_hang(close_farther);
         sleep(1500);
     }

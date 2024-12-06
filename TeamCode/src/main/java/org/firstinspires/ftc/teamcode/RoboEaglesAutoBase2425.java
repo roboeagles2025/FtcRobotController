@@ -35,7 +35,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     public com.arcrobotics.ftclib.controller.PIDController pidDriveLeft, pidDriveRight, pidRotate;
     com.arcrobotics.ftclib.controller.PIDController pidArm;
     RevIMU gyro;
-    public final double DRIVE_SPEED_MULTIPLIER = 0.75;
+    public double DRIVE_SPEED_MULTIPLIER = 0.75;
 
     MotorEx brDriveEx, blDriveEx, flDriveEx, frDriveEx;
     private final double LEFT_SIDE_MULTIPLIER    = 1;
@@ -134,7 +134,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     void moveElbow() {
         // double elbow_power = 5; // Read the Y-axis value of the left joystick and negate it
 
-        leftElbow.setPower(elbow_power);
+        leftElbow.setPower(-elbow_power);
         rightElbow.setPower(-elbow_power);
 
     }
@@ -149,11 +149,11 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
     }
 
-    long power_factor = 2000/25;
+    long power_factor = 1000/25;
     public void StrafingAUTO(long distance, boolean turn) {
-        double  strafe_power = 0.8;
+        double  strafe_power = 1;
         if (turn == false) {
-            strafe_power = -0.8;
+            strafe_power = -1;
         }
         long speed_multiplier = distance * power_factor;
         flDriveEx.set(-strafe_power);
