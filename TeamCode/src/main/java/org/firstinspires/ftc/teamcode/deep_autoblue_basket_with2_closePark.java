@@ -10,9 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Blue25CloserBasketS2P", group = "Autonomous")
-public  class deep_auto_bluecloserbasketand3 extends RoboEaglesAutoBase2425 {
+@Autonomous(name = "FBlue25BasketS2CloserPark", group = "Autonomous")
+public  class deep_autoblue_basket_with2_closePark extends RoboEaglesAutoBase2425 {
     boolean close_farther = true;
+    boolean no_park = false;
     @Override
     public void runOpMode() {
 
@@ -24,22 +25,14 @@ public  class deep_auto_bluecloserbasketand3 extends RoboEaglesAutoBase2425 {
             //telemetry.update();
             sleep(10);
         }
-        //waitForStart();
 
-        //StrafingAUTO(24);
 
-        autonomousStartBlueBasket(true);
-        //bucketand2();
-        //turntest();
-        //autonomousStartBlueBasketTemp();
-        //telemetry.update();
+        autonomousStartBlueBasket();
 
-        //waitForStart();
-        //autonomousStartTest();
     }
 
 
-    void autonomousStartBlueBasket(boolean blue_auto) {
+    void autonomousStartBlueBasket() {
         // first routine
 
         StrafingAUTO(11, false);
@@ -52,8 +45,8 @@ public  class deep_auto_bluecloserbasketand3 extends RoboEaglesAutoBase2425 {
         turnPID(45,10);//used to be 45
 
 
-        //start of 3 samples in net zone
-        StrafingAUTO(13,true);
+        //start of 2 samples in net zone
+        StrafingAUTO(12,true);
         driveStraightPID(-32);
         StrafingAUTO(10,false);
 
@@ -62,83 +55,50 @@ public  class deep_auto_bluecloserbasketand3 extends RoboEaglesAutoBase2425 {
         driveStraightPID(-42);
         StrafingAUTO(6,false);
         driveStraightPID(38);
-
+        //
         driveStraightPID(-12);
         StrafingAUTO(56,true);
 
-        /*driveStraightPID(-38);
-        StrafingAUTO(8,false);
-        driveStraightPID(26);
-        // second routine*/
-
-        /*power_arm = -10;//detract the arm down
-        moveArm();//add in arm function
-        sleep(1300);//sleep
-        power_arm = 0;//set to 0 power for no movements
-        moveArm();//add in arm function
-        sleep(500);
-
-        // turn and extend
-        turnPID(-140,20);
-        driveStraightPID(4);
-        elbow_power = 0;
-        moveElbow();
-        power_arm = 3;
-        moveArm();//add in arm function
-        sleep(700);
-
-
-        power_arm = 0.05;//keep the arm in one place with no power
-        moveArm();//add in arm function
-        sleep(500);//sleep
-        brClaw.setPosition(0.2); // closed
-        blClaw.setPosition(0.7);
-        sleep(1000);
-        power_arm = -10;//detract the arm down
-        moveArm();//add in arm function
-        sleep(1300);//sleep
-
-        turnPID(150,20);
-        driveStraightPID(6);
-        drop_basket();
-
-        sleep(1300);//sleep
-
-         */
+        //parking time
+        /*
+        if(no_park == false) {
+            final_park_hang(close_farther);
+        }
+    */
     }
 
 
     public void drop_basket() {
         // drop sample
-        elbow_power = -4;//put the elbow up
+        elbow_power = -4;
         moveElbow();
-        sleep(200);//sleep
-        power_arm = 27;//extend the arm up //15
+        sleep(200);
+        power_arm = 27;
         moveArm();
-        sleep(2100);//sleep //1800, then changed it to 1900
+        sleep(4200);//sleep //2100 but we changed from 20:1 to 40:1
         power_arm = 0.05;//keep the arm in one place with almost no power
         moveArm();
         DRIVE_SPEED_MULTIPLIER = 0.65;
-        driveStraightPID(8);//13
-        elbow_power = 0;//put the elbow down
-        moveElbow();//add in elbow function
-        sleep(300);//sleep
-        blClaw.setPosition(0.7);//open left claw...also closing for this claw is 0.7
-        brClaw.setPosition(0.2);//open right claw...also closing for this claw is 0.2
-        sleep(1000);//sleep
+        driveStraightPID(6);
+        elbow_power = 0;
+        moveElbow();
+        sleep(300);
+        blClaw.setPosition(0.45);
+        brClaw.setPosition(0);
+        sleep(1000);
 
-        elbow_power = -4;//put the elbow up
-        moveElbow();//add in elbow function
-        //sleep(200);//sleep
+        elbow_power = -4;
+        moveElbow();
 
-        driveStraightPID(-16);//drive backwards a feet
+
+        driveStraightPID(-16);
         sleep(100);
-        power_arm = -12;//detract the arm down it also used to be -10
-        moveArm();//add in arm function
-        sleep(500);//sleep it used to be 1 second
+        power_arm = -12;//also used to be -10
+        moveArm();
+        sleep(500);
 
-        power_arm = 0;//set to 0 power for no movements
-        moveArm();//add in arm function
+        power_arm = 0;
+        moveArm();
         sleep(500);
 
 

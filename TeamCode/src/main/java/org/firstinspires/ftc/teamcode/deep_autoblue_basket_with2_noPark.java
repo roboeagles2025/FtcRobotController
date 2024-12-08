@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "Blue25FartherHangSpec", group = "Autonomous")
-public class deep_auto_bluefartherhangspec extends deep_auto_bluecloserhangspec{
+@Autonomous(name = "FBlue25BasketS2NoPark", group = "Autonomous")
+public class deep_autoblue_basket_with2_noPark extends deep_autoblue_basket_with2_closePark{
     public void runOpMode() {
-        close_farther = false;
+
         MapDevicesTesting();
         // Enable the TFOD processor for our TeamProp Detection.
         while (!isStarted() && !isStopRequested()) {
@@ -15,12 +15,8 @@ public class deep_auto_bluefartherhangspec extends deep_auto_bluecloserhangspec{
             sleep(10);
         }
         //waitForStart();
+        no_park=true;
+        autonomousStartBlueBasket();
 
-        autonomousStartBlueHangHigher(true);
-        //autonomousStartBlueBasketTemp();
-        //telemetry.update();
-
-        //waitForStart();
-        //autonomousStartTest();
     }
 }

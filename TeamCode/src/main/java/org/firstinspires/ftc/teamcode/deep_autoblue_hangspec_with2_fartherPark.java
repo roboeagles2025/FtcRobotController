@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Red25FartherHangSpec", group = "Autonomous")
-public class deep_auto_redcloserhangspec extends deep_auto_bluecloserhangspec {
+@Autonomous(name = "FBlue25HangSpec2SFartherPark", group = "Autonomous")
+public class deep_autoblue_hangspec_with2_fartherPark extends deep_autoblue_hangspec_with2_closePark {
 
 
     @Override
@@ -28,12 +28,16 @@ public class deep_auto_redcloserhangspec extends deep_auto_bluecloserhangspec {
         //waitForStart();
 
         //autonomousStartBlueHangLower();
-        autonomousStartBlueHangHigher(false);
+        close_farther = false;
+        autonomousStartBlueHangHigher();
         //telemetry.update();
 
-
+        //waitForStart();
+        //autonomousStartTest();
     }
 
+
 }
+
 
 

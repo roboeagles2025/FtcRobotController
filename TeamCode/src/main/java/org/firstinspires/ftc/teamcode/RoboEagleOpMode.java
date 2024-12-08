@@ -90,7 +90,7 @@ public Servo left_hang, right_hang;
              ELBOW_SPEED_MULT_NEW = 5;
          }*/
          //ELBOW_SPEED_MULT_NEW = 0.5;
-         ELBOW_SPEED_MULT_NEW = 1.1;
+         ELBOW_SPEED_MULT_NEW = 0.8;
         power *= ELBOW_SPEED_MULT_NEW;
         telemetry.addData("Elbow", "Power: %f", power);
 
@@ -285,8 +285,8 @@ public Servo left_hang, right_hang;
             //rightArm.setPower(100);
             rightArm.setPower();
         }*/
-        rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm*1));
-        rightArm.setPower(power_arm*1);
+        rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm*10));
+        rightArm.setPower(power_arm*10);
 
         //rightArm.setPower(power_arm);
 
