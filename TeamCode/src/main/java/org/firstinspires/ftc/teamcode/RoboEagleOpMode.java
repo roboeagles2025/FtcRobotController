@@ -22,8 +22,8 @@ public Servo left_hang, right_hang;
         frDrive = hardwareMap.dcMotor.get("fr_motor");//OFFICIAL
         brClaw = hardwareMap.servo.get("br_claw");//OFFICIAL
         blClaw = hardwareMap.servo.get("bl_claw");//OFFICIAL
-        //left_hang = hardwareMap.servo.get("left_hang");
-        //right_hang = hardwareMap.servo.get("right_hang");
+        left_hang = hardwareMap.servo.get("left_hang");
+        right_hang = hardwareMap.servo.get("right_hang");
         leftElbow = hardwareMap.dcMotor.get("left_elbow");//OFFICIAL
         rightElbow = hardwareMap.dcMotor.get("right_elbow");//OFFICIAL
         rightArm = hardwareMap.get(DcMotorEx.class, "right_arm");//OFFICIAL
@@ -67,7 +67,7 @@ public Servo left_hang, right_hang;
             checkBaseClaw();
             checkElbow();
             Hanging();
-           //checkHangWheels();
+            HangServo();
             telemetry.update();
             sleep(10);
         }
@@ -107,14 +107,14 @@ public Servo left_hang, right_hang;
 
 
         if (gamepad1.right_trigger>0) {
-            left_hang.setPosition(0.3);
-            right_hang.setPosition(0.6);
+            left_hang.setPosition(0.2);//used to 0.3
+            right_hang.setPosition(0.7);//used to 0.6
             sleep(500);
         }
 
         if (gamepad1.left_trigger>0) {
-            left_hang.setPosition(0.6);
-            right_hang.setPosition(0.3);
+            left_hang.setPosition(0.7);//used to 0.6
+            right_hang.setPosition(0.2);//used to 0.3
             sleep(500);
         }
     }
