@@ -46,7 +46,7 @@ public  class deep_autoblue_basket_with2_closePark extends RoboEaglesAutoBase242
 
 
         //start of 2 samples in net zone
-        StrafingAUTO(12,true);
+        StrafingAUTO(10,true);
         driveStraightPID(-32);
         StrafingAUTO(10,false);
 
@@ -89,13 +89,13 @@ public  class deep_autoblue_basket_with2_closePark extends RoboEaglesAutoBase242
 
         elbow_power = -4;
         moveElbow();
-
+        sleep(1000);
 
         driveStraightPID(-16);
         sleep(100);
         power_arm = -12;//also used to be -10
         moveArm();
-        sleep(500);
+        sleep(1500);
 
         power_arm = 0;
         moveArm();

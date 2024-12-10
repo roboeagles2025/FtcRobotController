@@ -49,7 +49,7 @@ public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase24
         sleep(1000);
         power_arm = 10;
         moveArm();
-        sleep(1100);//sleep used to be 550 but we changed from 20:1 to 40:1
+        sleep(1000);//sleep used to be 550 but we changed from 20:1 to 40:1
 
         power_arm = 0;
         moveArm();
@@ -85,7 +85,7 @@ public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase24
         power_arm = 0;
         moveArm();
         //first strafe to go to sample after specimen
-        StrafingAUTO(26,true);
+        StrafingAUTO(28,true);
         driveStraightPID(39);
         StrafingAUTO(9,true);
         driveStraightPID(-45);
@@ -105,11 +105,11 @@ public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase24
 
             driveStraightPID(15);
             StrafingAUTO(56,false);
-            driveStraightPID(-16);
+            driveStraightPID(-12);
         } else {
             driveStraightPID(14);
             StrafingAUTO(60,false);
-            driveStraightPID(-16);
+            driveStraightPID(-12);
         }
     }
 }

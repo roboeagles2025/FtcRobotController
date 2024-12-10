@@ -106,18 +106,21 @@ public Servo left_hang, right_hang;
     void HangServo() {
 
 
-        if (gamepad1.right_trigger>0) {
-            left_hang.setPosition(0.2);//used to 0.3
-            right_hang.setPosition(0.7);//used to 0.6
+        if (gamepad1.right_trigger>0) {//open
+            left_hang.setPosition(0.1);//used to 0.3
+            right_hang.setPosition(0.9);//used to 0.6
             sleep(500);
+            power_arm = gamepad2.left_stick_y * 3;
         }
 
-        if (gamepad1.left_trigger>0) {
-            left_hang.setPosition(0.7);//used to 0.6
-            right_hang.setPosition(0.2);//used to 0.3
+        if (gamepad1.left_trigger>0) {//close
+            left_hang.setPosition(0.9);//used to 0.6
+            right_hang.setPosition(0.1);//used to 0.3
             sleep(500);
+            power_arm = gamepad2.left_stick_y * 3;
+
         }
-    }
+    }//
     void checkDriving_turn() {
         if ((gamepad1.left_stick_y != 0) &&
                 (gamepad1.right_stick_x ==0))
