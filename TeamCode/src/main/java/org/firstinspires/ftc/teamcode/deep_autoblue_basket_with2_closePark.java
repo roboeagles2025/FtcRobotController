@@ -10,10 +10,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "FBlue25BasketS2CloserPark", group = "Autonomous")
+@Autonomous(name = "FBasketClosePark", group = "Autonomous")
 public  class deep_autoblue_basket_with2_closePark extends RoboEaglesAutoBase2425 {
     boolean close_farther = true;
     boolean no_park = false;
+    boolean with_sample = true;
     @Override
     public void runOpMode() {
 
@@ -37,34 +38,37 @@ public  class deep_autoblue_basket_with2_closePark extends RoboEaglesAutoBase242
 
         StrafingAUTO(11, false);
         driveStraightPID(18);
-        turnPID(45,20);
+        turnPID(47,20);
         //driveStraightPID(5);
         drop_basket();
-        DRIVE_SPEED_MULTIPLIER = 0.75;
-        //driveStraightPID(-15);//drive backwards 20 inches
-        turnPID(45,10);//used to be 45
+        if(with_sample) {
+            DRIVE_SPEED_MULTIPLIER = 0.75;
+            //driveStraightPID(-15);//drive backwards 20 inches
+            turnPID(47, 10);//used to be 45
 
 
-        //start of 2 samples in net zone
-        StrafingAUTO(10,true);
-        driveStraightPID(-32);
-        StrafingAUTO(10,false);
+            //start of 2 samples in net zone
+            StrafingAUTO(9, true);
+            driveStraightPID(-32);
+            StrafingAUTO(9, false);
 
-        driveStraightPID(42);
+            driveStraightPID(43);
 
-        driveStraightPID(-42);
-        StrafingAUTO(6,false);
-        driveStraightPID(38);
-        //
-        driveStraightPID(-12);
-        StrafingAUTO(56,true);
+            driveStraightPID(-42);
+            StrafingAUTO(7, false);
+            driveStraightPID(38);
+            //
+            driveStraightPID(-12);
+            StrafingAUTO(56, true);
 
-        //parking time
+            //parking time
         /*
         if(no_park == false) {
             final_park_hang(close_farther);
         }
     */
+        }
+        sleep(500);
     }
 
 
@@ -75,12 +79,12 @@ public  class deep_autoblue_basket_with2_closePark extends RoboEaglesAutoBase242
         sleep(200);
         power_arm = 27;
         moveArm();
-        sleep(4200);//sleep //2100 but we changed from 20:1 to 40:1
+        sleep(2100);//sleep //2100 but we changed from 20:1 to 40:1
         power_arm = 0.05;//keep the arm in one place with almost no power
         moveArm();
         DRIVE_SPEED_MULTIPLIER = 0.65;
-        driveStraightPID(6);
-        elbow_power = 0;
+        driveStraightPID(10);
+        elbow_power = 0.5;
         moveElbow();
         sleep(300);
         blClaw.setPosition(0.45);

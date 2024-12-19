@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import java.util.List;
 
-@Autonomous(name = "Blue Farther New", group = "Autonomous")
+@Autonomous(name = "XXBlue Farther New", group = "Autonomous")
 public class BlueFartherNew extends RoboEaglesAutonomousBaseNew {
 
     @Override

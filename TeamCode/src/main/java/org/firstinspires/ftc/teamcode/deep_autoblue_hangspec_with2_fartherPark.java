@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "FBlue25HangSpec2SFartherPark", group = "Autonomous")
+@Autonomous(name = "FHangSpecFartherPark", group = "Autonomous")
 public class deep_autoblue_hangspec_with2_fartherPark extends deep_autoblue_hangspec_with2_closePark {
 
 

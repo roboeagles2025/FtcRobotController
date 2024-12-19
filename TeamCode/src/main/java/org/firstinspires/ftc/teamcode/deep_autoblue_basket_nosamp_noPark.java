@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "XXXFBasketNoPark", group = "Autonomous")
-public class deep_autoblue_basket_with2_noPark extends deep_autoblue_basket_with2_closePark{
+@Autonomous(name = "FBasketNoSampNoPark", group = "Autonomous")
+public class deep_autoblue_basket_nosamp_noPark extends deep_autoblue_basket_with2_closePark{
     public void runOpMode() {
 
         MapDevicesTesting();
@@ -15,6 +15,7 @@ public class deep_autoblue_basket_with2_noPark extends deep_autoblue_basket_with
             sleep(10);
         }
         //waitForStart();
+        with_sample = false;
         no_park=true;
         autonomousStartBlueBasket();
 

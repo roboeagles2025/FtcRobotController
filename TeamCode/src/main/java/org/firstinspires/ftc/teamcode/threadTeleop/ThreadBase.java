@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RoboEaglesAutoBase2425;
 import org.firstinspires.ftc.teamcode.threadTeleop.ThreadHandler;
-@Autonomous(name = "Blue25Thread", group = "Autonomous")
+@Autonomous(name = "XXBlue25Thread", group = "Autonomous")
 public class ThreadBase extends RoboEaglesAutoBase2425 {
     MotorGroup lGroup, rGroup;
     public com.arcrobotics.ftclib.controller.PIDController pidDriveLeft, pidDriveRight, pidRotate;

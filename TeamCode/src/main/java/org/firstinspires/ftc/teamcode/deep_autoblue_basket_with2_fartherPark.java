@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "FBlue25BasketS2FartherPark", group = "Autonomous")
+@Autonomous(name = "XXXFBasketFartherPark", group = "Autonomous")
 public class deep_autoblue_basket_with2_fartherPark  extends deep_autoblue_basket_with2_closePark{
     public void runOpMode() {
 

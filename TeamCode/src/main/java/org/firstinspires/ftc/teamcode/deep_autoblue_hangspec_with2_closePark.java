@@ -10,12 +10,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "FBlue25HangSpec2SCloserPark", group = "Autonomous")
+@Autonomous(name = "FHangSpecClosePark", group = "Autonomous")
 public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase2425 {
 
     boolean close_farther = true;
     boolean no_park = false;
-
+    boolean with_sample = true;
+    boolean close_simple = true;
     @Override
     public void runOpMode() {
 
@@ -41,21 +42,21 @@ public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase24
     double distance;
 
     void autonomousStartBlueHangHigher() {
-
+        DRIVE_SPEED_MULTIPLIER = 0.675;
         elbow_power = -0.5;
         moveElbow();
-        driveStraightPID(24);
+        driveStraightPID(26);
         //sleep(1000);
         sleep(1000);
         power_arm = 10;
         moveArm();
-        sleep(1000);//sleep used to be 550 but we changed from 20:1 to 40:1
+        sleep(550);//sleep used to be 550 but we changed from 20:1 to 40:1
 
         power_arm = 0;
         moveArm();
 
 
-        elbow_power = 0.05;
+        elbow_power = 0.1;
         moveElbow();
         //This was 500ms, we changed it to give it time to retract
         // this is working fine keep 1s.
@@ -77,39 +78,50 @@ public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase24
         elbow_power = -0.8;
         moveElbow();
         sleep(500);
-        driveStraightPID(-12);
+        DRIVE_SPEED_MULTIPLIER = 0.75;
+        driveStraightPID(-11);
         sleep(500);
         power_arm = -10;
         moveArm();
         sleep(600);
         power_arm = 0;
         moveArm();
-        //first strafe to go to sample after specimen
-        StrafingAUTO(28,true);
-        driveStraightPID(39);
-        StrafingAUTO(9,true);
-        driveStraightPID(-45);
-        driveStraightPID(45);
-        StrafingAUTO(10,true);
-        driveStraightPID(-38);
+     if(with_sample) {
+         //first strafe to go to sample after specimen
+         StrafingAUTO(27, true);
+         driveStraightPID(39);
+         StrafingAUTO(9, true);
+         driveStraightPID(-47);
+         driveStraightPID(47);
+         StrafingAUTO(11, true);
+         driveStraightPID(-40);
+         if(no_park == false) {
+             final_park_hang(close_farther);
+         }
+         sleep(1500);
+     }
+     else {
+         if (close_simple) {
+          StrafingAUTO(16, false);
+          driveStraightPID(-7);
+         }
+         else {
+             StrafingAUTO(32, false);
+             driveStraightPID(-7);
+         }
+             }
 
-        //parking time
-        if(no_park == false) {
-            final_park_hang(close_farther);
-        }
-        sleep(1500);
+
     }
-
     public void final_park_hang(boolean close) {
         if (close) {
-
-            driveStraightPID(15);
-            StrafingAUTO(56,false);
-            driveStraightPID(-12);
+            driveStraightPID(13);
+            StrafingAUTO(52,false);
+            driveStraightPID(-13);
         } else {
-            driveStraightPID(14);
-            StrafingAUTO(60,false);
-            driveStraightPID(-12);
+            driveStraightPID(13);
+            StrafingAUTO(65,false);
+            driveStraightPID(-10);
         }
     }
 }

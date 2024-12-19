@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Red25CloserBasket", group = "Autonomous")
+@Autonomous(name = "XXRed25CloserBasket", group = "Autonomous")
 public class deep_auto_redcloser extends deep_auto_bluecloser {
 
     //public DcMotorEx armMotor;

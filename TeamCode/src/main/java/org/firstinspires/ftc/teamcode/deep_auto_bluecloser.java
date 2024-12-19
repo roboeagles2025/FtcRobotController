@@ -30,7 +30,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Blue25CloserBasket", group = "Autonomous")
+@Autonomous(name = "XXBlue25CloserBasket", group = "Autonomous")
 public  class deep_auto_bluecloser extends RoboEaglesAutoBase2425 {
     boolean close_farther = true;
     @Override

@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "Blue Closer New", group = "Autonomous")
+@Autonomous(name = "XXBlue Closer New", group = "Autonomous")
 public class BlueCloserNew extends RoboEaglesAutonomousBaseNew {
 
     @Override

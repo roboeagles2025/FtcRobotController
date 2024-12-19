@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.RenderNode;
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -22,8 +24,10 @@ public Servo left_hang, right_hang;
         frDrive = hardwareMap.dcMotor.get("fr_motor");//OFFICIAL
         brClaw = hardwareMap.servo.get("br_claw");//OFFICIAL
         blClaw = hardwareMap.servo.get("bl_claw");//OFFICIAL
-        left_hang = hardwareMap.servo.get("left_hang");
-        right_hang = hardwareMap.servo.get("right_hang");
+        //left_hang = hardwareMap.servo.get("left_hang");
+        //right_hang = hardwareMap.servo.get("right_hang");
+        bottomrClaw = hardwareMap.servo.get("specl_claw");//OFFICIAL
+        bottomlClaw = hardwareMap.servo.get("specr_claw");//OFFICIAL
         leftElbow = hardwareMap.dcMotor.get("left_elbow");//OFFICIAL
         rightElbow = hardwareMap.dcMotor.get("right_elbow");//OFFICIAL
         rightArm = hardwareMap.get(DcMotorEx.class, "right_arm");//OFFICIAL
@@ -35,6 +39,8 @@ public Servo left_hang, right_hang;
     private double MOTOR_SPEED_MULT = 0.3;//used to be 0.7
     public DcMotor leftElbow, rightElbow;
     public DcMotorEx leftArm, rightArm;
+    public Servo bottomrClaw;
+    public Servo bottomlClaw;
     //public DcMotorEx hangWheel;
     private final double CLAW_INCREMENT = 0.02;
     private final double BOTTOM_RIGHT_CLAW_MAX = 0.8;
@@ -67,7 +73,8 @@ public Servo left_hang, right_hang;
             checkBaseClaw();
             checkElbow();
             Hanging();
-            HangServo();
+            checkBottomClaw();
+           //HangServo();
             telemetry.update();
             sleep(10);
         }
@@ -274,6 +281,28 @@ public Servo left_hang, right_hang;
         if (close_servo) {
             brClaw.setPosition(0.45);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0);
+            sleep(500);
+            /*brClaw.setPosition(0.15);//NEVER CHANGE THIS CODE!!!!!!!
+            blClaw.setPosition(0.75);
+            sleep(500);*/
+        }
+    }
+    void checkBottomClaw() {
+        boolean open_servo = gamepad2.x;    // Close fingers
+        boolean close_servo = gamepad2.y;     // open fingers
+        telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
+        if (open_servo) {
+            bottomrClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
+            bottomlClaw.setPosition(0.7);
+            sleep(500);
+            /*brClaw.setPosition(0.55);//NEVER CHANGE THIS CODE!!!!!!!
+            blClaw.setPosition(0.25);
+            sleep(500);*/
+        }
+
+        if (close_servo) {
+            bottomrClaw.setPosition(0.7);//NEVER CHANGE THIS CODE!!!!!!!
+            bottomlClaw.setPosition(0);
             sleep(500);
             /*brClaw.setPosition(0.15);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.75);
