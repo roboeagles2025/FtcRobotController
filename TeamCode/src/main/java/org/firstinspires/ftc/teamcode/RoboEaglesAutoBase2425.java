@@ -48,6 +48,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     private final long go_straight_time_const = 25000;
     private final double DEGREE_PER_SEC_NEW = 44;
     public double power_arm, current_arm_pos;
+    public Servo bottomrClaw;
+    public Servo bottomlClaw;
     double elbow_power = 5;
     int turn_value = 1;
     @Override
@@ -72,6 +74,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         brDriveEx = new MotorEx(hardwareMap, "br_motor");
         brClaw = hardwareMap.servo.get("br_claw");
         blClaw = hardwareMap.servo.get("bl_claw");
+        bottomrClaw = hardwareMap.servo.get("specl_claw");//OFFICIAL
+        bottomlClaw = hardwareMap.servo.get("specr_claw");//OFFICIAL
         leftPower = 10;
         rightPower = 10;
         leftElbow = hardwareMap.dcMotor.get("left_elbow");//OFFICIAL
@@ -124,12 +128,9 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         pidDriveRight.setTolerance(30, 20);
 
         // Initialize the PID controller for turning
-        pidRotate = new PIDController(.006, .00008, 0.0000005);
+        pidRotate = new PIDController(.006, .00008, 0.000001);
 
     }
-
-
-
 
     void moveElbow() {
         // double elbow_power = 5; // Read the Y-axis value of the left joystick and negate it
@@ -267,6 +268,56 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         rGroup.stopMotor();
         sleep(500);
     }
+
+    /**
+     * Method to spin on central axis to point in a new direction.
+     * Move will stop if either of these conditions occur:
+     * 1) Move gets to the heading (angle)
+     * 2) Driver stops the opmode running.
+     *
+     * @param TurnSpeed Desired MAX speed of turn. (range 0 to +1.0)
+     * @param angle Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     * 0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     * If a relative angle is required, add/subtract from current heading.
+     */
+    public void Turning_Still(double TurnSpeed, double angle) {
+        double absAngle = Math.abs (angle);						// Absolute value of the distance that will be using for all the calculations
+        double altTurnSpeedLeft = TurnSpeed * LEFT_SIDE_MULTIPLIER;	// value of the speed for LEFT side motors adjusted by respective modifier
+        double altTurnSpeedRight = TurnSpeed * RIGHT_SIDE_MULTIPLIER;	// value of the speed for RIGHT side motors adjusted by respective modifier
+
+
+        double stopPower = 0.0;
+        long baseTime = 1000; // base time for which robot turns 45 degrees at full speed
+        long timeToTurn = 0;
+
+        if (angle == 0.0) {
+            // Zero angle means we are done
+            return;
+        }
+
+        if (angle > 0.0) {
+            // clockwise turn, we only move left side motors
+            rightPower = altTurnSpeedRight * -1.0;
+            leftPower = altTurnSpeedLeft;
+        } else {
+            // counter clockwise turn, we only move right side motors
+            rightPower = altTurnSpeedRight;
+            leftPower = altTurnSpeedLeft * -1.0;
+        }
+
+        // how do we calculate the time:
+        // We use assumption that it turns 45 degree at full speed for 1000 milliseconds
+        // we would need to confirm and may change baseTime to something else later
+        timeToTurn = (long) Math.round(ONE_SECOND * (absAngle / DEGREE_PER_SEC) / altTurnSpeedLeft);
+
+        moveSidesSame(timeToTurn, leftPower, rightPower);
+
+        //************************
+        //completely stop
+        //************************
+        moveAllWheels(0,0);
+    }
+
     @Override
     void placePurplePixelLeft() {
 
@@ -279,8 +330,6 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
     @Override
     void placePurplePixelRight() {
-
-
 
     }
 }

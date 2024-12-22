@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "FHangSpecClosePark", group = "Autonomous")
-public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase2425 {
+@Autonomous(name = "TurningImprovements", group = "Autonomous")
+public class Turning_Improvements extends RoboEaglesAutoBase2425 {
 
     boolean close_farther = true;
     boolean no_park = false;
@@ -31,19 +31,23 @@ public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase24
         //waitForStart();
 
         //autonomousStartBlueHangLower();
-        autonomousStartBlueHangHigher();
+        //autonomousStartBlueHangHigher();
         //telemetry.update();
-
+        practice_turning();
+        sleep(500);
         //waitForStart();
         //autonomousStartTest();
     }
 
+    void practice_turning() {
+        turnPID(90,20);
+    }
 
     double distance;
 
     void autonomousStartBlueHangHigher() {
         DRIVE_SPEED_MULTIPLIER = 0.675;
-        elbow_power = 0.5;
+        elbow_power = -0.5;
         moveElbow();
         driveStraightPID(26);
         //sleep(1000);
@@ -56,7 +60,7 @@ public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase24
         moveArm();
 
 
-        elbow_power = -0.1;
+        elbow_power = 0.1;
         moveElbow();
         //This was 500ms, we changed it to give it time to retract
         // this is working fine keep 1s.
@@ -75,7 +79,7 @@ public class deep_autoblue_hangspec_with2_closePark extends RoboEaglesAutoBase24
         //brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
         //blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
         sleep(1200);
-        elbow_power = 0.8;
+        elbow_power = -0.8;
         moveElbow();
         sleep(500);
         DRIVE_SPEED_MULTIPLIER = 0.75;

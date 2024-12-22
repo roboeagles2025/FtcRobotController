@@ -84,7 +84,7 @@ public Servo left_hang, right_hang;
     }
 
      void checkElbow() {
-        double power = -gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
+        double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
          double prev_power = 0;
         double ELBOW_SPEED_MULT_NEW;
         // if (power_arm >0 ) {
@@ -272,7 +272,7 @@ public Servo left_hang, right_hang;
         if (open_servo) {
             brClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.45);
-            sleep(500);
+            //sleep(500);
             /*brClaw.setPosition(0.55);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.25);
             sleep(500);*/
@@ -294,7 +294,7 @@ public Servo left_hang, right_hang;
         if (open_servo) {
             bottomrClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
             bottomlClaw.setPosition(0.7);
-            sleep(500);
+            //sleep(500);
             /*brClaw.setPosition(0.55);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.25);
             sleep(500);*/
