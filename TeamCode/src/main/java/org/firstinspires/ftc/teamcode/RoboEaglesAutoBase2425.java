@@ -86,6 +86,18 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         MapDevicesPIDs();
 
     }
+    public void RoboEagleTurn(int angle){
+        double speed_multiplier = 0.5;
+        flDriveEx.set(-speed_multiplier);
+        frDriveEx.set(speed_multiplier*1.5);
+        blDriveEx.set(-speed_multiplier);
+        brDriveEx.set(speed_multiplier*1.5);
+        sleep(angle*6);
+        flDriveEx.set(0);
+        frDriveEx.set(0);
+        blDriveEx.set(0);
+        brDriveEx.set(0);
+    }
     // mappng for all PID required hardware
     public void MapDevicesPIDs(){
         gyro = new RevIMU(hardwareMap);
@@ -128,7 +140,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         pidDriveRight.setTolerance(30, 20);
 
         // Initialize the PID controller for turning
-        pidRotate = new PIDController(.006, .00008, 0.000001);
+       // pidRotate = new PIDController(.006, .00008, 0.000001);
+        pidRotate = new PIDController(.006, .00005, 0.000000);
 
     }
 

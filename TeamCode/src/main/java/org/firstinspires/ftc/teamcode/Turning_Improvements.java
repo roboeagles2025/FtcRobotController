@@ -38,12 +38,28 @@ public class Turning_Improvements extends RoboEaglesAutoBase2425 {
         //waitForStart();
         //autonomousStartTest();
     }
-
+    double distance;
+    public void turnPID(int angle, int tolerance) {
+        double speed_multiplier = 0.53;
+        if (angle<0) {
+            speed_multiplier = -0.53;
+        }
+        flDriveEx.set(-speed_multiplier);
+        frDriveEx.set(speed_multiplier*1.5);
+        blDriveEx.set(-speed_multiplier);
+        brDriveEx.set(speed_multiplier*1.5);
+        sleep(Math.abs(angle)*6);
+        flDriveEx.set(0);
+        frDriveEx.set(0);
+        blDriveEx.set(0);
+        brDriveEx.set(0);
+        sleep(500);
+    }
     void practice_turning() {
         turnPID(90,20);
     }
 
-    double distance;
+
 
     void autonomousStartBlueHangHigher() {
         DRIVE_SPEED_MULTIPLIER = 0.675;

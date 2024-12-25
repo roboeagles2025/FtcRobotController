@@ -48,8 +48,8 @@ public  abstract class RoboEaglesAutonomousBase extends RoboEaglesBase {
     // Wheels configuration
     private final int ONE_SECOND = 1000;
     private final double INCHES_PER_SECOND = 56;
-    private final double LEFT_SIDE_MULTIPLIER    = 1;
-    private final double RIGHT_SIDE_MULTIPLIER   = 1;
+    private final double LEFT_SIDE_MULTIPLIER    = 10;
+    private final double RIGHT_SIDE_MULTIPLIER   = 10;
     private final double TURN_MAX_POWER = 0.5;
     private final double DRIVE_MAX_POWER = 0.75;
     private final int ZERO_POWER = 0;

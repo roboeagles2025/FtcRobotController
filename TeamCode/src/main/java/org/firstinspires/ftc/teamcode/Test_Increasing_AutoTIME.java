@@ -28,6 +28,9 @@ public class Test_Increasing_AutoTIME extends RoboEaglesAutoBase2425 {
             //telemetry.update();
             sleep(10);
         }
+
+        //turntest();
+
         //waitForStart();
         StrafingAUTO(11, false);
         driveStraightPID(14);
@@ -50,7 +53,6 @@ public class Test_Increasing_AutoTIME extends RoboEaglesAutoBase2425 {
         }
         driveStraightPID(10);
         drop_basket();
-
         //autonomousStartBlueHangLower();
         //TestingAutoTime();
 
@@ -130,8 +132,24 @@ public class Test_Increasing_AutoTIME extends RoboEaglesAutoBase2425 {
     }
     public void turntest()  {
         driveStraightPID(4);
-        turnPID(-42,20);
+       // turnPID(-42,20);
+        Turning_Still(80, 90);
         sleep(500);
+    }
+    void moveAllWheels (long timeToMove, double speed) {
+
+        flDriveEx.set(speed);
+        blDriveEx.set(speed);
+        frDriveEx.set(speed);
+        brDriveEx.set(speed);
+        sleep(timeToMove);
+    }
+    void moveSidesSame (long timeToMove, double speedLeft, double speedRight) {
+        flDriveEx.set(speedLeft);
+        blDriveEx.set(speedLeft);
+        frDriveEx.set(speedRight);
+        brDriveEx.set(speedRight);
+        sleep(timeToMove);
     }
     double distance;
 

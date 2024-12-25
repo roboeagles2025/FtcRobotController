@@ -32,6 +32,7 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
 
         //autonomousStartBlueHangLower();
         autonomousStartBlueHangHigher();
+        sleep(500);
         //telemetry.update();
 
         //waitForStart();
@@ -39,44 +40,50 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
     }
 
 
-    double distance;
 
+    public void turnPID(int angle, int tolerance) {
+        double speed_multiplier = 0.58;
+        if (angle<0) {
+            speed_multiplier = -0.58;
+        }
+        flDriveEx.set(-speed_multiplier);
+        frDriveEx.set(speed_multiplier*1.5);
+        blDriveEx.set(-speed_multiplier);
+        brDriveEx.set(speed_multiplier*1.5);
+        sleep(Math.abs(angle)*6);
+        flDriveEx.set(0);
+        frDriveEx.set(0);
+        blDriveEx.set(0);
+        brDriveEx.set(0);
+        sleep(500);
+    }
     void autonomousStartBlueHangHigher() {
-        DRIVE_SPEED_MULTIPLIER = 0.675;
+        //Start of first specimen pick up
+        DRIVE_SPEED_MULTIPLIER = 0.5; //0.675;
+        brClaw.setPosition(0);
+        blClaw.setPosition(0.45);
+        sleep(1000);
         elbow_power = 0.5;
         moveElbow();
         driveStraightPID(26);
-        //sleep(1000);
         power_arm = 10;
         moveArm();
-        sleep(700);//sleep used to be 550 but we changed from 20:1 to 40:1
-
+        sleep(550);
         power_arm = 0;
         moveArm();
-
         elbow_power = -0.1;
         moveElbow();
-        //This was 500ms, we changed it to give it time to retract
-        // this is working fine keep 1s.
-        sleep(500);//sleep
-
-        /*
-        power_arm = -0.5;
-        moveArm();
-        sleep(100);
-*/
-        //Changing the claw opening a bit more
-        //This is because servo wires were swapped.
+        sleep(600);
         brClaw.setPosition(0.45);
         blClaw.setPosition(0);
-        //Original code
-        //brClaw.setPosition(0.7);//open right claw...also closing for this claw is 0.2
-        //blClaw.setPosition(0.2);//open left claw...also closing for this claw is 0.7
         sleep(1200);
         elbow_power = 0.8;
         moveElbow();
         sleep(500);
-        DRIVE_SPEED_MULTIPLIER = 0.75;
+        //DRIVE_SPEED_MULTIPLIER = 0.75;
+
+
+        //start of 2nd specimen pickup
         driveStraightPID(-11);
         sleep(500);
         power_arm = -10;
@@ -84,15 +91,52 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
         sleep(600);
         power_arm = 0;
         moveArm();
-        StrafingAUTO(20,false);
         turnPID(-90,20);
+        driveStraightPID(32);
         turnPID(-90,20);
-        driveStraightPID(12);
+        driveStraightPID(14);
+
         bottomrClaw.setPosition(0);
         bottomlClaw.setPosition(0.7);
+        sleep(1000);
+        power_arm = 10;
+        moveArm();
+        sleep(100);
+        power_arm = 0;
+        moveArm();
+
         elbow_power = 0.8;
         moveElbow();
         sleep(1000);
+        driveStraightPID(-12);
+        turnPID(-90,20);
+        driveStraightPID(38);
+        turnPID(-90,20);
+        driveStraightPID(12);
+        power_arm = 10;
+        moveArm();
+        sleep(1000);
+        power_arm = 0;
+        moveArm();
+        elbow_power = -0.1;
+        moveElbow();
+        sleep(550);
+        bottomrClaw.setPosition(0.7);
+        bottomlClaw.setPosition(0);
+        sleep(1000);
+        elbow_power = 0.8;
+        moveElbow();
+        sleep(500);
+        //Start of Park
+        driveStraightPID(-11);
+        sleep(500);
+        power_arm = -10;
+        moveArm();
+        sleep(600);
+        power_arm = 0;
+        moveArm();
+        driveStraightPID(-8);
+        StrafingAUTO(20,false);
     }
     public void final_park_hang(boolean close) {
         if (close) {
