@@ -152,7 +152,22 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         rightElbow.setPower(-elbow_power);
 
     }
-
+    void OpenBaseClaw(){
+        brClaw.setPosition(0);
+        blClaw.setPosition(0.45);
+    }
+    void CloseBaseClaw(){
+        brClaw.setPosition(0.45);
+        blClaw.setPosition(0);
+    }
+    void CloseBottomClaw(){
+        bottomrClaw.setPosition(0.4);
+        bottomlClaw.setPosition(0);
+    }
+    void OpenBottomClaw(){
+        bottomrClaw.setPosition(0);
+        bottomlClaw.setPosition(0.4);
+    }
     void moveArm() {
 
         rightArm.setTargetPosition(40);

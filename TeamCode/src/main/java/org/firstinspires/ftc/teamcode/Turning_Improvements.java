@@ -33,30 +33,56 @@ public class Turning_Improvements extends RoboEaglesAutoBase2425 {
         //autonomousStartBlueHangLower();
         //autonomousStartBlueHangHigher();
         //telemetry.update();
-        practice_turning();
+        practice_movement();
         sleep(500);
+        telemetry.update();
         //waitForStart();
         //autonomousStartTest();
     }
     double distance;
     public void turnPID(int angle, int tolerance) {
-        double speed_multiplier = 0.53;
+        double speed_multiplier = 0.275;
         if (angle<0) {
-            speed_multiplier = -0.53;
+            speed_multiplier = -0.275;
         }
         flDriveEx.set(-speed_multiplier);
         frDriveEx.set(speed_multiplier*1.5);
         blDriveEx.set(-speed_multiplier);
         brDriveEx.set(speed_multiplier*1.5);
-        sleep(Math.abs(angle)*6);
+        sleep(Math.abs(angle)*12);
         flDriveEx.set(0);
         frDriveEx.set(0);
         blDriveEx.set(0);
         brDriveEx.set(0);
         sleep(500);
     }
+    public void drivemove() {
+        double speed_multiplier = 0.275;
+        flDriveEx.resetEncoder();
+        blDriveEx.resetEncoder();
+        brDriveEx.resetEncoder();
+        frDriveEx.resetEncoder();
+        telemetry.addData("Drive PID", "FL: %d, Fr: %d, Bl: %d, Br: %d", flDriveEx.getCurrentPosition(), frDriveEx.getCurrentPosition(), blDriveEx.getCurrentPosition(), brDriveEx.getCurrentPosition());
+        flDriveEx.set(speed_multiplier);
+        frDriveEx.set(speed_multiplier);
+        blDriveEx.set(speed_multiplier);
+        brDriveEx.set(speed_multiplier);
+        sleep(6000);
+        flDriveEx.set(0);
+        frDriveEx.set(0);
+        blDriveEx.set(0);
+        brDriveEx.set(0);
+        sleep(500);
+    }
+    void practice_movement() {
+        drivemove();
+        telemetry.addData("Drive PID", "FL: %d, Fr: %d, Bl: %d, Br: %d", flDriveEx.getCurrentPosition(), frDriveEx.getCurrentPosition(), blDriveEx.getCurrentPosition(), brDriveEx.getCurrentPosition());
+    }
     void practice_turning() {
+        for (int turn = 0; turn < 12;turn++) {
         turnPID(90,20);
+        sleep(100);
+        }
     }
 
 

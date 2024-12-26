@@ -181,6 +181,7 @@ public Servo left_hang, right_hang;
             frDrive.setPower(-1 * right_stick_x);
             blDrive.setPower(right_stick_x);
             brDrive.setPower(-1 * -right_stick_x);
+            telemetry.addData("Drive PID", "FL: %d, Fr: %d, Bl: %d, Br: %d", flDrive.getCurrentPosition(), frDrive.getCurrentPosition(), blDrive.getCurrentPosition(), brDrive.getCurrentPosition());
             //original code
             /*flDrive.setPower((left_stick_y-left_stick_x)-right_stick_x);
             frDrive.setPower(-1 * ((left_stick_y+left_stick_x)+right_stick_x));
@@ -271,7 +272,7 @@ public Servo left_hang, right_hang;
         telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
         if (open_servo) {
             brClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
-            blClaw.setPosition(0.8);//0.45
+            blClaw.setPosition(0.45);//0.45
             //sleep(500);
             /*brClaw.setPosition(0.55);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.25);
@@ -279,7 +280,7 @@ public Servo left_hang, right_hang;
         }
 
         if (close_servo) {
-            brClaw.setPosition(0.8);//NEVER CHANGE THIS CODE!!!!!!!
+            brClaw.setPosition(0.45);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0);
             //sleep(500);
             /*brClaw.setPosition(0.15);//NEVER CHANGE THIS CODE!!!!!!!
@@ -293,7 +294,7 @@ public Servo left_hang, right_hang;
         telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
         if (open_servo) {
             bottomrClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
-            bottomlClaw.setPosition(0.7);
+            bottomlClaw.setPosition(0.4);
             //sleep(500);
             /*brClaw.setPosition(0.55);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.25);
@@ -301,7 +302,7 @@ public Servo left_hang, right_hang;
         }
 
         if (close_servo) {
-            bottomrClaw.setPosition(0.7);//NEVER CHANGE THIS CODE!!!!!!!
+            bottomrClaw.setPosition(0.45);//NEVER CHANGE THIS CODE!!!!!!!
             bottomlClaw.setPosition(0);
             //sleep(500);
             /*brClaw.setPosition(0.15);//NEVER CHANGE THIS CODE!!!!!!!
