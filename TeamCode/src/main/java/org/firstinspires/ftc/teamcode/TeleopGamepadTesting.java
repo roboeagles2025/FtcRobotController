@@ -87,11 +87,11 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
 
 
     }
-
+    double ELBOW_SPEED_MULT_NEW;
      void checkElbow() {
         double power = -gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
          double prev_power = 0;
-        double ELBOW_SPEED_MULT_NEW;
+
         // if (power_arm >0 ) {
          /*if(current_arm_pos < 0)
          {
@@ -101,8 +101,8 @@ public class TeleopGamepadTesting extends RoboEaglesBase {
          {
              ELBOW_SPEED_MULT_NEW = 5;
          }*/
-         ELBOW_SPEED_MULT_NEW = 2;
-        power /= ELBOW_SPEED_MULT_NEW;
+         ELBOW_SPEED_MULT_NEW = 5;
+        power = ELBOW_SPEED_MULT_NEW * power;
         telemetry.addData("Elbow", "Power: %f", power);
 
         //rightElbow.setPower(power);

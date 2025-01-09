@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.graphics.RenderNode;
 
+import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -24,6 +25,7 @@ public Servo left_hang, right_hang;
         frDrive = hardwareMap.dcMotor.get("fr_motor");//OFFICIAL
         brClaw = hardwareMap.servo.get("br_claw");//OFFICIAL
         blClaw = hardwareMap.servo.get("bl_claw");//OFFICIAL
+        middleElbow = hardwareMap.dcMotor.get("left_elbow1");
         //left_hang = hardwareMap.servo.get("left_hang");
         //right_hang = hardwareMap.servo.get("right_hang");
         bottomrClaw = hardwareMap.servo.get("specl_claw");//OFFICIAL
@@ -34,13 +36,17 @@ public Servo left_hang, right_hang;
         //hangWheel =  hardwareMap.get(DcMotorEx.class, "wheels");
         rightElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         leftElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
+        gyro = new RevIMU(hardwareMap);
+        gyro.init();
+        resetIMU();
     }
 
     private double MOTOR_SPEED_MULT = 0.3;//used to be 0.7
-    public DcMotor leftElbow, rightElbow;
+    public DcMotor leftElbow, rightElbow, middleElbow;
     public DcMotorEx leftArm, rightArm;
     public Servo bottomrClaw;
     public Servo bottomlClaw;
+    RevIMU gyro;
     //public DcMotorEx hangWheel;
     private final double CLAW_INCREMENT = 0.02;
     private final double BOTTOM_RIGHT_CLAW_MAX = 0.8;
@@ -57,7 +63,7 @@ public Servo left_hang, right_hang;
     boolean Hang = false;
     boolean start_hang_wheel = false;
     //private double MOTOR_SPEED_MULT = 0.7;
-
+    boolean hang_servo_value = false;
     public void runOpMode() {
         MapDevicesTesting();
 
@@ -74,7 +80,9 @@ public Servo left_hang, right_hang;
             checkElbow();
             Hanging();
             checkBottomClaw();
-           //HangServo();
+            HangServo();
+            RobotOrientation();
+
             telemetry.update();
             sleep(10);
         }
@@ -82,11 +90,11 @@ public Servo left_hang, right_hang;
 
 
     }
-
+    double ELBOW_SPEED_MULT_NEW;
      void checkElbow() {
         double power = gamepad2.right_stick_y; // Read the Y-axis value of the left joystick and negate it
          double prev_power = 0;
-        double ELBOW_SPEED_MULT_NEW;
+
         // if (power_arm >0 ) {
          /*if(current_arm_pos < 0)
          {
@@ -97,34 +105,45 @@ public Servo left_hang, right_hang;
              ELBOW_SPEED_MULT_NEW = 5;
          }*/
          //ELBOW_SPEED_MULT_NEW = 0.5;
-         ELBOW_SPEED_MULT_NEW = 0.8;
+         ELBOW_SPEED_MULT_NEW = 1;
         power *= ELBOW_SPEED_MULT_NEW;
-        telemetry.addData("Elbow", "Power: %f", power);
+        telemetry.addData("Elbow", "Power: %f", leftElbow.getPower(),rightElbow.getPower(),middleElbow.getPower());
 
         //rightElbow.setPower(power);
-       //  if(power <= 0)
-        // {
+       if(hang_servo_value == true)
+         {
+             //ELBOW_SPEED_MULT_NEW = 1;
+             power = power*100;
+
+         }
+             telemetry.addData("Elbow", "Power: %f", power);
              leftElbow.setPower(-power);
              rightElbow.setPower(-power);
-       //  }
+             middleElbow.setPower(-power);
+
 
 
     }
+    boolean armIncrease = false;
     void HangServo() {
 
 
         if (gamepad1.right_trigger>0) {//open
-            left_hang.setPosition(0.1);//used to 0.3
+            hang_servo_value = true;
+            armIncrease = true;
+            /*left_hang.setPosition(0.1);//used to 0.3
             right_hang.setPosition(0.9);//used to 0.6
             sleep(500);
-            power_arm = gamepad2.left_stick_y * 3;
+            power_arm = gamepad2.left_stick_y * 3;*/
         }
 
         if (gamepad1.left_trigger>0) {//close
-            left_hang.setPosition(0.9);//used to 0.6
+            hang_servo_value = true;
+            armIncrease = true;
+            /*left_hang.setPosition(0.9);//used to 0.6
             right_hang.setPosition(0.1);//used to 0.3
             sleep(500);
-            power_arm = gamepad2.left_stick_y * 3;
+            power_arm = gamepad2.left_stick_y * 3;*/
 
         }
     }//
@@ -175,13 +194,17 @@ public Servo left_hang, right_hang;
     }
     public void ArcadeDrive() {
         double right_stick_x = gamepad1.right_stick_x;
-
+        //double right_stick_x = 1
         if  (Math.abs(right_stick_x) > 0.1) {
-            flDrive.setPower(-right_stick_x);
-            frDrive.setPower(-1 * right_stick_x);
+            if(right_stick_x < 0) {right_stick_x = -1;}
+            else if(right_stick_x > 0) {right_stick_x = 1;}
+            else {right_stick_x = 0;}
+
+            flDrive.setPower(-right_stick_x*0.94);
+            frDrive.setPower(-1 * right_stick_x*0.97);
             blDrive.setPower(right_stick_x);
-            brDrive.setPower(-1 * -right_stick_x);
-            telemetry.addData("Drive PID", "FL: %d, Fr: %d, Bl: %d, Br: %d", flDrive.getCurrentPosition(), frDrive.getCurrentPosition(), blDrive.getCurrentPosition(), brDrive.getCurrentPosition());
+            brDrive.setPower(-1 * -right_stick_x*0.95);
+            telemetry.addData("Strafing Each Motor Power", "FL: %f, Fr: %f, Bl: %f, Br: %f ", flDrive.getPower(), frDrive.getPower(), blDrive.getPower(), brDrive.getPower());
             //original code
             /*flDrive.setPower((left_stick_y-left_stick_x)-right_stick_x);
             frDrive.setPower(-1 * ((left_stick_y+left_stick_x)+right_stick_x));
@@ -288,13 +311,20 @@ public Servo left_hang, right_hang;
             sleep(500);*/
         }
     }
+    public void RobotOrientation(){
+        //imu = hardwareMap.get(BNO055IMU.class,"imu");
+        double targetAngle = gyro.getAbsoluteHeading();
+        telemetry.addData("Imu, imu = %f", targetAngle);
+        gyro.getHeading();
+        telemetry.addData("heading = %f", gyro.getHeading());
+    }
     void checkBottomClaw() {
         boolean open_servo = gamepad2.x;    // Close fingers
         boolean close_servo = gamepad2.y;     // open fingers
         telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
         if (open_servo) {
             bottomrClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
-            bottomlClaw.setPosition(0.4);
+            bottomlClaw.setPosition(0.45);
             //sleep(500);
             /*brClaw.setPosition(0.55);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.25);
@@ -310,30 +340,22 @@ public Servo left_hang, right_hang;
             sleep(500);*/
         }
     }
+
     int hang_mult = 1;
     void checkArm() {
-
+        if (armIncrease == true) {
+          hang_mult = 2;
+        }
         power_arm = gamepad2.left_stick_y * hang_mult;
+
         /*if (power_arm != 0) {
             //rightArm.setPower(100);
             rightArm.setPower();
         }*/
         rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm*10));
         rightArm.setPower(power_arm*10);
-
+        telemetry.addData("arm, arm = %f",rightArm.getPower());
         //rightArm.setPower(power_arm);
-
-    }
-    double power_hang_wheel;
-    void checkHangWheels() {
-        start_hang_wheel = gamepad2.left_bumper && gamepad2.right_bumper;
-        if(start_hang_wheel == true) {
-            power_hang_wheel = 10;
-            hang_mult = 1;
-        }
-        //rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm));
-        //hangWheel.setPower(-power_hang_wheel);
-        //rightArm.setPower(power_arm/);
 
     }
 

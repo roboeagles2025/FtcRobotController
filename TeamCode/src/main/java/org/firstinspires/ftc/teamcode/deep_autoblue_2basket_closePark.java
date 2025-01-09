@@ -19,6 +19,8 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
     public void runOpMode() {
 
         MapDevicesTesting();
+        CloseBaseClaw();
+        OpenBottomClaw();
         // Enable the TFOD processor for our TeamProp Detection.
         while (!isStarted() && !isStopRequested()) {
             //   detectTeamProp();
@@ -51,29 +53,28 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
     }
     void autonomousStartBlueBasket() {
         // first routine
-
-        StrafingAUTO(11, false);
+        DRIVE_SPEED_MULTIPLIER = 0.5;
+        /*StrafingAUTO(11, false);
         driveStraightPID(18);
         turnPID(45,20);
         //driveStraightPID(5);
         drop_basket();
         sleep(500);
-        turnPID(-150,20);
-        driveStraightPID(10);
-        elbow_power = -0.1;
+        turnPID(-145,20);
+        driveStraightPID(11);
+        elbow_power = -0.05;
         moveElbow();
         sleep(1400);
-        brClaw.setPosition(0);
-        blClaw.setPosition(0.45);
+        CloseBaseClaw();
         sleep(1200);
-        elbow_power = 4;
+        elbow_power = 1;
         moveElbow();
         sleep(500);
 
 
         //start of delivering 2nd sample to the basket
-        turnPID(168,20);
-        driveStraightPID(10);
+        turnPID(170,20);
+        driveStraightPID(8);
         power_arm = 27;
         moveArm();
         sleep(1200);
@@ -82,8 +83,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         elbow_power = -0.5;
         moveElbow();
         sleep(300);
-        brClaw.setPosition(0.45);
-        blClaw.setPosition(0);
+        OpenBaseClaw();
         sleep(1000);
         elbow_power = 4;
         moveElbow();
@@ -92,10 +92,15 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         sleep(100);
         power_arm = -12;//also used to be -10
         moveArm();
-        sleep(800);
+        sleep(1200);
         power_arm = 0;
         moveArm();
         sleep(500);
+        //start of going to 3 point hang*/
+        turnPID(80,20);
+        strafe_power = 2;
+        StrafingAUTO(70,true);
+        driveStraightPID(10);
     }
 
 
@@ -114,8 +119,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         elbow_power = -0.5;
         moveElbow();
         sleep(300);
-        brClaw.setPosition(0.45);
-        blClaw.setPosition(0);
+        OpenBaseClaw();
         sleep(1000);
 
         elbow_power = 4;

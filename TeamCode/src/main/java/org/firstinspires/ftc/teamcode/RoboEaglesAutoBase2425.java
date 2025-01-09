@@ -141,8 +141,9 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
         // Initialize the PID controller for turning
        // pidRotate = new PIDController(.006, .00008, 0.000001);
-        pidRotate = new PIDController(.006, .00005, 0.000000);
-
+        //pidRotate = new PIDController(.006, .00005, 0);
+        //pidRotate = new PIDController(.0036,0.01532, 0.000211);
+        pidRotate = new PIDController(.008,0.00925, 0.0);
     }
 
     void moveElbow() {
@@ -161,12 +162,12 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         blClaw.setPosition(0);
     }
     void CloseBottomClaw(){
-        bottomrClaw.setPosition(0.4);
+        bottomrClaw.setPosition(0.45);
         bottomlClaw.setPosition(0);
     }
     void OpenBottomClaw(){
         bottomrClaw.setPosition(0);
-        bottomlClaw.setPosition(0.4);
+        bottomlClaw.setPosition(0.45);
     }
     void moveArm() {
 
@@ -177,12 +178,12 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
 
     }
-
+    double  strafe_power = 1;
     long power_factor = 1000/25;
     public void StrafingAUTO(long distance, boolean turn) {
-        double  strafe_power = 1;
+        //  strafe_power = 1;
         if (turn == false) {
-            strafe_power = -1;
+            strafe_power = -1*strafe_power;
         }
         long speed_multiplier = distance * power_factor;
         flDriveEx.set(-strafe_power);
@@ -197,7 +198,22 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         sleep(500);
 
     }
-
+    public void TurnWithoutPID(int angle, int tolerance) {
+        double speed_multiplier = 0.58;
+        if (angle<0) {
+            speed_multiplier = -0.58;
+        }
+        flDriveEx.set(-speed_multiplier);
+        frDriveEx.set(speed_multiplier*1.5);
+        blDriveEx.set(-speed_multiplier);
+        brDriveEx.set(speed_multiplier*1.5);
+        sleep(Math.abs(angle)*6);
+        flDriveEx.set(0);
+        frDriveEx.set(0);
+        blDriveEx.set(0);
+        brDriveEx.set(0);
+        sleep(500);
+    }
     public void driveStraightPID(double distance) {
         /*
         I don't think that we need the correction PID because as we are tracking the distance traveled by both the left set of wheels
