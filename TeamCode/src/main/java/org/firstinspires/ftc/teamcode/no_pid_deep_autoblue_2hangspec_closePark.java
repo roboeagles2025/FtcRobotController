@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
@@ -11,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "HangSpec2ClosePark", group = "Autonomous")
-public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
+@Autonomous(name = "NoPIDHangSpec2ClosePark", group = "Autonomous")
+public class no_pid_deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
 
     boolean close_farther = true;
     boolean no_park = false;
@@ -69,7 +67,7 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
         turnPID(targetAngle*-1,20);
     }
     //5.25
-    /*
+
     public void driveStraightPID(double distance) {
         double speed_multiplier = 0.8;
         int sleep_multipler = 23;
@@ -97,8 +95,8 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
         brDriveEx.set(0);
         sleep(500);
     }
+    
 
-     */
     public void turnPID(int angle, int tolerance) {
         double speed_multiplier = 0.58;
 
@@ -125,14 +123,14 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
     void autonomousStartBlueHangHigherNew() {
         //Start of first specimen pick up
         DRIVE_SPEED_MULTIPLIER = 0.5; //0.675 Setting up the first speed to be slow to decrease inefficiencies
-        driveStraightPID(26.4);//go forward to the rung
+        driveStraightPID(26);//go forward to the rung
         power_arm = 10;//lift up the arm to place specimen
         moveArm();//lift up the arm to place specimen
         sleep(650);//sleep
         power_arm = 0;//disengage arm to make the arm stay in place
         moveArm();//disengage arm to make the arm stay in place
         sleep(500);
-        driveStraightPID(2.1);//go forward to the rung
+        driveStraightPID(2);//go forward to the rung
         power_arm = -10;//push down the arm to properly pick up the specimen from the zone
         moveArm();//push down the arm to properly pick up the specimen from the zone
         sleep(150);//sleep;

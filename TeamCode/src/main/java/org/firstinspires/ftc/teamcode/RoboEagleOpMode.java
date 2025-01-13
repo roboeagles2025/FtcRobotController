@@ -26,8 +26,8 @@ public Servo left_hang, right_hang;
         brClaw = hardwareMap.servo.get("br_claw");//OFFICIAL
         blClaw = hardwareMap.servo.get("bl_claw");//OFFICIAL
         middleElbow = hardwareMap.dcMotor.get("left_elbow1");
-        //left_hang = hardwareMap.servo.get("left_hang");
-        //right_hang = hardwareMap.servo.get("right_hang");
+        left_hang = hardwareMap.servo.get("left_hang");
+        right_hang = hardwareMap.servo.get("right_hang");
         bottomrClaw = hardwareMap.servo.get("specl_claw");//OFFICIAL
         bottomlClaw = hardwareMap.servo.get("specr_claw");//OFFICIAL
         leftElbow = hardwareMap.dcMotor.get("left_elbow");//OFFICIAL
@@ -128,23 +128,20 @@ public Servo left_hang, right_hang;
     void HangServo() {
 
 
-        if (gamepad1.right_trigger>0) {//open
+        if (gamepad2.right_trigger>0) {//open
             hang_servo_value = true;
             armIncrease = true;
-            /*left_hang.setPosition(0.1);//used to 0.3
+            left_hang.setPosition(0.1);//used to 0.3
             right_hang.setPosition(0.9);//used to 0.6
             sleep(500);
-            power_arm = gamepad2.left_stick_y * 3;*/
         }
 
-        if (gamepad1.left_trigger>0) {//close
+        if (gamepad2.left_trigger>0) {//close
             hang_servo_value = true;
             armIncrease = true;
-            /*left_hang.setPosition(0.9);//used to 0.6
+            left_hang.setPosition(0.9);//used to 0.6
             right_hang.setPosition(0.1);//used to 0.3
             sleep(500);
-            power_arm = gamepad2.left_stick_y * 3;*/
-
         }
     }//
     void checkDriving_turn() {
@@ -303,7 +300,7 @@ public Servo left_hang, right_hang;
         }
 
         if (close_servo) {
-            brClaw.setPosition(0.45);//NEVER CHANGE THIS CODE!!!!!!!
+            brClaw.setPosition(0.43);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0);
             //sleep(500);
             /*brClaw.setPosition(0.15);//NEVER CHANGE THIS CODE!!!!!!!
@@ -344,9 +341,9 @@ public Servo left_hang, right_hang;
     int hang_mult = 1;
     void checkArm() {
         if (armIncrease == true) {
-          hang_mult = 2;
+          hang_mult = 20;
         }
-        power_arm = gamepad2.left_stick_y * hang_mult;
+        power_arm = -gamepad2.left_stick_y * hang_mult;
 
         /*if (power_arm != 0) {
             //rightArm.setPower(100);

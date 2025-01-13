@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -42,6 +43,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     private final double RIGHT_SIDE_MULTIPLIER   = 1;
     public DcMotor leftElbow, rightElbow;
     public DcMotorEx rightArm;
+    public double battery_power;
+    VoltageSensor battery_volt;
     private long TimeToRun;
     private final int ONE_SECOND = 1000;
     private final double DEGREE_PER_SEC = 380 ;
@@ -76,6 +79,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         blClaw = hardwareMap.servo.get("bl_claw");
         bottomrClaw = hardwareMap.servo.get("specl_claw");//OFFICIAL
         bottomlClaw = hardwareMap.servo.get("specr_claw");//OFFICIAL
+
         leftPower = 10;
         rightPower = 10;
         leftElbow = hardwareMap.dcMotor.get("left_elbow");//OFFICIAL
@@ -102,6 +106,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     public void MapDevicesPIDs(){
         gyro = new RevIMU(hardwareMap);
         gyro.init();
+        telemetry.addData("Init imu = %f",  gyro.getAbsoluteHeading());
+
 
         // Group left motors and right motors together
         lGroup = new MotorGroup(flDriveEx, blDriveEx);
@@ -143,7 +149,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
        // pidRotate = new PIDController(.006, .00008, 0.000001);
         //pidRotate = new PIDController(.006, .00005, 0);
         //pidRotate = new PIDController(.0036,0.01532, 0.000211);
-        pidRotate = new PIDController(.008,0.00925, 0.0);
+        pidRotate = new PIDController(.01,0.00003, 0);// most recent
+        //org.firstinspires.ftc.teamcode.PIDController pidRotate = new org.firstinspires.ftc.teamcode.PIDController(.003, .00003, 0);
     }
 
     void moveElbow() {
@@ -158,7 +165,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         blClaw.setPosition(0.45);
     }
     void CloseBaseClaw(){
-        brClaw.setPosition(0.45);
+        brClaw.setPosition(0.4);
         blClaw.setPosition(0);
     }
     void CloseBottomClaw(){
@@ -174,11 +181,11 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         rightArm.setTargetPosition(40);
         //armMotor.setTargetPosition(armMotor.getTargetPosition() + (int) (power * 5));
         //leftArm.setPower(power);
-        rightArm.setPower(-power_arm);
+        rightArm.setPower(power_arm);
 
 
     }
-    double  strafe_power = 1;
+    double  strafe_power = 0.5;
     long power_factor = 1000/25;
     public void StrafingAUTO(long distance, boolean turn) {
         //  strafe_power = 1;
