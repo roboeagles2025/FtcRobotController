@@ -27,9 +27,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         power_arm = 0;//push down the arm to properly pick up the specimen from the zone
         moveArm();//push down the arm to properly pick up the specimen from the zone
         sleep(100);//sleep;
-        elbow_power = 4;
-        moveElbow();
-        sleep(200);
+
         // Enable the TFOD processor for our TeamProp Detection.
         while (!isStarted() && !isStopRequested()) {
             //   detectTeamProp();
@@ -46,9 +44,43 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
     double distance;
     public void turnPID(int angle, int tolerance) {
         double speed_multiplier = 0.58;
-        if (angle<0) {
-            speed_multiplier = -0.58;
+        double angle_nonzer_subtract = 0;
+        /*
+        if (battery_power > 13) {
+            speed_multiplier = 0.53;
         }
+        if (battery_power > 13.75){
+            speed_multiplier = 0.53;
+            angle_nonzer_subtract = 0.53;
+        }else if(battery_power > 13.5) {
+            speed_multiplier = 0.55;
+            angle_nonzer_subtract = 0.55;
+        }else if (battery_power > 13.25) {
+            speed_multiplier = 0.495;
+            angle_nonzer_subtract = 0.495;
+        } else if(battery_power > 13) {
+            speed_multiplier = 0.51;
+            angle_nonzer_subtract = 0.51;
+        } else if (battery_power > 12.75) {
+            speed_multiplier = 0.53 ;
+            angle_nonzer_subtract = 0.53;
+        } else if (battery_power > 12.50) {
+            speed_multiplier = 0.55;
+            angle_nonzer_subtract = 0.55;
+        } else if (battery_power > 12.25) {
+            speed_multiplier = 0.57;
+            angle_nonzer_subtract = 0.57;
+        } else if (battery_power > 12) {
+            speed_multiplier = 0.58;
+            angle_nonzer_subtract = 0.58;
+        } else  {
+            speed_multiplier = 0.45;
+        }
+        if (angle<0) {
+            speed_multiplier = -angle_nonzer_subtract;
+        }
+
+         */
         flDriveEx.set(-speed_multiplier);
         frDriveEx.set(speed_multiplier*1.5);
         blDriveEx.set(-speed_multiplier);
@@ -65,13 +97,16 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         DRIVE_SPEED_MULTIPLIER = 0.5;
         StrafingAUTO(11, false);
         driveStraightPID(18);
-        turnPID(45,20);
+        elbow_power = 4;
+        moveElbow();
+        sleep(200);
+        turnPID(55,20);
         //driveStraightPID(5);
         drop_basket();
         //sleep(500); //SM
-        turnPID(215,20);
+        turnPID(235,20);//235
         // turnPID(240,20);
-        driveStraightPID(11);
+        driveStraightPID(14);
         elbow_power = -0.3;
         moveElbow();
         sleep(1500); //1550
@@ -84,7 +119,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
 
         //start of delivering 2nd sample to the basket
         turnPID(170,20);
-        driveStraightPID(9);
+        driveStraightPID(11);
         power_arm = 27;
         moveArm();
         sleep(1400);

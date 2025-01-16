@@ -101,13 +101,36 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
      */
     public void turnPID(int angle, int tolerance) {
         double speed_multiplier = 0.58;
-
-        if(battery_power > 12)
+        double angle_nonzer_subtract = 0;
+        if(battery_power > 13)
         {
             speed_multiplier = 0.53;
         }
+
+        if(battery_power > 13.5) {
+            speed_multiplier = 0.48;
+            angle_nonzer_subtract = 0.48;
+        }else if (battery_power > 13.25) {
+            speed_multiplier = 0.495;
+            angle_nonzer_subtract = 0.495;
+        } else if(battery_power > 13) {
+            speed_multiplier = 0.51;
+            angle_nonzer_subtract = 0.51;
+        } else if (battery_power > 12.75) {
+            speed_multiplier = 0.53 ;
+            angle_nonzer_subtract = 0.53;
+        } else if (battery_power > 12.50) {
+            speed_multiplier = 0.55;
+            angle_nonzer_subtract = 0.55;
+        } else if (battery_power > 12.25) {
+            speed_multiplier = 0.57;
+            angle_nonzer_subtract = 0.57;
+        } else if (battery_power > 12) {
+            speed_multiplier = 0.58;
+            angle_nonzer_subtract = 0.58;
+        }
         if (angle<0) {
-            speed_multiplier = -0.58;
+            speed_multiplier = -angle_nonzer_subtract;
         }
         flDriveEx.set(-speed_multiplier);
         frDriveEx.set(speed_multiplier*1.5);
@@ -125,14 +148,15 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
     void autonomousStartBlueHangHigherNew() {
         //Start of first specimen pick up
         DRIVE_SPEED_MULTIPLIER = 0.5; //0.675 Setting up the first speed to be slow to decrease inefficiencies
-        driveStraightPID(26.4);//go forward to the rung
+        driveStraightPID(27.4);//go forward to the rung
         power_arm = 10;//lift up the arm to place specimen
         moveArm();//lift up the arm to place specimen
         sleep(650);//sleep
-        power_arm = 0;//disengage arm to make the arm stay in place
+        power_arm = 0.01;//disengage arm to make the arm stay in place
         moveArm();//disengage arm to make the arm stay in place
         sleep(500);
         driveStraightPID(2.1);//go forward to the rung
+        sleep(500);
         power_arm = -10;//push down the arm to properly pick up the specimen from the zone
         moveArm();//push down the arm to properly pick up the specimen from the zone
         sleep(150);//sleep;
@@ -145,7 +169,7 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
         elbow_power = 0.8;//lifts up elbow to grab the 2nd specimen
         moveElbow();//lifts up elbow to grab the 2nd specimen
         sleep(100);//sleep
-        driveStraightPID(-11);// go backward
+        driveStraightPID(-12);// go backward
         sleep(500);//sleep
         power_arm = -10;//push down the arm to properly pick up the specimen from the zone
         moveArm();//push down the arm to properly pick up the specimen from the zone
@@ -158,30 +182,35 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
         driveStraightPID(-34);//go forward
         turnPID(95,20);//turn
         //turnPID(95,20);//turn
-        driveStraightPID(19);//go forward
+        driveStraightPID(18.5);//go forward
         CloseBottomClaw();
         sleep(1000);//sleep
         power_arm = 10;// lift up arm to make sure the clip doesn't get stuck and break on the wall
         moveArm();// lift up arm to make sure the clip doesn't get stuck and break on the wall
         sleep(100);//sleep
+        power_arm = 0.1;//keep the arm in place
+        moveArm();//keep the arm in place
+        sleep(150);
         power_arm = 0;//keep the arm in place
         moveArm();//keep the arm in place
         elbow_power = 0.8;//move the elbow up so you can position properly on the rung
         moveElbow();//move the elbow up so you can position properly on the rung
         sleep(1000);//sleep
-        driveStraightPID(-12.5);//go backward
+        driveStraightPID(-9.75);//go backward
         turnPID(95,20);//turn // used to be 95
         driveStraightPID(-40);//go forward
         turnPID(95,20);//turn // used to be 9
+
         //going to the rungs
         driveStraightPID(17);//go forward
         power_arm = 10;//bring the arm up
         moveArm();//bring the arm up
         sleep(1250);//sleep
-        power_arm = 0;//keep the arm in place
+        power_arm = 0.1;//keep the arm in place
         moveArm();//keep the arm in place
         sleep(500);
         driveStraightPID(2);
+        sleep(500);
         power_arm = -10;//push down the arm to properly pick up the specimen from the zone
         moveArm();//push down the arm to properly pick up the specimen from the zone
         sleep(150);//sleep;
@@ -190,13 +219,17 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
         sleep(500);
         OpenBottomClaw();
         sleep(1000);//sleep
+        power_arm = 1;//push down the arm to properly pick up the specimen from the zone
+        moveArm();//push down the arm to properly pick up the specimen from the zone
+        sleep(150);//sleep;
         driveStraightPID(-1);//go forward to the rung
         elbow_power = 0.8;//bring elbow up
         moveElbow();//bring elbow up
         sleep(800);
+
         //Start of Park
         driveStraightPID(-11);//go backward
-        sleep(500);//sleep
+        //sleep(500);//sleep
         power_arm = -10;//push the arm down
         moveArm();//push the arm down
         sleep(600);//sleep

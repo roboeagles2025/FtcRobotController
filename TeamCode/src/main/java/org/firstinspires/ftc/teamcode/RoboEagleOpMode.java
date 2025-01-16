@@ -107,7 +107,9 @@ public Servo left_hang, right_hang;
          //ELBOW_SPEED_MULT_NEW = 0.5;
          ELBOW_SPEED_MULT_NEW = 1;
         power *= ELBOW_SPEED_MULT_NEW;
-        telemetry.addData("Elbow", "Power: %f", leftElbow.getPower(),rightElbow.getPower(),middleElbow.getPower());
+        telemetry.addData("Elbow left", "Power: %f", leftElbow.getPower());
+         telemetry.addData("Elbow right ", "Power: %f", rightElbow.getPower());
+         telemetry.addData("Elbow center", "Power: %f", middleElbow.getPower());
 
         //rightElbow.setPower(power);
        if(hang_servo_value == true)
@@ -193,14 +195,14 @@ public Servo left_hang, right_hang;
         double right_stick_x = gamepad1.right_stick_x;
         //double right_stick_x = 1
         if  (Math.abs(right_stick_x) > 0.1) {
-            if(right_stick_x < 0) {right_stick_x = -1;}
+            /*if(right_stick_x < 0) {right_stick_x = -1;}
             else if(right_stick_x > 0) {right_stick_x = 1;}
-            else {right_stick_x = 0;}
+            else {right_stick_x = 0;}*/
 
-            flDrive.setPower(-right_stick_x*0.94);
-            frDrive.setPower(-1 * right_stick_x*0.97);
+            flDrive.setPower(-right_stick_x);
+            frDrive.setPower(-1 * right_stick_x);
             blDrive.setPower(right_stick_x);
-            brDrive.setPower(-1 * -right_stick_x*0.95);
+            brDrive.setPower(-1 * -right_stick_x);
             telemetry.addData("Strafing Each Motor Power", "FL: %f, Fr: %f, Bl: %f, Br: %f ", flDrive.getPower(), frDrive.getPower(), blDrive.getPower(), brDrive.getPower());
             //original code
             /*flDrive.setPower((left_stick_y-left_stick_x)-right_stick_x);
@@ -350,8 +352,14 @@ public Servo left_hang, right_hang;
             rightArm.setPower();
         }*/
         rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm*10));
-        rightArm.setPower(power_arm*10);
         telemetry.addData("arm, arm = %f",rightArm.getPower());
+
+        if (power_arm > -0) {
+            rightArm.setPower(power_arm*0.8);// extend
+        }
+        else {
+            rightArm.setPower(power_arm*1); // down
+        }
         //rightArm.setPower(power_arm);
 
     }
