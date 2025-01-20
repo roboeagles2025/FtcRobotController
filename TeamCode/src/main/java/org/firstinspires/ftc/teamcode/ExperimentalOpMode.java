@@ -1,19 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.RenderNode;
-
 import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 @TeleOp(name="RoboEagleOpMode", group="OpMode")
-public class RoboEagleOpMode extends RoboEaglesBase {
+public class ExperimentalOpMode extends RoboEaglesBase {
 
 //LET ME KNOW IF YOU NEED COMMENTS FOR BETTER LEARNING
 public Servo left_hang, right_hang;
@@ -89,6 +87,16 @@ public Servo left_hang, right_hang;
 
 
 
+    }
+    public void drive_experiment(){
+        float forandback = -gamepad1.left_stick_y;
+        float turn = gamepad1.left_stick_x;
+        float strafe = gamepad1.right_stick_x;
+
+        flDrive.setPower(forandback + turn + strafe);
+        frDrive.setPower(forandback - turn - strafe);
+        blDrive.setPower(forandback + turn - strafe);
+        brDrive.setPower(forandback - turn + strafe);
     }
     double ELBOW_SPEED_MULT_NEW;
      void checkElbow() {

@@ -90,6 +90,63 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         MapDevicesPIDs();
 
     }
+
+    public void turnWoPID(int angle) {
+
+        double speed_multiplier = 0.55;
+        double angle_nonzer_subtract = 0;
+
+        if (battery_power > 13) {
+            speed_multiplier = 0.53;
+        }
+
+        if (battery_power > 13.8) {
+            speed_multiplier = 0.465;
+            angle_nonzer_subtract = 0.465;
+        }else if (battery_power > 13.75){
+            speed_multiplier = 0.47;
+            angle_nonzer_subtract = 0.47;
+        }else if(battery_power > 13.5) {
+            speed_multiplier = 0.475;
+            angle_nonzer_subtract = 0.475;
+        }else if (battery_power > 13.25) {
+            speed_multiplier = 0.49;
+            angle_nonzer_subtract = 0.49;
+        } else if(battery_power > 13) {
+            speed_multiplier = 0.51;
+            angle_nonzer_subtract = 0.51;
+        } else if (battery_power > 12.75) {
+            speed_multiplier = 0.53 ;
+            angle_nonzer_subtract = 0.53;
+        } else if (battery_power > 12.50) {
+            speed_multiplier = 0.55;
+            angle_nonzer_subtract = 0.55;
+        } else if (battery_power > 12.25) {
+            speed_multiplier = 0.57;
+            angle_nonzer_subtract = 0.57;
+        } else if (battery_power > 12) {
+            speed_multiplier = 0.58;
+            angle_nonzer_subtract = 0.58;
+        } else  {
+            speed_multiplier = 0.45;
+        }
+        if (angle<0) {
+            speed_multiplier = -angle_nonzer_subtract;
+        }
+        telemetry.addData("speed = %f", speed_multiplier);
+        telemetry.update();
+        flDriveEx.set(-speed_multiplier);
+        frDriveEx.set(speed_multiplier*1.5);
+        blDriveEx.set(-speed_multiplier);
+        brDriveEx.set(speed_multiplier*1.5);
+        sleep(Math.abs(angle)*6);
+        flDriveEx.set(0);
+        frDriveEx.set(0);
+        blDriveEx.set(0);
+        brDriveEx.set(0);
+        sleep(500);
+    }
+
     public void RoboEagleTurn(int angle){
         double speed_multiplier = 0.5;
         flDriveEx.set(-speed_multiplier);
@@ -149,7 +206,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
        // pidRotate = new PIDController(.006, .00008, 0.000001);
         //pidRotate = new PIDController(.006, .00005, 0);
         //pidRotate = new PIDController(.0036,0.01532, 0.000211);
-        pidRotate = new PIDController(.01,0.00003, 0);// most recent
+        //pidRotate = new PIDController(.01,0.00003, 0);// most recent
+        pidRotate = new PIDController(.01,0.0003, 0);// most recent
         //org.firstinspires.ftc.teamcode.PIDController pidRotate = new org.firstinspires.ftc.teamcode.PIDController(.003, .00003, 0);
     }
 
@@ -165,7 +223,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         blClaw.setPosition(0.45);
     }
     void CloseBaseClaw(){
-        brClaw.setPosition(0.4);
+        brClaw.setPosition(0.43);
         blClaw.setPosition(0);
     }
     void CloseBottomClaw(){
