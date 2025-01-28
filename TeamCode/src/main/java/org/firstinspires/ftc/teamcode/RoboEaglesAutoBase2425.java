@@ -280,10 +280,6 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         sleep(500);
     }
     public void driveStraightPID(double distance) {
-        /*
-        I don't think that we need the correction PID because as we are tracking the distance traveled by both the left set of wheels
-        and the right set of wheels, if the robot starts to turn, the encoder values will differ and will automatically be corrected
-         */
         lGroup.resetEncoder();
         rGroup.resetEncoder();
         gyro.reset();
@@ -292,11 +288,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         int targetTicks = inchesToEncoderTicksInt(distance);
         pidDriveLeft.setSetPoint(targetTicks);
         pidDriveRight.setSetPoint(targetTicks);
-        // I'm not sure whether FTCLib will be able to convert distance to encoder ticks,
-        // If it doesn't work we can move over the encoderTicksToInches and inchesToEncoderTicks functions
         double speed = DRIVE_SPEED_MULTIPLIER; // Base speed that will be multiplied by the error
-        // Previously used FTCLib's PositionControl, but that won't work as it isn't a PID Controller, only a PController,
-        // so it gets stuck at lower speeds that the integral would have solved
         while (!pidDriveLeft.atSetPoint() && !pidDriveRight.atSetPoint() && opModeIsActive()) {
             double lPos = lGroup.getPositions().get(0);
             double rPos = rGroup.getPositions().get(0);
@@ -348,7 +340,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         return (int) (inches * INCHES_TO_TICK_MULTIPLIER);
     }
 
-    public void turnPID(double angle, int tolerance) {
+    public void turnPIDOld(double angle, int tolerance) {
         lGroup.resetEncoder();
         rGroup.resetEncoder();
 
@@ -375,6 +367,130 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         }
         lGroup.stopMotor();
         rGroup.stopMotor();
+        sleep(500);
+    }
+    public void driveStraightPID_timer(double distance) {
+        /*
+        I don't think that we need the correction PID because as we are tracking the distance traveled by both the left set of wheels
+        and the right set of wheels, if the robot starts to turn, the encoder values will differ and will automatically be corrected
+         */
+        lGroup.resetEncoder();
+        rGroup.resetEncoder();
+        gyro.reset();
+        pidDriveLeft.reset();
+        pidDriveRight.reset();
+        int targetTicks = inchesToEncoderTicksInt(distance);
+        pidDriveLeft.setSetPoint(targetTicks);
+        pidDriveRight.setSetPoint(targetTicks);
+        // I'm not sure whether FTCLib will be able to convert distance to encoder ticks,
+        // If it doesn't work we can move over the encoderTicksToInches and inchesToEncoderTicks functions
+        double speed = DRIVE_SPEED_MULTIPLIER; // Base speed that will be multiplied by the error
+        double time_var = 1000;
+        // Previously used FTCLib's PositionControl, but that won't work as it isn't a PID Controller, only a PController,
+        // so it gets stuck at lower speeds that the integral would have solved
+
+
+        lGroup.set(0.5);
+        rGroup.set(0.5);
+        sleep(1100);
+
+        lGroup.stopMotor();
+        rGroup.stopMotor();
+        sleep(100);
+    }
+    public void turnPID_central(int angle, int tolerance) {
+        double speed_multiplier = 0.60;
+        double angle_nonzer_subtract = 0.60;
+        battery_power = battery_volt.getVoltage();
+        if (battery_power > 13.9) {
+            speed_multiplier = 0.50;
+            angle_nonzer_subtract = 0.505;
+        } else if (battery_power > 13.75){
+            speed_multiplier = 0.505;
+            angle_nonzer_subtract = 0.505;
+        }else if(battery_power > 13.5) {
+            speed_multiplier = 0.51;
+            angle_nonzer_subtract = 0.51;
+        }else if (battery_power > 13.25) {
+            speed_multiplier = 0.455;
+            angle_nonzer_subtract = 0.455;
+        } else if(battery_power > 13) {
+            speed_multiplier = 0.47;
+            angle_nonzer_subtract = 0.47;
+        } else if (battery_power > 12.75) {
+            speed_multiplier = 0.485;
+            angle_nonzer_subtract = 0.485;
+        } else if (battery_power > 12.50) {
+            speed_multiplier = 0.51;
+            angle_nonzer_subtract = 0.51;
+        } else if (battery_power >12.35) {
+            speed_multiplier = 0.515;
+            angle_nonzer_subtract = 0.515;
+        } else if (battery_power > 12.25) {
+            speed_multiplier = 0.52;
+            angle_nonzer_subtract = 0.52;
+        } else if (battery_power > 12) {
+            speed_multiplier = 0.535;
+            angle_nonzer_subtract = 0.535;
+        } else  if (battery_power > 11){
+            speed_multiplier = 0.55;
+            angle_nonzer_subtract = 0.55;
+        } else {
+            speed_multiplier = 0.57;
+            angle_nonzer_subtract = 0.57;
+        }
+        if (angle<0) {
+            speed_multiplier = -angle_nonzer_subtract;
+        }
+
+        telemetry.addData("motor power = %f","Battery power = %f", speed_multiplier, battery_power);
+        telemetry.update();
+
+        flDriveEx.set(-speed_multiplier*1.32);
+        frDriveEx.set(speed_multiplier*1.32);
+        blDriveEx.set(-speed_multiplier*1.32);
+        brDriveEx.set(speed_multiplier*1.32);
+        sleep(Math.abs(angle)*6);
+        flDriveEx.set(0);
+        frDriveEx.set(0);
+        blDriveEx.set(0);
+        brDriveEx.set(0);
+        sleep(100);
+    }
+
+    public void turnWPID(double angle, int tolerance) {
+        int time_lapsed = 60;
+        lGroup.resetEncoder();
+        rGroup.resetEncoder();
+        pidRotate.reset();
+        gyro.reset();
+        pidRotate.setSetPoint(angle);
+        //pidRotate.setTolerance(tolerance, 5);
+        pidRotate.setTolerance(tolerance, tolerance);
+        while ((!pidRotate.atSetPoint() && opModeIsActive()) &&  (time_lapsed != 0)) {
+        //while (!pidRotate.atSetPoint() && opModeIsActive()) {
+            double heading = gyro.getHeading();
+            if (heading < -180)
+                heading += 360;
+            else if (heading > 180)
+                heading -= 360;
+            double power = pidRotate.calculate(heading);
+            if (power > 0)
+                power = Range.clip(power, 0.2, 1);
+            else
+                power = Range.clip(power, -1, -0.2);
+            telemetry.addData("New Turn PID", "Target angle: %f, Current: %f, Power: %f", angle, gyro.getHeading(), power);
+            telemetry.update();
+            lGroup.set(-power);
+            rGroup.set(power);
+            //sleep(10);
+            sleep(10);
+            time_lapsed -=1;
+        }
+        /*lGroup.stopMotor();
+        rGroup.stopMotor();*/
+        lGroup.set(0.01);
+        rGroup.set(0.01);
         sleep(500);
     }
 

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@TeleOp(name="RoboEagleOpMode", group="OpMode")
+@TeleOp(name="ExperimentalOpMode", group="OpMode")
 public class ExperimentalOpMode extends RoboEaglesBase {
 
 //LET ME KNOW IF YOU NEED COMMENTS FOR BETTER LEARNING

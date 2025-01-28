@@ -352,17 +352,17 @@ public Servo left_hang, right_hang;
             rightArm.setPower();
         }*/
         rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm*10));
-        telemetry.addData("arm, arm = %f",rightArm.getPower());
 
         if (power_arm > -0) {
-            rightArm.setPower(power_arm*0.8);// extend
+            rightArm.setPower(power_arm*10);// extend
         }
         else if (power_arm < 0) {
-            rightArm.setPower(power_arm*1);// extend
+            rightArm.setPower(power_arm*10);// extend
         }
         else {
             rightArm.setPower(0.1); // down
         }
+        telemetry.addData("arm, arm = %f",rightArm.getPower());
         //rightArm.setPower(power_arm);
 
     }

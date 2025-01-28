@@ -18,6 +18,7 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
     boolean no_park = false;
     boolean with_sample = true;
     boolean close_simple = true;
+    boolean with_pid = true;
     @Override
     public void runOpMode() {
 
@@ -71,8 +72,8 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
         turnPID(targetAngle*-1,20);
     }
     //5.25
-    /*
-    public void driveStraightPID(double distance) {
+
+    public void driveStraightwithoutPID(double distance) {
         double speed_multiplier = 0.8;
         int sleep_multipler = 23;
         if(distance < 0) {
@@ -99,9 +100,23 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
         brDriveEx.set(0);
         sleep(500);
     }
+    /*
+    public void driveStraightPID(double distance) {
+        if (distance > 0) {
+            moveForward(distance);
+        } else {
+            moveBackward(-(distance));
+        }
+    }
     */
 public void turnPID(int angle, int tolerance) {
-        turnWoPID(angle);
+        if(with_pid == false) {
+            turnWoPID(angle);
+        }
+        else
+        {
+            turnWPID(angle, tolerance);
+        }
     }
 
      /*
@@ -153,8 +168,8 @@ public void turnPID(int angle, int tolerance) {
 
     void autonomousStartBlueHangHigherNew() {
         //Start of first specimen pick up
-        DRIVE_SPEED_MULTIPLIER = 0.5; //0.675 Setting up the first speed to be slow to decrease inefficiencies
-        driveStraightPID(27);//go forward to the rung
+        DRIVE_SPEED_MULTIPLIER = 0.75; //0.675 Setting up the first speed to be slow to decrease inefficiencies
+        driveStraightPID(27.5);//go forward to the rung
         power_arm = 10;//lift up the arm to place specimen
         moveArm();//lift up the arm to place specimen
         sleep(650);//sleep
@@ -184,12 +199,11 @@ public void turnPID(int angle, int tolerance) {
         //start of 2nd specimen pickup
         power_arm = 0;//keep the arm in place
         moveArm();//keep the arm in place
-        turnPID(90,20);//turn
-        driveStraightPID(-36);//go forward
-        turnPID(95,20);//turn
-        //turnPID(95,20);//turn
-        driveStraightPID(16);//go forward
-        /*CloseBottomClaw();
+        turnPID(90,20);//turn //90
+        driveStraightPID(-36);//go forward //95
+        turnPID(90,20);//turn //95
+        driveStraightwithoutPID(27);//go forward //18
+        CloseBottomClaw();
         sleep(1000);//sleep
         power_arm = 10;// lift up arm to make sure the clip doesn't get stuck and break on the wall
         moveArm();// lift up arm to make sure the clip doesn't get stuck and break on the wall
@@ -202,19 +216,22 @@ public void turnPID(int angle, int tolerance) {
         elbow_power = 0.8;//move the elbow up so you can position properly on the rung
         moveElbow();//move the elbow up so you can position properly on the rung
         sleep(1000);//sleep
-        driveStraightPID(-9);//go backward
+        driveStraightPID(-14);//go backward
         turnPID(95,20);//turn // used to be 95
-        driveStraightPID(-40);//go forward
-        turnPID(95,20);//turn // used to be 9
+        driveStraightPID(-45);//go forward
+        turnPID(90,20);//turn // used to be 95
 
         //going to the rungs
-        driveStraightPID(16.5);//go forward
+        driveStraightPID(14.5);//go forward
         power_arm = 10;//bring the arm up
         moveArm();//bring the arm up
         sleep(1000);//sleep
         power_arm = 0.1;//keep the arm in place
         moveArm();//keep the arm in place
         sleep(500);
+        elbow_power = -0.1;
+        moveElbow();
+        sleep(200);
         driveStraightPID(2);
         sleep(500);
         power_arm = -10;//push down the arm to properly pick up the specimen from the zone
