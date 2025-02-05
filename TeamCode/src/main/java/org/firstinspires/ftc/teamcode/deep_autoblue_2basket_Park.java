@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "AutoBasketNoPark", group = "Autonomous")
-public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
+@Autonomous(name = "AutoBasketPark", group = "Autonomous")
+public  class deep_autoblue_2basket_Park extends RoboEaglesAutoBase2425 {
     boolean close_farther = true;
     boolean no_park = false;
     boolean with_sample = true;
@@ -28,7 +28,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         power_arm = 0;//push down the arm to properly pick up the specimen from the zone
         moveArm();//push down the arm to properly pick up the specimen from the zone
         sleep(100);//sleep;
-        elbow_power = 40;//lift up elbow to get ready for dropping
+        elbow_power = 1;//lift up elbow to get ready for dropping
         moveElbow();//lift up elbow to get ready for dropping
         // Enable the TFOD processor for our TeamProp Detection.
         while (!isStarted() && !isStopRequested()) {
@@ -101,19 +101,19 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         //Saket here: This the code for our basket routine.
         DRIVE_SPEED_MULTIPLIER = 0.65;
         //driveStraightPID(7);
-        elbow_power =40;
-        moveElbow();
-        power_arm = 1; // was not here in working condition
+        power_arm = 0.75; // was not here in working condition
         moveArm(); // was not here in working condition
         StrafingAUTO(12, false); // was 12 in working condition
-        driveStraightPID(20);
+        driveStraightPID(20.5);
+        elbow_power = 4;
+        moveElbow();
         turnPID_central(55,20);
         drop_basket_NEW();
 
 
         turnPID_central(222 ,20);//235
-        driveStraightPID(2);
-        elbow_power = -0.45;
+        driveStraightPID(0.5);
+        elbow_power = -0.5;
         moveElbow();
         sleep(200); //1550
         elbow_power = 0.05;
@@ -130,7 +130,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
 
 
         //start of delivering 2nd sample to the basket
-        turnPID_central(155,20);
+        turnPID_central(148,20);
         //driveStraightPID(7);
         power_arm = 27;
         moveArm();
@@ -138,7 +138,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         power_arm = 0.05;//keep the arm in one place with almost no power
         moveArm();
         driveStraightPID(9); // perfectly working with 10.. moving to see third sample is possible
-        elbow_power = -0.5;
+        elbow_power = -5;
         moveElbow();
         sleep(300);
         OpenBaseClaw();
@@ -147,70 +147,29 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         elbow_power = 4;
         moveElbow();
         sleep(500);//1000
-        driveStraightPID(-6); // move to -4 if remove below code
+        driveStraightPID(-4); // move to -4 if remove below code
         sleep(100);
 
-        power_arm = -12;//also used to be -10
+        power_arm = -10;//also used to be -10
         moveArm();
-        sleep(100); // move to 200 if remove below code
+        sleep(200); // move to 200 if remove below code
         power_arm = 0;
         moveArm();
         sleep(200);
 
-        // TO BE REMOVED IF DOES NOT WORK 3rd sample
-        turnPID_central(220,20);// was 25
-        StrafingAUTO(7,false);
-        driveStraightPID(1.5);
-        elbow_power = -0.45;
-        moveElbow();
-        sleep(200); //1550
-        elbow_power = 0.05;
-        moveElbow();
-        sleep(1500);
-        CloseBaseClaw();
-        sleep(1000);
-        power_arm = -0.5;
-        moveArm();
-        sleep(500);
-        elbow_power = 40;
-        moveElbow();
-        sleep(200);
-        //start of delivering 2nd sample to the basket
-        StrafingAUTO(5,false);
-
-        turnPID_central(180,20);
-        //driveStraightPID(7);
-        power_arm = 27;
-        moveArm();
-        sleep(2100);
-        power_arm = 0.05;//keep the arm in one place with almost no power
-        moveArm();
-        driveStraightPID(10);
-        elbow_power = -0.5;
-        moveElbow();
-        sleep(300);
-        OpenBaseClaw();
-        sleep(500);
-        elbow_power = 4;
-        moveElbow();
-        sleep(500);//1000
-        driveStraightPID(-4);
-        sleep(100);
-        //TO BE REMOVED UNTILL HERE ONLY
         // working routine for straf and touch the rung. wthin 30 sec.
         /*turnPID_central(90,20);
         StrafingAUTO(72, false);*/
-/* 3rd sample working
         //start of delivering 3rd sample to the basket
-        turnPID_central(205,20);// was 25
+        turnPID_central(225,20);// was 205
         DRIVE_SPEED_MULTIPLIER = 0.75;
         StrafingAUTO(12, true);
         //turnPID_central(5,20);
         driveStraightPID(46);
-        StrafingFAST(11, false);
+        StrafingFAST(14, false);
         //turnPID_central(5,20);
         //turnPID_central(-5,20);
-        DRIVE_SPEED_MULTIPLIER = 1;
+        DRIVE_SPEED_MULTIPLIER = 0.85;
 
         driveStraightPID(-42);
         driveStraightPID(4);
@@ -219,9 +178,9 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
 
         turnPID_central(-90,20);
         //StrafingFAST(30, true);
-        driveStraightPID(12);
+        driveStraightPID(16);
         //driveStraightPID(24);
-*/
+
         //start of going to 3 po1int hang
 
        // turnPID_central(80,20);
@@ -235,7 +194,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         driveStraightPID(5);
         power_arm = 0.2;
         moveArm();
-        sleep(400); //2100 but we changed from 20:1 to 40:1
+        sleep(450); //2100 but we changed from 20:1 to 40:1
         power_arm = 0.05;//keep the arm in one place with almost no power
         moveArm();
         //DRIVE_SPEED_MULTIPLIER = 0.65;

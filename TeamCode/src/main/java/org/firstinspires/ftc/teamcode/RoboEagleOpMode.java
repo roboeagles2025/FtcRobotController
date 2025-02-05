@@ -3,11 +3,26 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.RenderNode;
 
 import com.arcrobotics.ftclib.hardware.RevIMU;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.Rev9AxisImuOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+
+import kotlin.collections.UArraySortingKt;
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
@@ -19,6 +34,8 @@ public class RoboEagleOpMode extends RoboEaglesBase {
 public Servo left_hang, right_hang;
 
     void MapDevicesTesting() {
+        Color = hardwareMap.get(ColorSensor.class,"colorSensor");
+        distSensor = hardwareMap.get(DistanceSensor.class,"distSensor");
         brDrive = hardwareMap.dcMotor.get("br_motor");//OFFICIAL
         blDrive = hardwareMap.dcMotor.get("bl_motor");//OFFICIAL
         flDrive = hardwareMap.dcMotor.get("fl_motor");//OFFICIAL
@@ -36,6 +53,9 @@ public Servo left_hang, right_hang;
         //hangWheel =  hardwareMap.get(DcMotorEx.class, "wheels");
         rightElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         leftElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
+        //extImu = hardwareMap.get(IMU.class,"extgyro");
+        //Rev9AxisImuOrientationOnRobot extImu = new Rev9AxisImuOrientationOnRobot(hardwareMap.get(I2cDevice.class,"extgyro"));
+        extImu = hardwareMap.get(IMU.class,"extgyro");
         gyro = new RevIMU(hardwareMap);
         gyro.init();
         resetIMU();
@@ -62,6 +82,11 @@ public Servo left_hang, right_hang;
     public double power_arm, current_arm_pos;
     boolean Hang = false;
     boolean start_hang_wheel = false;
+    private ColorSensor Color;
+    private DistanceSensor distSensor;
+    private IMU extImu;
+    private IMU.Parameters parameters;
+    private Orientation angles;
     //private double MOTOR_SPEED_MULT = 0.7;
     boolean hang_servo_value = false;
     public void runOpMode() {
@@ -73,6 +98,7 @@ public Servo left_hang, right_hang;
            if (Hang == false) {
                checkArm();
            }
+            newSensorTele();
             //HangServo();
             checkDriving();
             ArcadeDrive();
@@ -105,7 +131,7 @@ public Servo left_hang, right_hang;
              ELBOW_SPEED_MULT_NEW = 5;
          }*/
          //ELBOW_SPEED_MULT_NEW = 0.5;
-         ELBOW_SPEED_MULT_NEW = 1;
+         ELBOW_SPEED_MULT_NEW = 0.5;
         power *= ELBOW_SPEED_MULT_NEW;
         telemetry.addData("Elbow left", "Power: %f", leftElbow.getPower());
          telemetry.addData("Elbow right ", "Power: %f", rightElbow.getPower());
@@ -120,7 +146,7 @@ public Servo left_hang, right_hang;
          }
              telemetry.addData("Elbow", "Power: %f", power);
              leftElbow.setPower(-power);
-             rightElbow.setPower(-power);
+             rightElbow.setPower(power);
              middleElbow.setPower(-power);
 
 
@@ -161,7 +187,19 @@ public Servo left_hang, right_hang;
         }
     }
 
+    void newSensorTele() {
+
+        telemetry.addData("Color: %f", "red %d", Color.red());
+        telemetry.addData("Color: %f", "green %d", Color.green());
+        telemetry.addData("Color: %f", "blue %d",Color.blue());
+        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+        //angles = extImu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //telemetry.addData("Heading", angles.firstAngle);
+        //telemetry.addData("Pitch",angles.secondAngle);
+        //telemetry.addData("Roll", angles.thirdAngle);
+    }
     void checkDriving() {
+
         if (gamepad1.left_stick_x != 0 || gamepad1.right_stick_y != 0)
             checkDrivingNormal();
         else if (gamepad1.right_stick_x != 0 || gamepad1.left_stick_y != 0)
@@ -204,6 +242,7 @@ public Servo left_hang, right_hang;
             blDrive.setPower(right_stick_x);
             brDrive.setPower(-1 * -right_stick_x);
             telemetry.addData("Strafing Each Motor Power", "FL: %f, Fr: %f, Bl: %f, Br: %f ", flDrive.getPower(), frDrive.getPower(), blDrive.getPower(), brDrive.getPower());
+            telemetry.addData("StrafingEncoderPower", "FL: %f, Fr: %f, Bl: %f, Br: %f ", flDrive.getCurrentPosition(), frDrive.getCurrentPosition(), blDrive.getCurrentPosition(), brDrive.getCurrentPosition());
             //original code
             /*flDrive.setPower((left_stick_y-left_stick_x)-right_stick_x);
             frDrive.setPower(-1 * ((left_stick_y+left_stick_x)+right_stick_x));
@@ -352,17 +391,17 @@ public Servo left_hang, right_hang;
             rightArm.setPower();
         }*/
         rightArm.setTargetPosition(rightArm.getTargetPosition() + (int) (power_arm*10));
+        telemetry.addData("arm, arm = %f",rightArm.getPower());
 
         if (power_arm > -0) {
-            rightArm.setPower(power_arm*10);// extend
+            rightArm.setPower(power_arm*0.8);// extend
         }
-        else if (power_arm < 0) {
-            rightArm.setPower(power_arm*10);// extend
+        else if (power_arm < 0){
+            rightArm.setPower(power_arm*1); // down
         }
         else {
-            rightArm.setPower(0.1); // down
+            rightArm.setPower(0);
         }
-        telemetry.addData("arm, arm = %f",rightArm.getPower());
         //rightArm.setPower(power_arm);
 
     }
