@@ -10,8 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -19,6 +21,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -55,6 +58,10 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     public Servo bottomlClaw;
     double elbow_power = 5;
     int turn_value = 1;
+
+    //Sensor
+    private ColorSensor Color;
+    private DistanceSensor distSensor;
     @Override
     public void runOpMode() {
 
@@ -68,7 +75,19 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         }
 
     }
-
+    void newSensorTele() {
+        Color = hardwareMap.get(ColorSensor.class,"colorSensor");
+        distSensor = hardwareMap.get(DistanceSensor.class,"distSensor");
+        telemetry.addData("Color: %f", "red %d", Color.red());
+        telemetry.addData("Color: %f", "green %d", Color.green());
+        telemetry.addData("Color: %f", "blue %d",Color.blue());
+        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+        //angles = extImu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //telemetry.addData("Heading", angles.firstAngle);
+        //telemetry.addData("Pitch",angles.secondAngle);
+        //telemetry.addData("Roll", angles.thirdAngle);
+        telemetry.update();
+    }
     public void MapDevicesTesting() {
         //armMotor = hardwareMap.DcMotorEx.get("arm_motor");
         flDriveEx = new MotorEx(hardwareMap, "fl_motor");
@@ -165,6 +184,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         }
 
         telemetry.addData("motor power = %f","Battery power = %f", speed_multiplier, battery_power);
+        newSensorTele();
         telemetry.update();
 
         flDriveEx.set(-speed_multiplier*1.32);
@@ -238,12 +258,12 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
     }
     void OpenBaseClaw(){
-        brClaw.setPosition(0);
-        blClaw.setPosition(0.45);
+        brClaw.setPosition(0.23);
+        blClaw.setPosition(0.23);
     }
     void CloseBaseClaw(){
-        brClaw.setPosition(0.4);
-        blClaw.setPosition(0);
+        brClaw.setPosition(0.0);
+        blClaw.setPosition(0.45);
     }
     void CloseBottomClaw(){
         bottomrClaw.setPosition(0.45);
@@ -269,6 +289,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         if (turn == false) {
             strafe_power = -1*strafe_power;
         }
+        newSensorTele();
         long speed_multiplier = distance * power_factor;
         flDriveEx.set(-strafe_power);
         frDriveEx.set(strafe_power);
@@ -382,7 +403,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         sleep(100);
     }
 
-    public void driveStraightPID_timer(double distance) {
+    public void driveStraightPID_timer(long distance,double speed_multilier1) {
         /*
         I don't think that we need the correction PID because as we are tracking the distance traveled by both the left set of wheels
         and the right set of wheels, if the robot starts to turn, the encoder values will differ and will automatically be corrected
@@ -402,10 +423,10 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         // Previously used FTCLib's PositionControl, but that won't work as it isn't a PID Controller, only a PController,
         // so it gets stuck at lower speeds that the integral would have solved
 
-
-            lGroup.set(0.5);
-            rGroup.set(0.5);
-            sleep(1100);
+            DRIVE_SPEED_MULTIPLIER = speed_multilier1;
+            lGroup.set(speed_multilier1);
+            rGroup.set(speed_multilier1);
+            sleep(distance);
 
             lGroup.stopMotor();
             rGroup.stopMotor();

@@ -167,7 +167,7 @@ public class auto_new_hangspec extends RoboEaglesAutoBase2425 {
         power_arm = 0.01;//disengage arm to make the arm stay in place
         moveArm();//disengage arm to make the arm stay in place
         sleep(500);
-        driveStraightPID(2.1);//go forward to the rung
+        driveStraightPID_timer(2,0.5);//go forward to the rung
         sleep(500);
         power_arm = -10;//push down the arm to properly pick up the specimen from the zone
         moveArm();//push down the arm to properly pick up the specimen from the zone
@@ -197,7 +197,7 @@ public class auto_new_hangspec extends RoboEaglesAutoBase2425 {
         turnPID_central(90,20);//turn
         //turnPID(95,20);//turn
 
-        driveStraightPID_timer(16);//go forward USED TO BE 18.5
+        driveStraightPID_timer(16,0.5);//go forward USED TO BE 18.5
         CloseBottomClaw();
         sleep(1000);//sleep
         power_arm = 10;// lift up arm to make sure the clip doesn't get stuck and break on the wall

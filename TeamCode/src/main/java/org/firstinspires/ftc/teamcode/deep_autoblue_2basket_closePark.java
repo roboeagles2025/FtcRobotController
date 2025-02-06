@@ -20,6 +20,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         battery_volt = hardwareMap.voltageSensor.iterator().next();
 
         MapDevicesTesting();
+        newSensorTele();
         CloseBaseClaw();
         OpenBottomClaw();
         power_arm = -10;//push down the arm to properly pick up the specimen from the zone
@@ -28,12 +29,13 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         power_arm = 0;//push down the arm to properly pick up the specimen from the zone
         moveArm();//push down the arm to properly pick up the specimen from the zone
         sleep(100);//sleep;
-        elbow_power = 40;//lift up elbow to get ready for dropping
-        moveElbow();//lift up elbow to get ready for dropping
+        //elbow_power = 40;//lift up elbow to get ready for dropping
+        //moveElbow();//lift up elbow to get ready for dropping
         // Enable the TFOD processor for our TeamProp Detection.
         while (!isStarted() && !isStopRequested()) {
             //   detectTeamProp();
             // Do all the other stuff
+            newSensorTele();
             //telemetry.update();
             sleep(100);
         }
@@ -254,7 +256,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         //sleep(100);
         power_arm = -12;//also used to be -10
         moveArm();
-        sleep(200);
+        sleep(300);
 
         power_arm = 0;
         moveArm();

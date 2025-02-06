@@ -131,7 +131,7 @@ public Servo left_hang, right_hang;
              ELBOW_SPEED_MULT_NEW = 5;
          }*/
          //ELBOW_SPEED_MULT_NEW = 0.5;
-         ELBOW_SPEED_MULT_NEW = 0.5;
+         ELBOW_SPEED_MULT_NEW = 0.8;
         power *= ELBOW_SPEED_MULT_NEW;
         telemetry.addData("Elbow left", "Power: %f", leftElbow.getPower());
          telemetry.addData("Elbow right ", "Power: %f", rightElbow.getPower());
@@ -187,17 +187,7 @@ public Servo left_hang, right_hang;
         }
     }
 
-    void newSensorTele() {
 
-        telemetry.addData("Color: %f", "red %d", Color.red());
-        telemetry.addData("Color: %f", "green %d", Color.green());
-        telemetry.addData("Color: %f", "blue %d",Color.blue());
-        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
-        //angles = extImu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        //telemetry.addData("Heading", angles.firstAngle);
-        //telemetry.addData("Pitch",angles.secondAngle);
-        //telemetry.addData("Roll", angles.thirdAngle);
-    }
     void checkDriving() {
 
         if (gamepad1.left_stick_x != 0 || gamepad1.right_stick_y != 0)
@@ -332,8 +322,6 @@ public Servo left_hang, right_hang;
         boolean close_servo = gamepad1.y;     // open fingers
         telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
         if (open_servo) {
-            //brClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
-            //blClaw.setPosition(0.45);//0.45
             brClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.45);//0.45
             //sleep(500);

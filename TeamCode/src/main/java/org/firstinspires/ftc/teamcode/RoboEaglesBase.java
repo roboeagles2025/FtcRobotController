@@ -2,14 +2,17 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public abstract class RoboEaglesBase extends LinearOpMode {
@@ -53,7 +56,9 @@ public abstract class RoboEaglesBase extends LinearOpMode {
     public final int ARM_TICKS_PER_REV = 288;
     public final double WHEEL_DIAMETER = 3.78; // Needs to be changed
     public final double GEAR_RATIO = 1;
-
+    //Sensor
+    private ColorSensor Color;
+    private DistanceSensor distSensor;
     public void mapDevices() {
         // Gyroscope
         imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -110,7 +115,19 @@ public abstract class RoboEaglesBase extends LinearOpMode {
         resetIMU();
         robotPosition = imu.getAngularOrientation();
     }
-
+    void newSensorTele() {
+        Color = hardwareMap.get(ColorSensor.class,"colorSensor");
+        distSensor = hardwareMap.get(DistanceSensor.class,"distSensor");
+        telemetry.addData("Color: %f", "red %d", Color.red());
+        telemetry.addData("Color: %f", "green %d", Color.green());
+        telemetry.addData("Color: %f", "blue %d",Color.blue());
+        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+        telemetry.update();
+        //angles = extImu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //telemetry.addData("Heading", angles.firstAngle);
+        //telemetry.addData("Pitch",angles.secondAngle);
+        //telemetry.addData("Roll", angles.thirdAngle);
+    }
     void resetMotors() {
         frDrive.setMode(RunMode.STOP_AND_RESET_ENCODER);
         flDrive.setMode(RunMode.STOP_AND_RESET_ENCODER);
