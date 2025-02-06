@@ -242,7 +242,7 @@ public Servo left_hang, right_hang;
             blDrive.setPower(right_stick_x);
             brDrive.setPower(-1 * -right_stick_x);
             telemetry.addData("Strafing Each Motor Power", "FL: %f, Fr: %f, Bl: %f, Br: %f ", flDrive.getPower(), frDrive.getPower(), blDrive.getPower(), brDrive.getPower());
-            telemetry.addData("StrafingEncoderPower", "FL: %f, Fr: %f, Bl: %f, Br: %f ", flDrive.getCurrentPosition(), frDrive.getCurrentPosition(), blDrive.getCurrentPosition(), brDrive.getCurrentPosition());
+            //telemetry.addData("StrafingEncoderPower", "FL: %f, Fr: %f, Bl: %f, Br: %f ", flDrive.getCurrentPosition(), frDrive.getCurrentPosition(), blDrive.getCurrentPosition(), brDrive.getCurrentPosition());
             //original code
             /*flDrive.setPower((left_stick_y-left_stick_x)-right_stick_x);
             frDrive.setPower(-1 * ((left_stick_y+left_stick_x)+right_stick_x));
@@ -332,6 +332,8 @@ public Servo left_hang, right_hang;
         boolean close_servo = gamepad1.y;     // open fingers
         telemetry.addData("BottomClaw", "Open: %b, Close: %b", open_servo, close_servo);
         if (open_servo) {
+            //brClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
+            //blClaw.setPosition(0.45);//0.45
             brClaw.setPosition(0);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.45);//0.45
             //sleep(500);
@@ -341,8 +343,8 @@ public Servo left_hang, right_hang;
         }
 
         if (close_servo) {
-            brClaw.setPosition(0.43);//NEVER CHANGE THIS CODE!!!!!!!
-            blClaw.setPosition(0);
+            brClaw.setPosition(0.23);//NEVER CHANGE THIS CODE!!!!!!!
+            blClaw.setPosition(0.23);
             //sleep(500);
             /*brClaw.setPosition(0.15);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.75);
