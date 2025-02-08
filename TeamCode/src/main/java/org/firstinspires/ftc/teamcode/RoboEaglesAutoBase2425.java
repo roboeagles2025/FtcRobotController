@@ -173,11 +173,11 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
             speed_multiplier = 0.59;
             angle_nonzer_subtract = 0.59;
         } else if (battery_power > 9.5) {
-            speed_multiplier = 0.61;
-            angle_nonzer_subtract = 0.61;
+            speed_multiplier = 0.62;
+            angle_nonzer_subtract = 0.62;
         } else {
-            speed_multiplier = 0.63;
-            angle_nonzer_subtract = 0.63;
+            speed_multiplier = 0.66;
+            angle_nonzer_subtract = 0.66;
         }
         if (angle<0) {
             speed_multiplier = -angle_nonzer_subtract;
@@ -197,6 +197,108 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         blDriveEx.set(0);
         brDriveEx.set(0);
         sleep(100);
+    }
+
+
+
+    public void first_sample() {
+        // first routine
+        DRIVE_SPEED_MULTIPLIER = 0.65;
+        elbow_power = 1;
+        moveElbow();
+        sleep(100);
+        //driveStraightPID(7);
+        power_arm = 0.85; // was not here in working condition
+        moveArm(); // was not here in working condition
+        StrafingAUTO(12, false); // was 12 in working condition
+        DRIVE_SPEED_MULTIPLIER = 0.85;
+        driveStraightPID(20.5);
+        elbow_power = 4;
+        moveElbow();
+        turnPID_central(55, 20);
+        drop_basket_NEW();
+    }
+    public void drop_basket_NEW() {
+        // drop sample
+        driveStraightPID(6);
+        power_arm = 0.2;
+        moveArm();
+        sleep(450); //2100 but we changed from 20:1 to 40:1
+        power_arm = 0.05;//keep the arm in one place with almost no power
+        moveArm();
+        //DRIVE_SPEED_MULTIPLIER = 0.65;
+        elbow_power = -0.5;
+        moveElbow();
+        sleep(400);
+        OpenBaseClaw();
+        sleep(200);
+
+        elbow_power = 80;
+        moveElbow();
+        sleep(500);
+        DRIVE_SPEED_MULTIPLIER = 0.4;
+        driveStraightPID(-5);
+        DRIVE_SPEED_MULTIPLIER = 0.65;
+        //sleep(100);
+        power_arm = -12;//also used to be -10
+        moveArm();
+        sleep(100);
+
+        power_arm = 0;
+        moveArm();
+        sleep(100);
+
+
+
+    }
+    public void second_sample() {
+
+        turnPID_central(220, 20);//225
+        StrafingAUTO(2,true);
+        driveStraightPID(2);
+        elbow_power = -0.5;
+        moveElbow();
+        sleep(200); //1550
+        elbow_power = 0.05;
+        moveElbow();
+        sleep(1500);
+        CloseBaseClaw();
+        sleep(1100);//used to be 1200
+        power_arm = -0.5;
+        moveArm();
+        sleep(300);
+        elbow_power = 40;
+        moveElbow();
+        sleep(500);
+
+
+        //start of delivering 2nd sample to the basket
+        turnPID_central(165, 20);
+        //driveStraightPID(7);
+        power_arm = 27;
+        moveArm();
+        sleep(2100);
+        power_arm = 0.05;//keep the arm in one place with almost no power
+        moveArm();
+        driveStraightPID(8); // perfectly working with 10.. moving to see third sample is possible
+        elbow_power = -5;
+        moveElbow();
+        sleep(300);
+        OpenBaseClaw();
+        sleep(500);
+        // end of 2nd routine
+        elbow_power = 4;
+        moveElbow();
+        sleep(500);//1000
+        driveStraightPID(-5); // move to -4 if remove below code
+        sleep(100);
+
+        power_arm = -10;//also used to be -10
+        moveArm();
+        sleep(200); // move to 200 if remove below code
+        power_arm = 0;
+        moveArm();
+        sleep(200);
     }
     // mappng for all PID required hardware
     public void MapDevicesPIDs(){
@@ -258,8 +360,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
     }
     void OpenBaseClaw(){
-        brClaw.setPosition(0.23);
-        blClaw.setPosition(0.23);
+        brClaw.setPosition(0.30);
+        blClaw.setPosition(0.15);
     }
     void CloseBaseClaw(){
         brClaw.setPosition(0.0);

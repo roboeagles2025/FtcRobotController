@@ -331,8 +331,8 @@ public Servo left_hang, right_hang;
         }
 
         if (close_servo) {
-            brClaw.setPosition(0.23);//NEVER CHANGE THIS CODE!!!!!!!
-            blClaw.setPosition(0.23);
+            brClaw.setPosition(0.30);//NEVER CHANGE THIS CODE!!!!!!!
+            blClaw.setPosition(0.15);
             //sleep(500);
             /*brClaw.setPosition(0.15);//NEVER CHANGE THIS CODE!!!!!!!
             blClaw.setPosition(0.75);

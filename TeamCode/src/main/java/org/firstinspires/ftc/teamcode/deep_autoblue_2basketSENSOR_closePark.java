@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "AutoBasketNoPark", group = "Autonomous")
-public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
+@Autonomous(name = "AutoBasketSENSORPark", group = "Autonomous")
+public  class deep_autoblue_2basketSENSOR_closePark extends RoboEaglesAutoBase2425 {
     boolean close_farther = true;
     boolean no_park = false;
     boolean with_sample = true;
@@ -40,11 +40,12 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
             sleep(100);
         }
 
-        first_sample();
-        straightenup_robot();
+        /*first_sample();
+        //straightenup_robot();
         pick_sample(155,1300);
         straightenup_robot_second();
-        pick_sample(190,1800);
+        pick_sample(190,1800);*/
+        SENSORbasket();
 
         // LM3 CODE EXECUTES AS BELOW COMMENTED CODE.
         //first_sample();
@@ -72,58 +73,54 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         StrafingFAST(7,true);
     }
 
-    void pick_sample(int angle_turn, int arm_sleep){
-        elbow_power = -0.5;
+    void SENSORbasket (){
+        //Beginning of Code : TASK - Put Sample in Basket
+        DRIVE_SPEED_MULTIPLIER = 0.65;
+        elbow_power = 1;
         moveElbow();
-        sleep(200); //1550 // Make 200 if does not work fast enough
-        elbow_power = 0.08;
-        moveElbow();
-        sleep(1400);
-        CloseBaseClaw();
-        sleep(500);//used to be 1200
-        power_arm = -0.8;
-        moveArm();
-        sleep(250);
-        power_arm = 0.05;
-        moveArm();
-        elbow_power = 80;
-        moveElbow();
-        sleep(800);
-
-
-        //start of delivering 2nd sample to the basket
-        turnPID_central(angle_turn, 20);
+        sleep(100);
         //driveStraightPID(7);
-        power_arm = 27;
-        moveArm();
-        sleep(arm_sleep);
-        power_arm = 0.05;//keep the arm in one place with almost no power
-        moveArm();
-        driveStraightPID(8); // perfectly working with 10.. moving to see third sample is possible
-        elbow_power = -5;
-        moveElbow();
-        sleep(200);
-        OpenBaseClaw();
-        sleep(200);
-        // end of 2nd routine
+        power_arm = 0.85; // was not here in working condition
+        moveArm(); // was not here in working condition
+        StrafingAUTO(12, false); // was 12 in working condition
+        DRIVE_SPEED_MULTIPLIER = 0.85;
+        driveStraightPID(20.5);
         elbow_power = 4;
         moveElbow();
-        sleep(200);//1000
-        DRIVE_SPEED_MULTIPLIER = 0.5;
-        driveStraightPID(-5); // move to -4 if remove below code
-        sleep(100);
-        DRIVE_SPEED_MULTIPLIER = 0.75;
-        power_arm = -10;//also used to be -10
-        moveArm();
-        sleep(200); // move to 200 if remove below code
-        power_arm = 0;
-        moveArm();
-        sleep(200);
+        turnPID_central(55, 20);
+        drop_basket_Sensor();
     }
+public void drop_basket_Sensor(){
+    driveStraightPID(6);
+    power_arm = 0.2;
+    moveArm();
+    sleep(450); //2100 but we changed from 20:1 to 40:1
+    power_arm = 0.05;//keep the arm in one place with almost no power
+    moveArm();
+    //DRIVE_SPEED_MULTIPLIER = 0.65;
+    elbow_power = -0.5;
+    moveElbow();
+    sleep(400);
+    OpenBaseClaw();
+    sleep(200);
 
-    void third_sample() {
+    elbow_power = 80;
+    moveElbow();
+    sleep(500);
+    DRIVE_SPEED_MULTIPLIER = 0.4;
+    driveStraightPID(-5);
+    DRIVE_SPEED_MULTIPLIER = 0.65;
+    //sleep(100);
+    power_arm = -12;//also used to be -10
+    moveArm();
+    sleep(100);
 
-        // TO BE REMOVED IF DOES NOT WORK 3rd sample
+    power_arm = 0;
+    moveArm();
+    sleep(100);
+}
+
+        /*O BE REMOVED IF DOES NOT WORK 3rd sample
         turnPID_central(232,20);// was 25
         StrafingAUTO(7,false);
         //driveStraightPID(1.5);
@@ -179,7 +176,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
             driveStraightPID(10);
         }
     }
-
+*/
 }
 
 

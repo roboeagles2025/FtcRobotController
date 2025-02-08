@@ -195,6 +195,7 @@ public class deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase2425 {
         driveStraightPID(-10);//go forward to the rung
         //elbow_power = 0.8;//bring elbow up
         StrafingFAST(30,false);//strafe to park area
+        turnPID_central(-10,0);
         driveStraightPID(32);//go forward to the rung
         //elbow_power = 0.8;//bring elbow up
         StrafingFAST(8,true);//strafe to park area
