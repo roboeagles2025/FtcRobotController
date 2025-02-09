@@ -40,23 +40,104 @@ public  class deep_autoblue_2basketSENSOR_closePark extends RoboEaglesAutoBase24
             sleep(100);
         }
 
-        /*first_sample();
+        first_sample();
+        straightenup_robot();
+        second_sample();
+        straightenup_robot();
+        second_sample();
         //straightenup_robot();
-        pick_sample(155,1300);
-        straightenup_robot_second();
-        pick_sample(190,1800);*/
-        SENSORbasket();
+        //pick_sample(155,1300);
+        //straightenup_robot_second();
+        //pick_sample(190,1800);*/
+        //SENSORbasket();
 
         // LM3 CODE EXECUTES AS BELOW COMMENTED CODE.
         //first_sample();
         //second_sample();
         //third_sample();
-        //sleep(500);
+        sleep(500);
     }
+    public void first_sample() {
+        // first routine
+        DRIVE_SPEED_MULTIPLIER = 0.65;
+        elbow_power = 1;
+        moveElbow();
+        sleep(100);
+        //driveStraightPID(7);
+        power_arm = 0.85; // was not here in working condition
+        moveArm(); // was not here in working condition
+        StrafingAUTO(12, false); // was 12 in working condition
+        DRIVE_SPEED_MULTIPLIER = 0.85;
+        driveStraightPID(20.5);
+        elbow_power = 4;
+        moveElbow();
+        gyro.reset();
+        turnPID_central(55, 20);
+        telemetry.addData("1st sample Angle: %f", gyro.getAbsoluteHeading());
+        telemetry.update();
+        drop_basket_NEW();
+    }
+    public void second_sample() {
+        gyro.reset();
+        //turnPID_central(200, 20);//225
+        turnPID_central(-155,5);
+        telemetry.addData("Second sample Angle: %f", gyro.getAbsoluteHeading());
+        double current_angle = Math.abs(gyro.getAbsoluteHeading());
+        int difference_angle = (int) (current_angle - 93);
+        if (difference_angle > 1) {
+            turnPID_central(-difference_angle,5);
+        }
+        telemetry.update();
 
+        StrafingAUTO(2,true);
+        driveStraightPID(2.5);
+        elbow_power = -0.5;
+        moveElbow();
+        sleep(200); //1550
+        elbow_power = 0.05;
+        moveElbow();
+        sleep(1500);
+        CloseBaseClaw();
+        sleep(1100);//used to be 1200
+        power_arm = -0.5;
+        moveArm();
+        sleep(300);
+        elbow_power = 40;
+        moveElbow();
+        sleep(500);
+
+
+        //start of delivering 2nd sample to the basket
+        turnPID_central(175, 20);
+        //driveStraightPID(7);
+        power_arm = 27;
+        moveArm();
+        sleep(2100);
+        power_arm = 0.05;//keep the arm in one place with almost no power
+        moveArm();
+        driveStraightPID(8); // perfectly working with 10.. moving to see third sample is possible
+        elbow_power = -5;
+        moveElbow();
+        sleep(300);
+        OpenBaseClaw();
+        sleep(500);
+        // end of 2nd routine
+        elbow_power = 4;
+        moveElbow();
+        sleep(500);//1000
+        driveStraightPID(-5); // move to -4 if remove below code
+        sleep(100);
+
+        power_arm = -10;//also used to be -10
+        moveArm();
+        sleep(200); // move to 200 if remove below code
+        power_arm = 0;
+        moveArm();
+        sleep(200);
+    }
     void straightenup_robot() {
         StrafingFAST(6,false);
-        turnPID_central(205, 20);//225
+        turnPID_central(215, 20);//225
         driveStraightPID_timer(500,-0.6);
         sleep(100);
         DRIVE_SPEED_MULTIPLIER = 0.65;

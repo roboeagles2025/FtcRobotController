@@ -117,7 +117,7 @@ public class alt_deep_autoblue_2hangspec_closePark extends RoboEaglesAutoBase242
         turnPID_central(90, 20);//turn
         //turnPID(95,20);//turn
 
-        driveStraightPID_timer(16);//go forward USED TO BE 18.5
+        //driveStraightPID_timer(16);//go forward USED TO BE 18.5
         CloseBottomClaw();
         sleep(1000);//sleep
         power_arm = 10;// lift up arm to make sure the clip doesn't get stuck and break on the wall
