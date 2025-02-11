@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
+import com.qualcomm.hardware.rev.Rev9AxisImu;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -39,6 +40,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     public com.arcrobotics.ftclib.controller.PIDController pidDriveLeft, pidDriveRight, pidRotate;
     com.arcrobotics.ftclib.controller.PIDController pidArm;
     RevIMU gyro;
+    Rev9AxisImu gyro_ext;
     public double DRIVE_SPEED_MULTIPLIER = 0.75;
 
     MotorEx brDriveEx, blDriveEx, flDriveEx, frDriveEx;
@@ -108,6 +110,9 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         //rightElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         //leftElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         battery_volt = hardwareMap.voltageSensor.iterator().next();
+
+       // gyro_ext = new Rev9AxisImu();
+        //(hardwareMap, "extgyro");
 
         MapDevicesPIDs();
 
@@ -318,6 +323,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     }
     // mappng for all PID required hardware
     public void MapDevicesPIDs(){
+
         gyro = new RevIMU(hardwareMap);
         gyro.init();
         telemetry.addData("Init imu = %f",  gyro.getAbsoluteHeading());
@@ -566,7 +572,6 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     public int inchesToEncoderTicksInt(double inches) {
         return (int) (inches * INCHES_TO_TICK_MULTIPLIER);
     }
-
     public void turnPID(double angle, int tolerance) {
         lGroup.resetEncoder();
         rGroup.resetEncoder();
@@ -574,7 +579,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         pidRotate.reset();
         gyro.reset();
         pidRotate.setSetPoint(angle);
-        pidRotate.setTolerance(tolerance, 5);
+        pidRotate.setTolerance(tolerance, 1);
         while (!pidRotate.atSetPoint() && opModeIsActive()) {
             double heading = gyro.getHeading();
             if (heading < -180)
