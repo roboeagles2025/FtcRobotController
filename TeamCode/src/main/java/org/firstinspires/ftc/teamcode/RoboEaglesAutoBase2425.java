@@ -61,7 +61,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
     //Sensor
     private ColorSensor Color;
-    private DistanceSensor distSensor;
+    public DistanceSensor distSensor;
     @Override
     public void runOpMode() {
 
@@ -172,12 +172,27 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         } else if (battery_power > 10) {
             speed_multiplier = 0.59;
             angle_nonzer_subtract = 0.59;
+        }else if(battery_power > 9.85) {
+            speed_multiplier= 0.60;
+            angle_nonzer_subtract = 0.60;
+        } else if (battery_power > 9.75) {
+            speed_multiplier = 0.61;
+            angle_nonzer_subtract = 0.61;
         } else if (battery_power > 9.5) {
-            speed_multiplier = 0.62;
-            angle_nonzer_subtract = 0.62;
+            speed_multiplier = 0.65;
+            angle_nonzer_subtract = 0.65;
+        }else if (battery_power > 9.25) {
+            speed_multiplier = 0.68;
+            angle_nonzer_subtract = 0.68;
+        }else if (battery_power > 9) {
+            speed_multiplier = 0.71;
+            angle_nonzer_subtract = 0.71;
+        } else if (battery_power > 8.9) {
+            speed_multiplier = 0.75;
+            angle_nonzer_subtract = 0.75;
         } else {
-            speed_multiplier = 0.66;
-            angle_nonzer_subtract = 0.66;
+            speed_multiplier = 0.79;
+            angle_nonzer_subtract = 0.79;
         }
         if (angle<0) {
             speed_multiplier = -angle_nonzer_subtract;
@@ -208,14 +223,14 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         moveElbow();
         sleep(100);
         //driveStraightPID(7);
-        power_arm = 0.85; // was not here in working condition
+        power_arm = 0.75; // was not here in working condition
         moveArm(); // was not here in working condition
         StrafingAUTO(12, false); // was 12 in working condition
-        DRIVE_SPEED_MULTIPLIER = 0.85;
         driveStraightPID(20.5);
         elbow_power = 4;
         moveElbow();
         turnPID_central(55, 20);
+       // turnPIDWTimer(55, 20);
         drop_basket_NEW();
     }
     public void drop_basket_NEW() {
@@ -223,6 +238,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         driveStraightPID(6);
         power_arm = 0.2;
         moveArm();
+       // sleep(200);
         sleep(450); //2100 but we changed from 20:1 to 40:1
         power_arm = 0.05;//keep the arm in one place with almost no power
         moveArm();
@@ -253,7 +269,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     }
     public void second_sample() {
 
-        turnPID_central(220, 20);//225
+        turnPID_central(225, 20);//225
         StrafingAUTO(2,true);
         driveStraightPID(2);
         elbow_power = -0.5;
@@ -261,7 +277,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         sleep(200); //1550
         elbow_power = 0.05;
         moveElbow();
-        sleep(1500);
+        sleep(2000);
         CloseBaseClaw();
         sleep(1100);//used to be 1200
         power_arm = -0.5;
@@ -360,8 +376,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
     }
     void OpenBaseClaw(){
-        brClaw.setPosition(0.30);
-        blClaw.setPosition(0.15);
+        brClaw.setPosition(0.35);
+        blClaw.setPosition(0.10);
     }
     void CloseBaseClaw(){
         brClaw.setPosition(0.0);
@@ -397,6 +413,9 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         frDriveEx.set(strafe_power);
         blDriveEx.set(strafe_power);
         brDriveEx.set(-strafe_power);
+
+        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+        telemetry.update();
         sleep(speed_multiplier);
         flDriveEx.set(0);
         frDriveEx.set(0);
@@ -417,6 +436,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         frDriveEx.set(strafe_power*1.5);
         blDriveEx.set(strafe_power*1.5);
         brDriveEx.set(-strafe_power*1.5);
+        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+        telemetry.update();
         sleep(speed_multiplier);
         flDriveEx.set(0);
         frDriveEx.set(0);
@@ -498,11 +519,15 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
             rGroup.set(rightSpeed);
             telemetry.addData("Drive PID", "Target: %d, Traveled: %f, %f", targetTicks, lPos, rPos);
             telemetry.addData("Drive PID", "Left Speed: %f, Right Speed: %f", leftError, rightError);
+            telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
             telemetry.update();
         }
-        lGroup.stopMotor();
-        rGroup.stopMotor();
+        lGroup.set(0.01);
+        rGroup.set(0.01);
         sleep(100);
+       // lGroup.stopMotor();
+       // rGroup.stopMotor();
+
     }
 
     public void driveStraightPID_timer(long distance,double speed_multilier1) {
@@ -528,11 +553,13 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
             DRIVE_SPEED_MULTIPLIER = speed_multilier1;
             lGroup.set(speed_multilier1);
             rGroup.set(speed_multilier1);
-            sleep(distance);
+        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+            telemetry.update();
+        sleep(distance);
 
             lGroup.stopMotor();
             rGroup.stopMotor();
-        sleep(100);
+        sleep(10);
     }
     private final double INCHES_TO_TICK_MULTIPLIER = 49;// orginal is 49.30
 
@@ -568,6 +595,42 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         lGroup.stopMotor();
         rGroup.stopMotor();
         sleep(500);
+    }
+
+    public void turnPIDWTimer(double angle, int tolerance) {
+        lGroup.resetEncoder();
+        rGroup.resetEncoder();
+        int time_lapsed = 0;
+        pidRotate.reset();
+        gyro.reset();
+        pidRotate.setSetPoint(angle);
+        pidRotate.setTolerance(tolerance, 5);
+        while (!pidRotate.atSetPoint() && opModeIsActive() && (time_lapsed < 80)) {
+            double heading = gyro.getHeading();
+            if (heading < -180)
+                heading += 360;
+            else if (heading > 180)
+                heading -= 360;
+            double power = pidRotate.calculate(heading);
+            if (power > 0)
+                power = Range.clip(power, 0.2, 1);
+            else
+                power = Range.clip(power, -1, -0.2);
+            telemetry.addData("Turn PID", "Target angle: %f, Current: %f, Power: %f", angle, gyro.getHeading(), power);
+            telemetry.update();
+            lGroup.set(-power);
+            rGroup.set(power);
+            sleep(10);
+            time_lapsed = time_lapsed + 1;
+        }
+        //power = 0.01;
+        //lGroup.set(-power);
+        //rGroup.set(power);
+        sleep(100);
+        lGroup.stopMotor();
+        rGroup.stopMotor();
+
+        sleep(400);
     }
 
     /**

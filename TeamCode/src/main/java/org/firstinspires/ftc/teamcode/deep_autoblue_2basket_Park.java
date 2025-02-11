@@ -38,7 +38,7 @@ public  class deep_autoblue_2basket_Park extends RoboEaglesAutoBase2425 {
         }
         first_sample();
         second_sample();
-        haul_sample();
+        //haul_sample();
         //parking();
         sleep(500);
     }

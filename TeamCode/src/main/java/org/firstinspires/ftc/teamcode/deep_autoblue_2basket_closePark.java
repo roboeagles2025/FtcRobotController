@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
@@ -40,11 +43,11 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
             sleep(100);
         }
 
-        first_sample();
+        first_sample_slow();
         straightenup_robot();
-        pick_sample(155,1300);
-        straightenup_robot_second();
-        pick_sample(190,1800);
+        pick_sample(165,1200);
+        haul_second();
+        //pick_sample(190,1500);
 
         // LM3 CODE EXECUTES AS BELOW COMMENTED CODE.
         //first_sample();
@@ -52,70 +55,134 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         //third_sample();
         //sleep(500);
     }
+    public void first_sample_slow() {
+        // first routine
+        DRIVE_SPEED_MULTIPLIER = 0.65;
+        elbow_power = 1;
+        moveElbow();
+        sleep(100);
+        //driveStraightPID(7);
+        power_arm = 0.85; // was not here in working condition
+        moveArm(); // was not here in working condition
+        StrafingAUTO(12, false); // was 12 in working condition
+        driveStraightPID_notimer(20.5);
+        elbow_power = 4;
+        moveElbow();
+        turnPID_central(55, 20);
+        drop_basket_slow();
+    }
+    public void drop_basket_slow() {
+        // drop sample
+        driveStraightPID_timer(200,0.5);
+        power_arm = 0.2;
+        moveArm();
+        sleep(450); //2100 but we changed from 20:1 to 40:1
+        power_arm = 0.05;//keep the arm in one place with almost no power
+        moveArm();
+        //DRIVE_SPEED_MULTIPLIER = 0.65;
+        elbow_power = -0.5;
+        moveElbow();
+        sleep(400);
+        OpenBaseClaw();
+        sleep(400);
 
+        elbow_power = 80;
+        moveElbow();
+        sleep(500);
+        DRIVE_SPEED_MULTIPLIER = 0.4;
+        driveStraightPID_timer(200,-0.5);
+        DRIVE_SPEED_MULTIPLIER = 0.65;
+        //sleep(100);
+        power_arm = -0.95;//o used to be -10
+        moveArm();
+        sleep(1000);
+
+        power_arm = 0;
+        moveArm();
+        sleep(100);
+
+
+    }
     void straightenup_robot() {
-        StrafingFAST(6,false);
-        turnPID_central(205, 20);//225
-        driveStraightPID_timer(500,-0.6);
+        StrafingFAST(8,false);
+        turnPID_central(215, 20);//205
+        //turnPIDWTimer(-140,20);
+        driveStraightPID_timer(700,-0.6);
         sleep(100);
         DRIVE_SPEED_MULTIPLIER = 0.65;
-        driveStraightPID(11);
-    }
+        driveStraightPID_notimer(16);
+        while(distSensor.getDistance(DistanceUnit.CM) > 24) {
+            driveStraightPID_timer(100,0.2);
+        }
+        driveStraightPID_timer(100,-0.5);
 
-    void straightenup_robot_second() {
-        StrafingFAST(4,true);
+    }
+    void test_Dist() {
+        while(distSensor.getDistance(DistanceUnit.CM) > 24) {
+            driveStraightPID_timer(100,0.2);
+        }
+    }
+    void haul_second() {
+        StrafingFAST(8,true);
         turnPID_central(220, 20);//225
-        driveStraightPID_timer(600,-0.6);
-        sleep(100);
-        DRIVE_SPEED_MULTIPLIER = 0.85;
-        driveStraightPID(12);
-        StrafingFAST(7,true);
+        driveStraightPID_timer(800,-0.6);
+        sleep(400);
+        DRIVE_SPEED_MULTIPLIER = 0.95;
+        driveStraightPID_notimer(52);
+        StrafingFAST(10,true);
+        driveStraightPID_notimer(-44);
+
+        //while(distSensor.getDistance(DistanceUnit.CM) > 25) {
+        //    driveStraightPID_timer(100,0.2);
+       // }
     }
 
     void pick_sample(int angle_turn, int arm_sleep){
         elbow_power = -0.5;
         moveElbow();
         sleep(200); //1550 // Make 200 if does not work fast enough
-        elbow_power = 0.08;
+        elbow_power = -0.1;
         moveElbow();
-        sleep(1400);
+        sleep(800);
+        //elbow_power = 0.01;
+        //moveElbow();
+        //sleep(1000);
         CloseBaseClaw();
         sleep(500);//used to be 1200
-        power_arm = -0.8;
+        power_arm = -0.7;
         moveArm();
         sleep(250);
         power_arm = 0.05;
         moveArm();
         elbow_power = 80;
         moveElbow();
-        sleep(800);
-
-
+        sleep(400);
+        power_arm= 0.95;
+        moveArm();
+        DRIVE_SPEED_MULTIPLIER = 0.75;
         //start of delivering 2nd sample to the basket
         turnPID_central(angle_turn, 20);
         //driveStraightPID(7);
-        power_arm = 27;
-        moveArm();
         sleep(arm_sleep);
         power_arm = 0.05;//keep the arm in one place with almost no power
         moveArm();
-        driveStraightPID(8); // perfectly working with 10.. moving to see third sample is possible
-        elbow_power = -5;
+        driveStraightPID_timer(800,0.55); // perfectly working with 10.. moving to see third sample is possible
+        elbow_power = -0.5;
         moveElbow();
-        sleep(200);
+        sleep(800);
         OpenBaseClaw();
-        sleep(200);
+        sleep(400);
         // end of 2nd routine
         elbow_power = 4;
         moveElbow();
         sleep(200);//1000
         DRIVE_SPEED_MULTIPLIER = 0.5;
-        driveStraightPID(-5); // move to -4 if remove below code
+        driveStraightPID_timer(800,-0.5); // move to -4 if remove below code
         sleep(100);
         DRIVE_SPEED_MULTIPLIER = 0.75;
         power_arm = -10;//also used to be -10
         moveArm();
-        sleep(200); // move to 200 if remove below code
+        sleep(1200); // move to 200 if remove below code
         power_arm = 0;
         moveArm();
         sleep(200);
@@ -165,7 +232,71 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
          }
 
 
+    public void driveStraightPID_notimer(double distance) {
+        /*
+        I don't think that we need the correction PID because as we are tracking the distance traveled by both the left set of wheels
+        and the right set of wheels, if the robot starts to turn, the encoder values will differ and will automatically be corrected
+         */
+        lGroup.resetEncoder();
+        rGroup.resetEncoder();
+        gyro.reset();
+        pidDriveLeft.reset();
+        pidDriveRight.reset();
+        int targetTicks = inchesToEncoderTicksInt(distance);
+        pidDriveLeft.setSetPoint(targetTicks);
+        pidDriveRight.setSetPoint(targetTicks);
+        // I'm not sure whether FTCLib will be able to convert distance to encoder ticks,
+        // If it doesn't work we can move over the encoderTicksToInches and inchesToEncoderTicks functions
+        double speed = DRIVE_SPEED_MULTIPLIER; // Base speed that will be multiplied by the error
+        // Previously used FTCLib's PositionControl, but that won't work as it isn't a PID Controller, only a PController,
+        // so it gets stuck at lower speeds that the integral would have solved
+        while (!pidDriveLeft.atSetPoint() && !pidDriveRight.atSetPoint() && opModeIsActive()) {
+            double lPos = lGroup.getPositions().get(0);
+            double rPos = rGroup.getPositions().get(0);
+            double leftError = pidDriveLeft.calculate(lPos);
+            double rightError = pidDriveRight.calculate(rPos);
+            double leftSpeed = speed * leftError;
+            double rightSpeed = speed * rightError;
+            if (!pidDriveLeft.atSetPoint())
+                if (leftSpeed > 0) {
+                    leftSpeed = Range.clip(leftSpeed, 0.2, 1);
+                    leftSpeed *= DRIVE_SPEED_MULTIPLIER;
+                    leftSpeed = Range.clip(leftSpeed, 0.2, 1);
+                }
+                else {
+                    leftSpeed = Range.clip(leftSpeed, -1, -0.2);
+                    leftSpeed *= DRIVE_SPEED_MULTIPLIER;
+                    leftSpeed = Range.clip(leftSpeed, -1, -0.2);
+                }
+            else
+                leftSpeed = 0;
 
+            if (!pidDriveRight.atSetPoint())
+                if (rightSpeed > 0) {
+                    rightSpeed = Range.clip(rightSpeed, 0.2, 1);
+                    rightSpeed *= DRIVE_SPEED_MULTIPLIER;
+                    rightSpeed = Range.clip(rightSpeed, 0.2, 1);
+                }
+                else {
+                    rightSpeed = Range.clip(rightSpeed, -1, -0.2);
+                    rightSpeed *= DRIVE_SPEED_MULTIPLIER;
+                    rightSpeed = Range.clip(rightSpeed, -1, -0.2);
+                }
+            else
+                rightSpeed = 0;
+
+            lGroup.set(leftSpeed);
+            rGroup.set(rightSpeed);
+            telemetry.addData("Drive PID", "Target: %d, Traveled: %f, %f", targetTicks, lPos, rPos);
+            telemetry.addData("Drive PID", "Left Speed: %f, Right Speed: %f", leftError, rightError);
+            telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+            telemetry.update();
+        }
+
+         lGroup.stopMotor();
+         rGroup.stopMotor();
+
+    }
     public void final_park(boolean close) {
         if (close) {
             turnPID(125, 25);
