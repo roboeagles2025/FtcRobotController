@@ -47,10 +47,14 @@ public  class deep_autoblue_2basket_closePark_fastRoutine extends RoboEaglesAuto
         haul_sample1(14);
         haul_sample2(6);
         // same routine 3rd sample
-        haul_sample2(6);
+        haul_sample3(6);
         //final park
+        DRIVE_SPEED_MULTIPLIER = 0.95;
         driveStraightPID(36);
-        StrafingFAST(36,true);
+        power_arm = 0.75;
+        moveArm();
+        StrafingFAST(30,false);
+        turnPID_central(-95,20);
 
         //pick_sample(155,1300);
         //straightenup_robot_second();
@@ -128,16 +132,25 @@ public  class deep_autoblue_2basket_closePark_fastRoutine extends RoboEaglesAuto
         turnPID_central(-20,20);
         StrafingFAST(straf_dist-4,false);
         driveStraightPID(-44);
+        turnPID_central(10,20);
+
         driveStraightPID(6);
-        turnPID_central(20,20);
+        //turnPID_central(20,20);
 
     }
 
     void haul_sample2(int straf_dist) {
         StrafingFAST(2,false);
-        DRIVE_SPEED_MULTIPLIER = 0.75;
+        DRIVE_SPEED_MULTIPLIER = 0.85;
         driveStraightPID(40);
-        StrafingFAST(14,true);
+        StrafingFAST(9,false);
+        driveStraightPID(-38);
+    }
+    void haul_sample3(int straf_dist) {
+        //StrafingFAST(2,false);
+        DRIVE_SPEED_MULTIPLIER = 0.85;
+        driveStraightPID(40);
+        StrafingFAST(12,true);
         driveStraightPID(-38);
     }
     void straightenup_robot_second() {

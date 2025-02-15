@@ -13,11 +13,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "XXXAuto2Basketbkup", group = "Autonomous")
-public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
+@Autonomous(name = "XXXAuto2Basket", group = "Autonomous")
+public  class deep_autoblue_2basket_closePark_nosenseobject extends RoboEaglesAutoBase2425 {
     boolean close_farther = true;
     boolean no_park = false;
     boolean with_sample = true;
+    public int timeout;
     @Override
     public void runOpMode() {
         battery_volt = hardwareMap.voltageSensor.iterator().next();
@@ -54,6 +55,12 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         //second_sample();
         //third_sample();
         //sleep(500);
+    }
+    public void haul_first_sample(){
+        StrafingAUTO(6,false);
+        driveStraightPID_notimer(16);
+        StrafingAUTO(8,true);
+        driveStraightPID_notimer(-40);
     }
     public void first_sample_slow() {
         // first routine
@@ -95,7 +102,7 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         //sleep(100);
         power_arm = -0.95;//o used to be -10
         moveArm();
-        sleep(1000);
+        sleep(800);
 
         power_arm = 0;
         moveArm();
@@ -104,17 +111,21 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
 
     }
     void straightenup_robot() {
+        timeout = 0;
         StrafingFAST(8,false);
         turnPID_central(215, 20);//205
         //turnPIDWTimer(-140,20);
         driveStraightPID_timer(700,-0.6);
         sleep(100);
         DRIVE_SPEED_MULTIPLIER = 0.65;
-        driveStraightPID_notimer(16);
-        while(distSensor.getDistance(DistanceUnit.CM) > 24) {
+        driveStraightPID_notimer(14);
+        while((distSensor.getDistance(DistanceUnit.CM) > 22 ) && (timeout < 10)) {
+            telemetry.addData("Distance and Timeout values","%f, %d", distSensor.getDistance(DistanceUnit.CM),timeout);
+            telemetry.update();
             driveStraightPID_timer(100,0.2);
+            timeout += 1;
         }
-        driveStraightPID_timer(100,-0.5);
+        //driveStraightPID_timer(100,-0.5);
 
     }
     void test_Dist() {
@@ -123,14 +134,19 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         }
     }
     void haul_second() {
-        StrafingFAST(6,true);
+        StrafingFAST(8,true);
         turnPID_central(220, 20);//225
         driveStraightPID_timer(800,-0.6);
         sleep(400);
         DRIVE_SPEED_MULTIPLIER = 0.95;
-        driveStraightPID_notimer(52);
+        driveStraightPID_notimer(48);
         StrafingFAST(10,true);
-        driveStraightPID_notimer(-44);
+        driveStraightPID_notimer(-34);
+        //driveStraightPID_notimer(34);
+        //StrafingFAST(8,false);
+        //driveStraightPID_notimer(-24);
+
+
 
         //while(distSensor.getDistance(DistanceUnit.CM) > 25) {
         //    driveStraightPID_timer(100,0.2);
@@ -138,10 +154,10 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
     }
 
     void pick_sample(int angle_turn, int arm_sleep){
-        elbow_power = -0.5;
+        elbow_power = -0.25;
         moveElbow();
         sleep(200); //1550 // Make 200 if does not work fast enough
-        elbow_power = -0.1;
+        elbow_power = -0.05;
         moveElbow();
         sleep(800);
         //elbow_power = 0.01;
@@ -182,10 +198,12 @@ public  class deep_autoblue_2basket_closePark extends RoboEaglesAutoBase2425 {
         DRIVE_SPEED_MULTIPLIER = 0.75;
         power_arm = -10;//also used to be -10
         moveArm();
-        sleep(1200); // move to 200 if remove below code
-        power_arm = 0;
+        sleep(900); // move to 200 if remove below code
+        power_arm = 0.1;
         moveArm();
         sleep(200);
+        power_arm = 0;
+        moveArm();
     }
 
     void third_sample() {

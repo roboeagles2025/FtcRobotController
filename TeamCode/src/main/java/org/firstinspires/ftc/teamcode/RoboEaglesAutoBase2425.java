@@ -5,7 +5,6 @@ import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
-import com.qualcomm.hardware.rev.Rev9AxisImu;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -40,7 +39,6 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     public com.arcrobotics.ftclib.controller.PIDController pidDriveLeft, pidDriveRight, pidRotate;
     com.arcrobotics.ftclib.controller.PIDController pidArm;
     RevIMU gyro;
-    Rev9AxisImu gyro_ext;
     public double DRIVE_SPEED_MULTIPLIER = 0.75;
 
     MotorEx brDriveEx, blDriveEx, flDriveEx, frDriveEx;
@@ -62,7 +60,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     int turn_value = 1;
 
     //Sensor
-    private ColorSensor Color;
+    public ColorSensor Color;
     public DistanceSensor distSensor;
     @Override
     public void runOpMode() {
@@ -78,11 +76,11 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
 
     }
     void newSensorTele() {
-        Color = hardwareMap.get(ColorSensor.class,"colorSensor");
+        //Color = hardwareMap.get(ColorSensor.class,"colorSensor");
         distSensor = hardwareMap.get(DistanceSensor.class,"distSensor");
-        telemetry.addData("Color: %f", "red %d", Color.red());
-        telemetry.addData("Color: %f", "green %d", Color.green());
-        telemetry.addData("Color: %f", "blue %d",Color.blue());
+        //telemetry.addData("Color: %f", "red %d", Color.red());
+        //telemetry.addData("Color: %f", "green %d", Color.green());
+        //telemetry.addData("Color: %f", "blue %d",Color.blue());
         telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
         //angles = extImu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         //telemetry.addData("Heading", angles.firstAngle);
@@ -110,9 +108,6 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         //rightElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         //leftElbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//OFFICIAL
         battery_volt = hardwareMap.voltageSensor.iterator().next();
-
-       // gyro_ext = new Rev9AxisImu();
-        //(hardwareMap, "extgyro");
 
         MapDevicesPIDs();
 
@@ -323,7 +318,6 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     }
     // mappng for all PID required hardware
     public void MapDevicesPIDs(){
-
         gyro = new RevIMU(hardwareMap);
         gyro.init();
         telemetry.addData("Init imu = %f",  gyro.getAbsoluteHeading());
@@ -420,7 +414,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         blDriveEx.set(strafe_power);
         brDriveEx.set(-strafe_power);
 
-        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+        //telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
         telemetry.update();
         sleep(speed_multiplier);
         flDriveEx.set(0);
@@ -436,20 +430,22 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         //  strafe_power = 1;
         if (turn == false) {
             strafe_power = -1*strafe_power;
+        } else {
+            strafe_power = strafe_power;
         }
         long speed_multiplier = distance * power_factor;
         flDriveEx.set(-strafe_power*1.5);
         frDriveEx.set(strafe_power*1.5);
         blDriveEx.set(strafe_power*1.5);
         brDriveEx.set(-strafe_power*1.5);
-        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+        //telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
         telemetry.update();
         sleep(speed_multiplier);
         flDriveEx.set(0);
         frDriveEx.set(0);
         blDriveEx.set(0);
         brDriveEx.set(0);
-        sleep(200);
+        sleep(50);
 
     }
     public void TurnWithoutPID(int angle, int tolerance) {
@@ -525,7 +521,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
             rGroup.set(rightSpeed);
             telemetry.addData("Drive PID", "Target: %d, Traveled: %f, %f", targetTicks, lPos, rPos);
             telemetry.addData("Drive PID", "Left Speed: %f, Right Speed: %f", leftError, rightError);
-            telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+            //telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
             telemetry.update();
         }
         lGroup.set(0.01);
@@ -559,8 +555,8 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
             DRIVE_SPEED_MULTIPLIER = speed_multilier1;
             lGroup.set(speed_multilier1);
             rGroup.set(speed_multilier1);
-        telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
-            telemetry.update();
+        //telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
+        //    telemetry.update();
         sleep(distance);
 
             lGroup.stopMotor();
@@ -572,6 +568,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
     public int inchesToEncoderTicksInt(double inches) {
         return (int) (inches * INCHES_TO_TICK_MULTIPLIER);
     }
+
     public void turnPID(double angle, int tolerance) {
         lGroup.resetEncoder();
         rGroup.resetEncoder();
@@ -579,7 +576,7 @@ public class RoboEaglesAutoBase2425 extends RoboEaglesAutonomousBase {
         pidRotate.reset();
         gyro.reset();
         pidRotate.setSetPoint(angle);
-        pidRotate.setTolerance(tolerance, 1);
+        pidRotate.setTolerance(tolerance, 5);
         while (!pidRotate.atSetPoint() && opModeIsActive()) {
             double heading = gyro.getHeading();
             if (heading < -180)

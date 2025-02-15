@@ -116,11 +116,11 @@ public abstract class RoboEaglesBase extends LinearOpMode {
         robotPosition = imu.getAngularOrientation();
     }
     void newSensorTele() {
-        Color = hardwareMap.get(ColorSensor.class,"colorSensor");
+        //Color = hardwareMap.get(ColorSensor.class,"colorSensor");
         distSensor = hardwareMap.get(DistanceSensor.class,"distSensor");
-        telemetry.addData("Color: %f", "red %d", Color.red());
-        telemetry.addData("Color: %f", "green %d", Color.green());
-        telemetry.addData("Color: %f", "blue %d",Color.blue());
+        //telemetry.addData("Color: %f", "red %d", Color.red());
+        //telemetry.addData("Color: %f", "green %d", Color.green());
+        //telemetry.addData("Color: %f", "blue %d",Color.blue());
         telemetry.addData("Distance in CM", "%.2f", distSensor.getDistance(DistanceUnit.CM));
         telemetry.update();
         //angles = extImu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
