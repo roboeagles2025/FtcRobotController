@@ -142,9 +142,9 @@ public  class deep_autoblue_2basket_closePark_fastRoutine extends RoboEaglesAuto
     void haul_sample2(int straf_dist) {
         StrafingFAST(2,false);
         DRIVE_SPEED_MULTIPLIER = 0.85;
-        driveStraightPID(40);
-        StrafingFAST(9,false);
-        driveStraightPID(-38);
+        driveStraightPID(36);
+        StrafingFAST(11,false);
+        driveStraightPID(-37);
     }
     void haul_sample3(int straf_dist) {
         //StrafingFAST(2,false);

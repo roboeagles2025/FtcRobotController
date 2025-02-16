@@ -61,12 +61,12 @@ public class deep_autoblue_2hangspec_diag_closePark extends RoboEaglesAutoBase24
         }
         first_specimen_hang();
         haul_samples_firstspec();
-        StrafingDIAG(30,true);
+        StrafingDIAG(28,true);
         second_specimen_hang(2);
 
         StrafingDIAG(36,true);
         third_specimen_pick();
-        StrafingDIAG(32,true);
+        StrafingDIAG(30,true);
         second_specimen_hang(3);
 
 
@@ -86,7 +86,7 @@ public class deep_autoblue_2hangspec_diag_closePark extends RoboEaglesAutoBase24
 
         //Start of first specimen pick up
         DRIVE_SPEED_MULTIPLIER = 0.5; //0.675 Setting up the first speed to be slow to decrease inefficiencies
-        driveStraightPID_notimer(26.5);//go forward to the rung
+        driveStraightPID_notimer(25.5);//go forward to the rung
         elbow_power = 0.5;
         moveElbow();
         power_arm = 10;//lift up the arm to place specimen
@@ -122,7 +122,12 @@ public class deep_autoblue_2hangspec_diag_closePark extends RoboEaglesAutoBase24
         turnPID_central(185, 20);//turn // used to be 9
         //going to the rungs
         DRIVE_SPEED_MULTIPLIER = 0.75;
-        driveStraightPID_notimer(8);//go forward
+        if (spec_number == 2) {
+            driveStraightPID_notimer(10);//go forward
+        } else {
+            driveStraightPID_notimer(8);//go forward
+        }
+
         power_arm = 10;//bring the arm up
         moveArm();//bring the arm up
         sleep(1100);//sleep
@@ -180,10 +185,10 @@ public class deep_autoblue_2hangspec_diag_closePark extends RoboEaglesAutoBase24
         //elbow_power = 0.8;//bring elbow up
         StrafingFAST(25,false);//strafe to park area
         //turnPID_central(-10,0);
-        driveStraightPID_notimer(32);//go forward to the rung
+        driveStraightPID_notimer(35);//go forward to the rung
         //elbow_power = 0.8;//bring elbow up
         DRIVE_SPEED_MULTIPLIER = 0.85;
-        StrafingFAST(6,true);//strafe to park area
+        StrafingFAST(7,true);//strafe to park area
         driveStraightPID_notimer(-38);//go forward to the rung
 
         //Drive forward for second Haul
